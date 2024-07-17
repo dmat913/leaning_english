@@ -22,3 +22,6 @@ export type PortOfSpeech =
   | "名詞"
   | "前置詞"
   | "接続詞";
+
+// status
+export type Status = "not_started" | "in_progress" | "completed";
