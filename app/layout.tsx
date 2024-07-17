@@ -1,5 +1,8 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
+import { RecoilRoot } from "recoil";
+import App from "./app";
 
 export const metadata: Metadata = {
   title: "Learning English",
@@ -13,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-[100vw] h-[100svh]">{children}</body>
+      <body className="w-[100vw] h-[100svh]">
+        <App>{children}</App>
+      </body>
     </html>
   );
 }
