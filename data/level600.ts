@@ -1,6 +1,6 @@
 import { EnglishData } from "@/types/data";
 
-export const level600: EnglishData[] = [
+export const level600Data: EnglishData[] = [
   {
     id: "001",
     word: "anyway",
@@ -160,5 +160,85 @@ export const level600: EnglishData[] = [
     sentence: "I recently bought a printer.",
     sentenceMeaning: "私は最近プリンターを買った。",
     portOfSpeech: ["副詞"],
+  },
+  {
+    id: "021",
+    word: "indicate",
+    wordMeaning: "示す",
+    sentence: "What is indicated about Mr. Kato ?",
+    sentenceMeaning: "加藤さんについて何が示されていますか。",
+    portOfSpeech: ["動詞"],
+  },
+  {
+    id: "022",
+    word: "employee",
+    wordMeaning: "社員、従業員",
+    sentence: "an employee of a hotel",
+    sentenceMeaning: "ホテルの従業員",
+    portOfSpeech: ["名詞"],
+  },
+  {
+    id: "023",
+    word: "additional",
+    wordMeaning: "追加の",
+    sentence: "request additional staff",
+    sentenceMeaning: "追加のスタッフを要請する",
+    portOfSpeech: ["形容詞"],
+  },
+  {
+    id: "024",
+    word: "survey",
+    wordMeaning: "アンケート調査,アンケート調査を行う",
+    sentence: "a customer survey",
+    sentenceMeaning: "顧客アンケート調査",
+    portOfSpeech: ["名詞", "動詞"],
+  },
+  {
+    id: "025",
+    word: "review",
+    wordMeaning: "検討する、論評する,検討、論評 ",
+    sentence: "review a report",
+    sentenceMeaning: "報告書に目を通す",
+    portOfSpeech: ["動詞", "名詞"],
+  },
+  {
+    id: "026",
+    word: "production",
+    wordMeaning: "生産、作品",
+    sentence: "the production area",
+    sentenceMeaning: "生産エリア",
+    portOfSpeech: ["名詞"],
+  },
+  {
+    id: "027",
+    word: "located",
+    wordMeaning: "位置して",
+    sentence: "conveniently located near a subway station",
+    sentenceMeaning: "地下鉄の駅近くの便利な場所にある",
+    portOfSpeech: ["形容詞"],
+  },
+  {
+    id: "028",
+    word: "detail",
+    wordMeaning: "詳細,詳しく調べる",
+    sentence: "details of a plan",
+    sentenceMeaning: "計画の詳細",
+    portOfSpeech: ["動詞"],
+  },
+  {
+    id: "029",
+    word: "announce",
+    wordMeaning: "発表する",
+    sentence: "announce the winners",
+    sentenceMeaning: "入賞者を発表する",
+    portOfSpeech: ["動詞"],
+  },
+  {
+    id: "030",
+    word: "repair",
+    wordMeaning: "修理,修理する",
+    sentence: "a computer repair shop",
+    sentenceMeaning: "コンピュータの修理店",
+    portOfSpeech: ["名詞", "動詞"],
   },
 ];
