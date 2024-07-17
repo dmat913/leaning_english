@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
-const Detail = () => {
+const Level600 = () => {
   const router = useRouter();
 
   // 600点レベルstate
@@ -29,12 +29,9 @@ const Detail = () => {
       <span onClick={() => router.push("/")}>トップページに戻る</span>
       <span>問題数選択できるようにする。</span>
       <span>今は仮でData.tsからランダム10問</span>
-      <DMATButton
-        title="開始"
-        handleClick={() => router.push("/level600/training")}
-      />
+      <DMATButton title="開始" />
     </div>
   );
 };
 
-export default Detail;
+export default Level600;
