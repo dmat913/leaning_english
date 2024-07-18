@@ -24,7 +24,7 @@ export type PortOfSpeech =
   | "接続詞";
 
 // status
-export type Status = "not_started" | "in_progress" | "completed";
+export type Status = "not_started" | "in_progress" | "completed" | "blocked";
 
 export type Option = {
   value: number;
