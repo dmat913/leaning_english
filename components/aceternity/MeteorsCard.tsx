@@ -38,12 +38,12 @@ export function MeteorsCard({
           )}
           <DMATButton title="Training" handleClick={handleClickButton} />
           <div className="absolute top-4 right-4">
-            <div className="h-5 w-5 rounded-[50%] shadow-[-1px_1px_4px_yellow] bg-[yellow] relative  opacity-[0.8]  before:content-[''] before:h-5 before:w-5 before:rounded-[50%] before:bg-gray-900 before:absolute before:top-[-2px] before:left-[4px]" />
+            <div className="h-5 w-5 rounded-[50%] shadow-[-1px_1px_4px_yellow] bg-[yellow] relative opacity-[0.8]  before:content-[''] before:h-5 before:w-5 before:rounded-[50%] before:bg-gray-900 before:absolute before:top-[-2px] before:left-[4px]" />
           </div>
-          <Meteors />
+          <Meteors disabled={disabled} />
         </div>
         {disabled && (
-          <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-3xl text-white">
+          <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-3xl text-white z-50">
             Coming soon
           </p>
         )}
