@@ -2,8 +2,7 @@
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import DMATButton from "@/components/elements/DMATButton";
 import { level600ItemsState, statusState } from "@/states/trainingState";
-import React, { useEffect, useState } from "react";
-import { FaPlayCircle } from "react-icons/fa";
+import React, { useState } from "react";
 import { IoPlayForwardCircle } from "react-icons/io5";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
