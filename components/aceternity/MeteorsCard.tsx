@@ -28,7 +28,7 @@ export function MeteorsCard({
     <div className="w-full flex justify-center">
       <div className={`w-full relative max-w-x ${className}`}>
         <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
-          <h1 className="font-bold text-xl text-white mb-4 relative z-50">
+          <h1 className="font-bold text-xl text-white-1 mb-4 relative z-50">
             {title}
           </h1>
           {description && (
@@ -38,7 +38,13 @@ export function MeteorsCard({
           )}
           <DMATButton title="Training" handleClick={handleClickButton} />
           <div className="absolute top-4 right-4">
-            <div className="h-5 w-5 rounded-[50%] shadow-[-1px_1px_4px_yellow] bg-[yellow] relative opacity-[0.8]  before:content-[''] before:h-5 before:w-5 before:rounded-[50%] before:bg-gray-900 before:absolute before:top-[-2px] before:left-[4px]" />
+            {/* 星 */}
+            <div
+              className={`h-5 w-5 rounded-[50%] shadow-[0px_0px_4px_#FFFACD] bg-yellow-1 relative opacity-[0.8]  ${
+                disabled &&
+                "before:content-[''] before:h-5 before:w-5 before:rounded-[50%] before:bg-gray-900 before:absolute before:top-[-2px] before:left-[4px]"
+              } `}
+            />
           </div>
           <Meteors disabled={disabled} />
         </div>

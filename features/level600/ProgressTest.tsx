@@ -44,12 +44,13 @@ export function ProgressTest() {
   return (
     <div className="flex flex-col gap-3 bg-[#0E0E10] rounded-2xl w-full">
       <div className="flex items-center gap-3">
-        <p className="text-xl">
+        <p className="text-xl text-white-1">
           {`${problemNumber + 1} ${level600Items[problemNumber].word}`}
         </p>
         <IoPlayForwardCircle
           size="2rem"
           onClick={() => handlePlayAudio(level600Items[problemNumber].sentence)}
+          color="white"
         />
       </div>
       <TextRevealCard data={level600Items[problemNumber]} />

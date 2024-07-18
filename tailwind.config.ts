@@ -10,8 +10,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        text: {
+        black: {
           1: "#000319",
+        },
+        white: {
+          1: "#FAF0E6",
+        },
+        yellow: {
+          1: "#EEDD82",
         },
       },
       animation: {

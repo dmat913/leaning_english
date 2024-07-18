@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { getRandomItems } from "@/common/utils";
+import { Background } from "@/components/aceternity/Background";
 
 const options: Option[] = [
   { value: 10, label: "10" },
@@ -61,34 +62,41 @@ const Level600 = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 w-full h-full p-2">
-      {status === "not_started" && (
-        <>
-          <span onClick={() => router.push("/")}>トップページに戻る</span>
-          <div>
-            <span>問題数: </span>
-            <select value={selectedValue} onChange={handleChangeNumber}>
-              {options.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+    <Background>
+      <div className="flex flex-col items-center justify-center gap-2 w-full h-full p-2">
+        {status === "not_started" && (
+          <>
+            <span className="text-white-1" onClick={() => router.push("/")}>
+              トップページに戻る
+            </span>
+            <div>
+              <span className="text-white-1">問題数: </span>
+              <select value={selectedValue} onChange={handleChangeNumber}>
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <DMATButton
+              title="開始"
+              handleClick={() => handleChangeStatus("in_progress")}
+            />
+          </>
+        )}
+        {status === "in_progress" && <ProgressTest />}
+        {status === "completed" && (
+          <div className="flex flex-col gap-3 items-center">
+            <p className="text-white-1">終了~</p>
+            <DMATButton
+              title="ホームに戻る"
+              handleClick={handleClickBackToTop}
+            />
           </div>
-          <DMATButton
-            title="開始"
-            handleClick={() => handleChangeStatus("in_progress")}
-          />
-        </>
-      )}
-      {status === "in_progress" && <ProgressTest />}
-      {status === "completed" && (
-        <div className="flex flex-col gap-3 items-center">
-          <p>終了~</p>
-          <DMATButton title="ホームに戻る" handleClick={handleClickBackToTop} />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Background>
   );
 };
 
