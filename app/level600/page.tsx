@@ -3,7 +3,7 @@ import DMATButton from "@/components/elements/DMATButton";
 import { level600Data } from "@/data/level600";
 import { ProgressTest } from "@/features/level600/ProgressTest";
 import { level600ItemsState, statusState } from "@/states/trainingState";
-import { EnglishData, Status, Option } from "@/types/data";
+import { EnglishData, Status, Option } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -13,6 +13,7 @@ const options: Option[] = [
   { value: 10, label: "10" },
   { value: 30, label: "30" },
   { value: 50, label: "50" },
+  { value: 70, label: "70" },
   { value: level600Data.length, label: `Max(${level600Data.length})` },
 ];
 
@@ -46,8 +47,9 @@ const Level600 = () => {
   // ホームへ戻るボタン押下
   const handleClickBackToTop = () => {
     router.push("/");
-    setStatus("not_started");
-    setLevel600Items(level600Data);
+    setTimeout(() => {
+      setStatus("not_started");
+    }, 1000);
   };
 
   return (

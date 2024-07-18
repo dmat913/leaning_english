@@ -1,4 +1,4 @@
-import { EnglishData } from "@/types/data";
+import { EnglishData } from "@/types/types";
 
 // ランダムな数の値を抽出
 export const getRandomItems = (array: EnglishData[], count: number) => {

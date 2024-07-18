@@ -1,5 +1,5 @@
 import { level600Data } from "@/data/level600";
-import { EnglishData, Status } from "@/types/data";
+import { EnglishData, Status } from "@/types/types";
 import { atom } from "recoil";
 
 // 600点レベルの項目

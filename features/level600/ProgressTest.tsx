@@ -2,7 +2,9 @@
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import DMATButton from "@/components/elements/DMATButton";
 import { level600ItemsState, statusState } from "@/states/trainingState";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaPlayCircle } from "react-icons/fa";
+import { IoPlayForwardCircle } from "react-icons/io5";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export function ProgressTest() {
@@ -14,6 +16,12 @@ export function ProgressTest() {
   const [isDisplayDetail, setIsDisplayDetail] = useState<boolean>(false);
   // status,setter
   const setStatus = useSetRecoilState(statusState);
+
+  const handlePlayAudio = (text: string) => {
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = "en-US";
+    window.speechSynthesis.speak(uttr);
+  };
 
   // わかるボタン押下
   const handleClickRightButton = () => {
@@ -36,9 +44,15 @@ export function ProgressTest() {
 
   return (
     <div className="flex flex-col gap-3 bg-[#0E0E10] rounded-2xl w-full">
-      <p className="text-xl">{`${problemNumber + 1} ${
-        level600Items[problemNumber].word
-      }`}</p>
+      <div className="flex items-center gap-3">
+        <p className="text-xl">
+          {`${problemNumber + 1} ${level600Items[problemNumber].word}`}
+        </p>
+        <IoPlayForwardCircle
+          size="2rem"
+          onClick={() => handlePlayAudio(level600Items[problemNumber].sentence)}
+        />
+      </div>
       <TextRevealCard data={level600Items[problemNumber]} />
       {isDisplayDetail && (
         <div className="flex flex-col">
