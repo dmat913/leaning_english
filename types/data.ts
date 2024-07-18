@@ -25,3 +25,8 @@ export type PortOfSpeech =
 
 // status
 export type Status = "not_started" | "in_progress" | "completed";
+
+export type Option = {
+  value: number;
+  label: string;
+};
