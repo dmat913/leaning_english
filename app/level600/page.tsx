@@ -3,31 +3,40 @@ import DMATButton from "@/components/elements/DMATButton";
 import { level600Data } from "@/data/level600";
 import { ProgressTest } from "@/features/level600/ProgressTest";
 import { level600ItemsState, statusState } from "@/states/trainingState";
-import { EnglishData, Status } from "@/types/data";
+import { EnglishData, Status, Option } from "@/types/data";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { getRandomItems } from "@/common/utils";
+
+const options: Option[] = [
+  { value: 10, label: "10" },
+  { value: 30, label: "30" },
+  { value: 50, label: "50" },
+  { value: level600Data.length, label: `Max(${level600Data.length})` },
+];
 
 const Level600 = () => {
   const router = useRouter();
 
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
-
   // 600点レベルstate
-  const [level600Items, setLevel600Items] = useRecoilState(level600ItemsState);
+  const setLevel600Items: (level600Items: EnglishData[]) => void =
+    useSetRecoilState(level600ItemsState);
 
-  // TODO: ランダムが選択されたときに実行
+  //問題数
+  const [selectedValue, setSelectedValue] = useState<string>("10");
+
+  // 問題リスト更新
   useEffect(() => {
-    // 配列からランダムな件数を取得
-    const getRandomItems = (array: EnglishData[], count: number) => {
-      const shuffled = [...array].sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, count);
-    };
+    setLevel600Items(getRandomItems(level600Data, Number(selectedValue)));
+  }, [selectedValue]);
 
-    setLevel600Items(getRandomItems(level600Items, 10));
-    // eslint-disable-next-line
-  }, []);
+  // 問題数select変更時
+  const handleChangeNumber = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedValue(event.target.value);
+  };
 
   // テストstatus変更
   const handleChangeStatus = (type: Status) => {
@@ -46,8 +55,16 @@ const Level600 = () => {
       {status === "not_started" && (
         <>
           <span onClick={() => router.push("/")}>トップページに戻る</span>
-          <span>問題数選択できるようにする。</span>
-          <span>今は仮でData.tsからランダム10問</span>
+          <div>
+            <span>問題数: </span>
+            <select value={selectedValue} onChange={handleChangeNumber}>
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <DMATButton
             title="開始"
             handleClick={() => handleChangeStatus("in_progress")}
