@@ -8,34 +8,45 @@ export function MeteorsCard({
   title,
   description,
   path,
+  className,
+  disabled = false,
 }: {
   title: string;
-  description: string;
-  path: string;
+  description?: string;
+  path?: string;
+  className?: string;
+  disabled?: boolean;
 }) {
   const router = useRouter();
 
   // trainingボタン押下時
   const handleClickButton = () => {
-    router.push(`/${path}`);
+    if (path) router.push(`/${path}`);
   };
 
   return (
     <div className="w-full flex justify-center">
-      <div className=" w-full relative max-w-xs">
+      <div className={`w-full relative max-w-x ${className}`}>
         <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
           <h1 className="font-bold text-xl text-white mb-4 relative z-50">
             {title}
           </h1>
-          <p className="font-normal text-base text-slate-500 mb-4 relative z-50">
-            {description}
-          </p>
+          {description && (
+            <p className="font-normal text-base text-slate-500 mb-4 relative z-50">
+              {description}
+            </p>
+          )}
           <DMATButton title="Training" handleClick={handleClickButton} />
           <div className="absolute top-4 right-4">
             <div className="h-5 w-5 rounded-[50%] shadow-[-1px_1px_4px_yellow] bg-[yellow] relative  opacity-[0.8]  before:content-[''] before:h-5 before:w-5 before:rounded-[50%] before:bg-gray-900 before:absolute before:top-[-2px] before:left-[4px]" />
           </div>
           <Meteors />
         </div>
+        {disabled && (
+          <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-3xl text-white">
+            Coming soon
+          </p>
+        )}
       </div>
     </div>
   );
