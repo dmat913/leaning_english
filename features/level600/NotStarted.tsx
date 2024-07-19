@@ -1,0 +1,43 @@
+import DMATButton from "@/components/elements/DMATButton";
+import { Status } from "@/types/types";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { IoMdCloseCircle } from "react-icons/io";
+
+const NotStarted = ({
+  handleChangeStatus,
+}: {
+  handleChangeStatus: (status: Status) => void;
+}) => {
+  const router = useRouter();
+
+  return (
+    <>
+      {" "}
+      <IoMdCloseCircle
+        size={32}
+        onClick={() => router.push("/")}
+        color="#FAF0E6"
+        className="absolute top-4 right-4"
+      />
+      <div className="relative w-full h-full flex items-center justify-center flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <span className="text-white-1 text-3xl">600点レベル</span>
+          <span className="text-white-1 text-sm">助走の400語</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <DMATButton
+            title="一覧"
+            handleClick={() => handleChangeStatus("display_list")}
+          />
+          <DMATButton
+            title="Training"
+            handleClick={() => handleChangeStatus("setting_training")}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default NotStarted;
