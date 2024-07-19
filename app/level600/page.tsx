@@ -1,6 +1,6 @@
 "use client";
 import DMATButton from "@/components/elements/DMATButton";
-import { level600Data } from "@/data/level600";
+import { level600Data, level600Options } from "@/data/level600";
 import { ProgressTest } from "@/features/level600/ProgressTest";
 import { level600ItemsState, statusState } from "@/states/trainingState";
 import { EnglishData, Status, Option } from "@/types/types";
@@ -11,18 +11,7 @@ import { getRandomItems } from "@/common/utils";
 import { Background } from "@/components/aceternity/Background";
 
 const options: Option[] = [
-  { value: 10, label: "10" },
-  { value: 20, label: "20" },
-  { value: 30, label: "30" },
-  { value: 40, label: "40" },
-  { value: 50, label: "50" },
-  { value: 60, label: "60" },
-  { value: 70, label: "70" },
-  { value: 80, label: "80" },
-  { value: 90, label: "90" },
-  { value: 100, label: "100" },
-  { value: 110, label: "110" },
-  { value: 120, label: "120" },
+  ...level600Options,
   { value: level600Data.length, label: `Max(${level600Data.length})` },
 ];
 

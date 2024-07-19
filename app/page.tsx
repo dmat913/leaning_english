@@ -14,8 +14,29 @@ const Home = () => {
           path="level600"
         />
         <MeteorsCard
+          title="パート1重要語100"
+          description="100 Essential Words for Part 1"
+          // path="level730"
+          className="opacity-[0.5]"
+          disabled
+        />
+        <MeteorsCard
           title="730点レベル"
           description="加速の300語"
+          // path="level730"
+          className="opacity-[0.5]"
+          disabled
+        />
+        <MeteorsCard
+          title="部署・職業名"
+          description="Departments & Occupations"
+          // path="level730"
+          className="opacity-[0.5]"
+          disabled
+        />
+        <MeteorsCard
+          title="前置詞・接続詞・接続副詞"
+          description="Prepositions,Conjunctions,and Conjunctive Adverbs"
           // path="level730"
           className="opacity-[0.5]"
           disabled
@@ -28,9 +49,23 @@ const Home = () => {
           disabled
         />
         <MeteorsCard
+          title="多義語"
+          description="88 Words with Multiple Meanings"
+          // path="level730"
+          className="opacity-[0.5]"
+          disabled
+        />
+        <MeteorsCard
           title="990点レベル"
           description="頂点の100語"
           // path="level990"
+          className="opacity-[0.5]"
+          disabled
+        />
+        <MeteorsCard
+          title="定型表現"
+          description="120 Set Phrases"
+          // path="level730"
           className="opacity-[0.5]"
           disabled
         />
