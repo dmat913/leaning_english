@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { IoPlayForwardCircle } from "react-icons/io5";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-export function ProgressTest() {
+export function ProgressTraining() {
   // テスト対象
   const level600Items = useRecoilValue(level600ItemsState);
   // 問題番号
@@ -56,8 +56,10 @@ export function ProgressTest() {
       <TextRevealCard data={level600Items[problemNumber]} />
       {isDisplayDetail && (
         <div className="flex flex-col">
-          <p>{level600Items[problemNumber].wordMeaning}</p>
-          <p>
+          <p className="text-white-1">
+            {level600Items[problemNumber].wordMeaning}
+          </p>
+          <p className="text-white-1">
             {level600Items[problemNumber].portOfSpeech.map((item) => (
               <span>{item}</span>
             ))}

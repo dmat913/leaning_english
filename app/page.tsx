@@ -14,15 +14,29 @@ const Home = () => {
           path="level600"
         />
         <MeteorsCard
-          title="パート1重要語100"
-          description="100 Essential Words for Part 1"
+          title="730点レベル"
+          description="加速の300語"
           // path="level730"
           className="opacity-[0.5]"
           disabled
         />
         <MeteorsCard
-          title="730点レベル"
-          description="加速の300語"
+          title="860点レベル"
+          description="飛躍の200語"
+          // path="level860"
+          className="opacity-[0.5]"
+          disabled
+        />
+        <MeteorsCard
+          title="990点レベル"
+          description="頂点の100語"
+          // path="level990"
+          className="opacity-[0.5]"
+          disabled
+        />
+        <MeteorsCard
+          title="パート1重要語100"
+          description="100 Essential Words for Part 1"
           // path="level730"
           className="opacity-[0.5]"
           disabled
@@ -42,23 +56,9 @@ const Home = () => {
           disabled
         />
         <MeteorsCard
-          title="860点レベル"
-          description="飛躍の200語"
-          // path="level860"
-          className="opacity-[0.5]"
-          disabled
-        />
-        <MeteorsCard
           title="多義語"
           description="88 Words with Multiple Meanings"
           // path="level730"
-          className="opacity-[0.5]"
-          disabled
-        />
-        <MeteorsCard
-          title="990点レベル"
-          description="頂点の100語"
-          // path="level990"
           className="opacity-[0.5]"
           disabled
         />
