@@ -1,4 +1,5 @@
 import DMATButton from "@/components/elements/DMATButton";
+import Dialog from "@/components/elements/Dialog";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -14,7 +15,6 @@ const NotStarted = ({
 
   return (
     <>
-      {" "}
       <IoMdCloseCircle
         size={32}
         onClick={() => router.push("/")}
