@@ -13,3 +13,14 @@ export const statusState = atom<Status>({
   key: "statusState",
   default: "not_started",
 });
+
+// 正解数
+export const TrainingResultState = atom<
+  {
+    data: EnglishData;
+    result: boolean;
+  }[]
+>({
+  key: "TrainingResultState",
+  default: [],
+});

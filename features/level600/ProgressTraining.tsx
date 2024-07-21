@@ -1,7 +1,11 @@
 "use client";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import DMATButton from "@/components/elements/DMATButton";
-import { level600ItemsState, statusState } from "@/states/trainingState";
+import {
+  TrainingResultState,
+  level600ItemsState,
+  statusState,
+} from "@/states/trainingState";
 import React, { useCallback, useState } from "react";
 import { FaPlayCircle } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
@@ -15,6 +19,8 @@ export function ProgressTraining() {
   const [problemNumber, setProblemNumber] = useState<number>(0);
   // status,setter
   const setStatus = useSetRecoilState(statusState);
+  //正解不正解,set
+  const setTrainingResult = useSetRecoilState(TrainingResultState);
 
   const handlePlayAudio = (text: string) => {
     const uttr = new SpeechSynthesisUtterance(text);
@@ -22,20 +28,32 @@ export function ProgressTraining() {
     window.speechSynthesis.speak(uttr);
   };
 
-  // わかるボタン押下
-  const handleClickRightButton = useCallback(() => {
+  //
+  const CheckCurrentProblem = () => {
     if (level600Items.length > problemNumber + 1) {
       setProblemNumber((problemNumber) => problemNumber + 1);
     } else {
       setStatus("completed");
     }
+  };
+
+  // わかるボタン押下
+  const handleClickRightButton = useCallback(() => {
+    setTrainingResult((trainingResult) => [
+      ...trainingResult,
+      { data: level600Items[problemNumber], result: true },
+    ]);
+    CheckCurrentProblem();
   }, [level600Items, problemNumber]);
 
   // わからないボタン押下
   const handleClickLeftButton = useCallback(() => {
-    // TODO:処理修正
-    handleClickRightButton();
-  }, []);
+    setTrainingResult((trainingResult) => [
+      ...trainingResult,
+      { data: level600Items[problemNumber], result: false },
+    ]);
+    CheckCurrentProblem();
+  }, [level600Items, problemNumber]);
 
   return (
     <div
