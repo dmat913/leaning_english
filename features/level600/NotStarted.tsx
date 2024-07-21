@@ -2,6 +2,7 @@ import DMATButton from "@/components/elements/DMATButton";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { FaListOl } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 
 const NotStarted = ({
@@ -20,7 +21,7 @@ const NotStarted = ({
         color="#FAF0E6"
         className="absolute top-4 right-4"
       />
-      <div className="relative w-full h-full flex items-center justify-center flex-col gap-4">
+      <div className="relative w-full h-full flex items-center justify-center flex-col gap-3">
         <div className="flex flex-col gap-1">
           <span className="text-white-1 text-3xl">600点レベル</span>
           <span className="text-white-1 text-sm">助走の400語</span>
@@ -29,6 +30,8 @@ const NotStarted = ({
           <DMATButton
             title="一覧"
             handleClick={() => handleChangeStatus("display_list")}
+            otherClassesSpan={{ color: "#0B0B0B", backgroundColor: "#FAF0E6" }}
+            icon={<FaListOl color="#0B0B0B" />}
           />
           <DMATButton
             title="Training"

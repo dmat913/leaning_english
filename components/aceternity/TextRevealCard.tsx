@@ -3,16 +3,19 @@ import React, { useEffect, useRef, useState, memo } from "react";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/lib/utils";
-import { EnglishData } from "@/types/types";
 
 export const TextRevealCard = ({
-  data,
+  displayText,
+  bgText,
   children,
   className,
+  size = "medium",
 }: {
-  data: EnglishData;
+  displayText: string;
+  bgText: string;
   children?: React.ReactNode;
   className?: string;
+  size?: string;
 }) => {
   const [widthPercentage, setWidthPercentage] = useState(0);
   const cardRef = useRef<HTMLDivElement | any>(null);
@@ -47,7 +50,6 @@ export const TextRevealCard = ({
     setIsMouseOver(true);
   }
   function touchMoveHandler(event: React.TouchEvent<HTMLDivElement>) {
-    event.preventDefault();
     const clientX = event.touches[0]!.clientX;
     if (cardRef.current) {
       const relativeX = clientX - left;
@@ -56,6 +58,7 @@ export const TextRevealCard = ({
   }
 
   const rotateDeg = (widthPercentage - 50) * 0.1;
+
   return (
     <div
       onMouseEnter={mouseEnterHandler}
@@ -65,10 +68,10 @@ export const TextRevealCard = ({
       onTouchEnd={mouseLeaveHandler}
       onTouchMove={touchMoveHandler}
       ref={cardRef}
-      className={cn("relative ", className)}
+      className={cn("relative w-full", className)}
     >
       {children}
-      <div className="relative flex items-center overflow-hidden">
+      <div className="relative flex items-center overflow-hidden w-full">
         <motion.div
           style={{
             width: "100%",
@@ -84,7 +87,7 @@ export const TextRevealCard = ({
                 }
           }
           transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
-          className="absolute bg-[#1d1c20] z-20  will-change-transform"
+          className="absolute bg-black-2 z-20  will-change-transform"
         >
           <p
             style={{
@@ -92,7 +95,7 @@ export const TextRevealCard = ({
             }}
             className="text-xl py-10 font-bold text-white-1 bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-300"
           >
-            {data.sentenceMeaning}
+            {bgText}
           </p>
         </motion.div>
         <motion.div
@@ -102,13 +105,20 @@ export const TextRevealCard = ({
             opacity: widthPercentage > 0 ? 1 : 0,
           }}
           transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
-          className="h-40 w-[8px] bg-gradient-to-b from-transparent via-neutral-800 to-transparent absolute z-50 will-change-transform"
+          className="h-20 w-[8px] bg-gradient-to-b from-transparent via-neutral-800 to-transparent absolute z-50 will-change-transform"
         ></motion.div>
 
-        <div className=" overflow-hiddenß">
-          <p className="text-3xl py-3 font-bold bg-clip-text text-white-1 bg-[#323238]">
-            {data.sentence}
-          </p>
+        <div className="w-full overflow-hiddenß">
+          {size === "medium" && (
+            <p className="text-3xl py-3 font-bold bg-clip-text text-white-1 bg-[#323238]">
+              {displayText}
+            </p>
+          )}
+          {size === "small" && (
+            <p className="text-lg py-2 font-bold bg-clip-text text-white-1 bg-[#323238]">
+              {displayText}
+            </p>
+          )}
           <MemoizedStars />
         </div>
       </div>

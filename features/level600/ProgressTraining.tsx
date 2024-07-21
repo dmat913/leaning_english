@@ -2,8 +2,10 @@
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import DMATButton from "@/components/elements/DMATButton";
 import { level600ItemsState, statusState } from "@/states/trainingState";
-import React, { useState } from "react";
-import { IoPlayForwardCircle } from "react-icons/io5";
+import React, { useCallback, useState } from "react";
+import { FaPlayCircle } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export function ProgressTraining() {
@@ -11,8 +13,6 @@ export function ProgressTraining() {
   const level600Items = useRecoilValue(level600ItemsState);
   // 問題番号
   const [problemNumber, setProblemNumber] = useState<number>(0);
-  // 詳細表示
-  const [isDisplayDetail, setIsDisplayDetail] = useState<boolean>(false);
   // status,setter
   const setStatus = useSetRecoilState(statusState);
 
@@ -23,58 +23,91 @@ export function ProgressTraining() {
   };
 
   // わかるボタン押下
-  const handleClickRightButton = () => {
+  const handleClickRightButton = useCallback(() => {
     if (level600Items.length > problemNumber + 1) {
-      setProblemNumber(problemNumber + 1);
-      setIsDisplayDetail(false);
+      setProblemNumber((problemNumber) => problemNumber + 1);
     } else {
       setStatus("completed");
     }
-  };
+  }, [level600Items, problemNumber]);
 
-  // 表示するor次へボタン押下
-  const handleClickLeftButton = () => {
-    if (isDisplayDetail) {
-      handleClickRightButton();
-    } else {
-      setIsDisplayDetail(true);
-    }
-  };
+  // わからないボタン押下
+  const handleClickLeftButton = useCallback(() => {
+    // TODO:処理修正
+    handleClickRightButton();
+  }, []);
 
   return (
-    <div className="flex flex-col gap-3 bg-[#0E0E10] rounded-2xl w-full">
-      <div className="flex items-center gap-3">
-        <p className="text-xl text-white-1">
-          {`${problemNumber + 1} ${level600Items[problemNumber].word}`}
-        </p>
-        <IoPlayForwardCircle
-          size="2rem"
-          onClick={() => handlePlayAudio(level600Items[problemNumber].sentence)}
-          color="white"
-        />
-      </div>
-      <TextRevealCard data={level600Items[problemNumber]} />
-      {isDisplayDetail && (
-        <div className="flex flex-col">
-          <p className="text-white-1">
-            {level600Items[problemNumber].wordMeaning}
-          </p>
-          <p className="text-white-1">
-            {level600Items[problemNumber].portOfSpeech.map((item) => (
-              <span>{item}</span>
-            ))}
-          </p>
+    <div
+      className="flex flex-col items-center justify-center bg-[#0E0E10] rounded-2xl w-full"
+      style={{ gap: "40px" }}
+    >
+      <div className="flex gap-3 flex-col w-full">
+        <div className="flex items-center gap-2 w-full">
+          <span className="text-white-1 font-bold text-3xl">
+            {problemNumber + 1},
+          </span>
+          <TextRevealCard
+            displayText={level600Items[problemNumber].word}
+            bgText={level600Items[problemNumber].wordMeaning}
+            className="flex flex-1"
+          />
         </div>
-      )}
-      <div className="flex justify-center gap-2 w-full">
+        <TextRevealCard
+          displayText={level600Items[problemNumber].sentence}
+          bgText={level600Items[problemNumber].sentenceMeaning}
+          className="flex flex-1"
+          size="small"
+        />
+        <div className="flex items-center w-full" style={{ gap: "8px" }}>
+          {level600Items[problemNumber].portOfSpeech.map((item, index) => (
+            <div
+              key={index}
+              className="border text-sm text-white-1"
+              style={{
+                padding: "4px 10px",
+                borderColor: "#FAF0E6",
+                borderRadius: "4px",
+              }}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <div
+            className="inline-flex items-center gap-2 border"
+            style={{ padding: "4px 10px", borderRadius: "4px" }}
+            onClick={() => handlePlayAudio(level600Items[problemNumber].word)}
+          >
+            <FaPlayCircle size={24} color="#FAF0E6" />
+            <span className="text-white-1">単語</span>
+          </div>
+          <div
+            className="inline-flex items-center gap-2 border"
+            style={{ padding: "4px 10px", borderRadius: "4px" }}
+            onClick={() =>
+              handlePlayAudio(level600Items[problemNumber].sentence)
+            }
+          >
+            <FaPlayCircle size={24} color="#FAF0E6" />
+            <span className="text-white-1">文章</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-2 w-full">
         <DMATButton
-          title={isDisplayDetail ? "次へ" : "表示する"}
+          title="わからない"
           handleClick={handleClickLeftButton}
+          otherClassesButton={{ width: "50%" }}
+          otherClassesSpan={{ color: "#0B0B0B", backgroundColor: "#FAF0E6" }}
+          icon={<IoMdClose size={16} />}
         />
         <DMATButton
           title={problemNumber + 1 === level600Items.length ? "終了" : "わかる"}
           handleClick={handleClickRightButton}
-          disabled={isDisplayDetail}
+          otherClassesButton={{ width: "50%" }}
+          icon={<FaCheck size={16} />}
         />
       </div>
     </div>

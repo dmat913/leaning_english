@@ -12,6 +12,7 @@ const config: Config = {
       colors: {
         black: {
           1: "#000319",
+          2: "#0B0B0B",
         },
         white: {
           1: "#FAF0E6",
