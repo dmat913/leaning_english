@@ -10,12 +10,14 @@ export function MeteorsCard({
   path,
   className,
   disabled = false,
+  meteorsNumber = 10,
 }: {
   title: string;
   description?: string;
   path?: string;
   className?: string;
   disabled?: boolean;
+  meteorsNumber?: number;
 }) {
   const router = useRouter();
 
@@ -46,7 +48,7 @@ export function MeteorsCard({
               } `}
             />
           </div>
-          <Meteors disabled={disabled} />
+          <Meteors disabled={disabled} number={meteorsNumber} />
         </div>
         {disabled && (
           <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-3xl text-white z-50">

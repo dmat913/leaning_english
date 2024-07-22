@@ -12,13 +12,13 @@ const Home = () => {
           title="600点レベル"
           description="助走の400語"
           path="level600"
+          meteorsNumber={5}
         />
         <MeteorsCard
           title="730点レベル"
           description="加速の300語"
-          // path="level730"
-          className="opacity-[0.5]"
-          disabled
+          path="level730"
+          meteorsNumber={10}
         />
         <MeteorsCard
           title="860点レベル"

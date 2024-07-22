@@ -5,12 +5,12 @@ import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { Background } from "@/components/aceternity/Background";
-import NotStarted from "@/features/level600/NotStarted";
-import DisplayList from "@/features/level600/DisplayList";
-import SettingTraining from "@/features/level600/SettingTraining";
+import NotStarted from "@/features/level730/NotStarted";
+import DisplayList from "@/features/level730/DisplayList";
+import SettingTraining from "@/features/level730/SettingTraining";
 import CompletedTraining from "@/components/training/CompletedTraining";
 
-const Level600 = () => {
+const Level730 = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
 
@@ -40,4 +40,4 @@ const Level600 = () => {
   );
 };
 
-export default Level600;
+export default Level730;

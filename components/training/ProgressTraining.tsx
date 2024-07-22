@@ -5,7 +5,7 @@ import DMATButton from "@/components/elements/DMATButton";
 import Dialog from "@/components/elements/Dialog";
 import {
   TrainingResultState,
-  level600ItemsState,
+  testDataState,
   statusState,
 } from "@/states/trainingState";
 import React, { useCallback, useState } from "react";
@@ -16,7 +16,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 
 export function ProgressTraining() {
   // テスト対象
-  const [level600Items, setLevel600Item] = useRecoilState(level600ItemsState);
+  const [testData, setTestData] = useRecoilState(testDataState);
   // 問題番号
   const [problemNumber, setProblemNumber] = useState<number>(0);
   // status,setter
@@ -26,7 +26,7 @@ export function ProgressTraining() {
 
   // 問題表示判定
   const CheckCurrentProblem = () => {
-    if (level600Items.length > problemNumber + 1) {
+    if (testData.length > problemNumber + 1) {
       setProblemNumber((problemNumber) => problemNumber + 1);
     } else {
       setStatus("completed");
@@ -37,26 +37,26 @@ export function ProgressTraining() {
   const handleClickRightButton = useCallback(() => {
     setTrainingResult((trainingResult) => [
       ...trainingResult,
-      { data: level600Items[problemNumber], result: true },
+      { data: testData[problemNumber], result: true },
     ]);
     CheckCurrentProblem();
-  }, [level600Items, problemNumber]);
+  }, [testData, problemNumber]);
 
   // わからないボタン押下
   const handleClickLeftButton = useCallback(() => {
     setTrainingResult((trainingResult) => [
       ...trainingResult,
-      { data: level600Items[problemNumber], result: false },
+      { data: testData[problemNumber], result: false },
     ]);
     CheckCurrentProblem();
-  }, [level600Items, problemNumber]);
+  }, [testData, problemNumber]);
 
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
   return (
     <>
       <div
-        className="flex flex-col items-center justify-center bg-[#0E0E10] rounded-2xl w-full"
+        className="flex flex-col items-center justify-center rounded-2xl w-full"
         style={{ gap: "40px" }}
       >
         <IoMdCloseCircle
@@ -71,19 +71,19 @@ export function ProgressTraining() {
               {problemNumber + 1},
             </span>
             <TextRevealCard
-              displayText={level600Items[problemNumber].word}
-              bgText={level600Items[problemNumber].wordMeaning}
+              displayText={testData[problemNumber].word}
+              bgText={testData[problemNumber].wordMeaning}
               className="flex flex-1"
             />
           </div>
           <TextRevealCard
-            displayText={level600Items[problemNumber].sentence}
-            bgText={level600Items[problemNumber].sentenceMeaning}
+            displayText={testData[problemNumber].sentence}
+            bgText={testData[problemNumber].sentenceMeaning}
             className="flex flex-1"
             size="small"
           />
           <div className="flex items-center w-full" style={{ gap: "8px" }}>
-            {level600Items[problemNumber].portOfSpeech.map((item, index) => (
+            {testData[problemNumber].portOfSpeech.map((item, index) => (
               <div
                 key={index}
                 className="border text-sm text-white-1"
@@ -101,7 +101,7 @@ export function ProgressTraining() {
             <div
               className="inline-flex items-center gap-2 border"
               style={{ padding: "4px 10px", borderRadius: "4px" }}
-              onClick={() => handlePlayAudio(level600Items[problemNumber].word)}
+              onClick={() => handlePlayAudio(testData[problemNumber].word)}
             >
               <FaPlayCircle size={24} color="#FAF0E6" />
               <span className="text-white-1">単語</span>
@@ -109,9 +109,7 @@ export function ProgressTraining() {
             <div
               className="inline-flex items-center gap-2 border"
               style={{ padding: "4px 10px", borderRadius: "4px" }}
-              onClick={() =>
-                handlePlayAudio(level600Items[problemNumber].sentence)
-              }
+              onClick={() => handlePlayAudio(testData[problemNumber].sentence)}
             >
               <FaPlayCircle size={24} color="#FAF0E6" />
               <span className="text-white-1">文章</span>
@@ -127,9 +125,7 @@ export function ProgressTraining() {
             icon={<IoMdClose size={16} />}
           />
           <DMATButton
-            title={
-              problemNumber + 1 === level600Items.length ? "終了" : "わかる"
-            }
+            title={problemNumber + 1 === testData.length ? "終了" : "わかる"}
             handleClick={handleClickRightButton}
             otherClassesButton={{ width: "50%" }}
             icon={<FaCheck size={16} />}
@@ -144,7 +140,7 @@ export function ProgressTraining() {
           handleClickLeftButton={() => setIsOpenDialog(false)}
           handleClickRightButton={() => {
             setIsOpenDialog(false);
-            setLevel600Item([]);
+            setTestData([]);
             setStatus("not_started");
           }}
         />
