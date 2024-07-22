@@ -1,10 +1,10 @@
 import { getRandomItems } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
 import {
-  level600Data,
-  level600FromOptions,
-  level600Options,
-} from "@/data/level600";
+  level730Data,
+  level730FromOptions,
+  level730Options,
+} from "@/data/level730";
 import { testDataState } from "@/states/trainingState";
 import { EnglishData, Status } from "@/types/types";
 import React, { ChangeEvent, useState } from "react";
@@ -31,7 +31,7 @@ const SettingTraining = ({
   // 問題数select変更時
   const handleChangeNumber = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
-    setTestData(getRandomItems(level600Data, Number(event.target.value)));
+    setTestData(getRandomItems(level730Data, Number(event.target.value)));
   };
 
   // from select変更時
@@ -40,14 +40,14 @@ const SettingTraining = ({
     if (Number(event.target.value) >= Number(selectedToValue)) {
       setSelectedToValue(String(Number(event.target.value) + 10));
       setTestData(
-        level600Data.slice(
+        level730Data.slice(
           Number(event.target.value),
           Number(event.target.value) + 10
         )
       );
     } else {
       setTestData(
-        level600Data.slice(Number(event.target.value), Number(selectedToValue))
+        level730Data.slice(Number(event.target.value), Number(selectedToValue))
       );
     }
   };
@@ -56,7 +56,7 @@ const SettingTraining = ({
   const handleChangeToOption = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedToValue(event.target.value);
     setTestData(
-      level600Data.slice(
+      level730Data.slice(
         selectedFromValue === "1" ? 0 : Number(selectedFromValue),
         Number(event.target.value)
       )
@@ -70,10 +70,10 @@ const SettingTraining = ({
   const handleClickTrainingType = (type: string) => {
     setTrainingType(type);
     if (type === "random") {
-      setTestData(getRandomItems(level600Data, Number(selectedValue)));
+      setTestData(getRandomItems(level730Data, Number(selectedValue)));
     } else {
       setTestData(
-        level600Data.slice(
+        level730Data.slice(
           selectedFromValue === "1" ? 0 : Number(selectedFromValue),
           Number(selectedToValue)
         )
@@ -114,7 +114,7 @@ const SettingTraining = ({
         <div className="flex gap-2">
           <p className="text-white-1">from</p>
           <select value={selectedFromValue} onChange={handleChangeFromOption}>
-            {level600FromOptions.map((option) => (
+            {level730FromOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -122,7 +122,7 @@ const SettingTraining = ({
           </select>
           <p className="text-white-1">to</p>
           <select value={selectedToValue} onChange={handleChangeToOption}>
-            {level600Options.map((option) => (
+            {level730Options.map((option) => (
               <option
                 disabled={Number(selectedFromValue) >= option.value}
                 key={option.value}
@@ -138,7 +138,7 @@ const SettingTraining = ({
         <div className="flex items-center gap-2">
           <span className="text-white-1">問題数: </span>
           <select value={selectedValue} onChange={handleChangeNumber}>
-            {level600Options.map((option) => (
+            {level730Options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

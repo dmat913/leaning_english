@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import React, { useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import { useRecoilState } from "recoil";
-import { TrainingResultState } from "@/states/trainingState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { TrainingResultState, testDataState } from "@/states/trainingState";
 
 Chart.register(...registerables);
 
@@ -15,6 +15,8 @@ const CompletedTraining = ({
   handleChangeStatus: (status: Status) => void;
 }) => {
   const router = useRouter();
+
+  const setTestData = useSetRecoilState(testDataState);
 
   // Training結果
   const [trainingResult, setTrainingResult] =
@@ -47,6 +49,7 @@ const CompletedTraining = ({
   const handleClickBackToTop = () => {
     router.push("/");
     setTrainingResult([]);
+    setTestData([]);
     setTimeout(() => {
       handleChangeStatus("not_started");
     }, 1000);

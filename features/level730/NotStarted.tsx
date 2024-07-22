@@ -1,4 +1,5 @@
 import DMATButton from "@/components/elements/DMATButton";
+import Dialog from "@/components/elements/Dialog";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -21,8 +22,8 @@ const NotStarted = ({
       />
       <div className="relative w-full h-full flex items-center justify-center flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <span className="text-white-1 text-3xl">600点レベル</span>
-          <span className="text-white-1 text-sm">助走の400語</span>
+          <span className="text-white-1 text-3xl">730点レベル</span>
+          <span className="text-white-1 text-sm">加速の300語</span>
         </div>
         <div className="flex items-center gap-3">
           <DMATButton
