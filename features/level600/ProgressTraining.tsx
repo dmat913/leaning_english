@@ -1,4 +1,5 @@
 "use client";
+import { handlePlayAudio } from "@/common/utils";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import DMATButton from "@/components/elements/DMATButton";
 import Dialog from "@/components/elements/Dialog";
@@ -23,13 +24,7 @@ export function ProgressTraining() {
   //正解不正解,set
   const setTrainingResult = useSetRecoilState(TrainingResultState);
 
-  const handlePlayAudio = (text: string) => {
-    const uttr = new SpeechSynthesisUtterance(text);
-    uttr.lang = "en-US";
-    window.speechSynthesis.speak(uttr);
-  };
-
-  //
+  // 問題表示判定
   const CheckCurrentProblem = () => {
     if (level600Items.length > problemNumber + 1) {
       setProblemNumber((problemNumber) => problemNumber + 1);

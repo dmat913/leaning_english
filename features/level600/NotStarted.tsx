@@ -3,8 +3,8 @@ import Dialog from "@/components/elements/Dialog";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { FaListOl } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
+import { RiSortNumberAsc } from "react-icons/ri";
 
 const NotStarted = ({
   handleChangeStatus,
@@ -31,7 +31,7 @@ const NotStarted = ({
             title="一覧"
             handleClick={() => handleChangeStatus("display_list")}
             otherClassesSpan={{ color: "#0B0B0B", backgroundColor: "#FAF0E6" }}
-            icon={<FaListOl color="#0B0B0B" />}
+            icon={<RiSortNumberAsc color="#0B0B0B" />}
           />
           <DMATButton
             title="Training"
