@@ -21,7 +21,7 @@ const NotStarted = ({
         size={32}
         onClick={() => router.push("/")}
         color="#FAF0E6"
-        className="absolute top-4 right-4"
+        className="absolute top-2 right-2"
       />
       <div className="relative w-full h-full flex items-center justify-center flex-col gap-3">
         <div className="flex flex-col gap-1">

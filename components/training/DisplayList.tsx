@@ -23,7 +23,7 @@ const DisplayList = ({
       <IoMdCloseCircle
         onClick={() => handleChangeStatus("not_started")}
         color="#FAF0E6"
-        className="absolute top-4 right-4"
+        className="absolute top-2 right-2"
         size={32}
       />
       {displayData.map((item, index) => (

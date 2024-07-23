@@ -26,7 +26,7 @@ const Level600 = () => {
 
   return (
     <Background>
-      <div className="flex w-full h-full relative p-10">
+      <div className="flex w-full h-full relative">
         {status === "not_started" && (
           <NotStarted
             handleChangeStatus={handleChangeStatus}
