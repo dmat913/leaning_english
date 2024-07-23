@@ -1,13 +1,8 @@
 import { getRandomItems } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
-import {
-  level600Data,
-  level600FromOptions,
-  level600Options,
-} from "@/data/level600";
 import { testDataState } from "@/states/trainingState";
-import { EnglishData, Status } from "@/types/types";
-import React, { ChangeEvent, useState } from "react";
+import { EnglishData, Option, Status } from "@/types/types";
+import React, { ChangeEvent, memo, useState } from "react";
 import { FcStart } from "react-icons/fc";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { ImSortNumericAsc } from "react-icons/im";
@@ -16,11 +11,17 @@ import { useSetRecoilState } from "recoil";
 
 const SettingTraining = ({
   handleChangeStatus,
+  targetData,
+  options,
+  fromOptions,
 }: {
   handleChangeStatus: (status: Status) => void;
+  targetData: EnglishData[];
+  options: Option[];
+  fromOptions: Option[];
 }) => {
   // testデータ
-  const setTestData: (level600Items: EnglishData[]) => void =
+  const setTestData: (testData: EnglishData[]) => void =
     useSetRecoilState(testDataState);
 
   //問題数
@@ -31,7 +32,7 @@ const SettingTraining = ({
   // 問題数select変更時
   const handleChangeNumber = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
-    setTestData(getRandomItems(level600Data, Number(event.target.value)));
+    setTestData(getRandomItems(targetData, Number(event.target.value)));
   };
 
   // from select変更時
@@ -40,14 +41,14 @@ const SettingTraining = ({
     if (Number(event.target.value) >= Number(selectedToValue)) {
       setSelectedToValue(String(Number(event.target.value) + 10));
       setTestData(
-        level600Data.slice(
+        targetData.slice(
           Number(event.target.value),
           Number(event.target.value) + 10
         )
       );
     } else {
       setTestData(
-        level600Data.slice(Number(event.target.value), Number(selectedToValue))
+        targetData.slice(Number(event.target.value), Number(selectedToValue))
       );
     }
   };
@@ -56,7 +57,7 @@ const SettingTraining = ({
   const handleChangeToOption = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedToValue(event.target.value);
     setTestData(
-      level600Data.slice(
+      targetData.slice(
         selectedFromValue === "1" ? 0 : Number(selectedFromValue),
         Number(event.target.value)
       )
@@ -70,10 +71,10 @@ const SettingTraining = ({
   const handleClickTrainingType = (type: string) => {
     setTrainingType(type);
     if (type === "random") {
-      setTestData(getRandomItems(level600Data, Number(selectedValue)));
+      setTestData(getRandomItems(targetData, Number(selectedValue)));
     } else {
       setTestData(
-        level600Data.slice(
+        targetData.slice(
           selectedFromValue === "1" ? 0 : Number(selectedFromValue),
           Number(selectedToValue)
         )
@@ -114,7 +115,7 @@ const SettingTraining = ({
         <div className="flex gap-2">
           <p className="text-white-1">from</p>
           <select value={selectedFromValue} onChange={handleChangeFromOption}>
-            {level600FromOptions.map((option) => (
+            {fromOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -122,7 +123,7 @@ const SettingTraining = ({
           </select>
           <p className="text-white-1">to</p>
           <select value={selectedToValue} onChange={handleChangeToOption}>
-            {level600Options.map((option) => (
+            {options.map((option) => (
               <option
                 disabled={Number(selectedFromValue) >= option.value}
                 key={option.value}
@@ -138,7 +139,7 @@ const SettingTraining = ({
         <div className="flex items-center gap-2">
           <span className="text-white-1">問題数: </span>
           <select value={selectedValue} onChange={handleChangeNumber}>
-            {level600Options.map((option) => (
+            {options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -157,4 +158,4 @@ const SettingTraining = ({
   );
 };
 
-export default SettingTraining;
+export default memo(SettingTraining);

@@ -1,15 +1,18 @@
 import DMATButton from "@/components/elements/DMATButton";
-import Dialog from "@/components/elements/Dialog";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { memo } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { RiSortNumberAsc } from "react-icons/ri";
 
 const NotStarted = ({
   handleChangeStatus,
+  title,
+  description,
 }: {
   handleChangeStatus: (status: Status) => void;
+  title: string;
+  description: string;
 }) => {
   const router = useRouter();
   return (
@@ -22,8 +25,8 @@ const NotStarted = ({
       />
       <div className="relative w-full h-full flex items-center justify-center flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <span className="text-white-1 text-3xl">730点レベル</span>
-          <span className="text-white-1 text-sm">加速の300語</span>
+          <span className="text-white-1 text-3xl">{title}</span>
+          <span className="text-white-1 text-sm">{description}</span>
         </div>
         <div className="flex items-center gap-3">
           <DMATButton
@@ -42,4 +45,4 @@ const NotStarted = ({
   );
 };
 
-export default NotStarted;
+export default memo(NotStarted);

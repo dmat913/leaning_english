@@ -1,7 +1,7 @@
 import DMATButton from "@/components/elements/DMATButton";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -64,4 +64,4 @@ const CompletedTraining = ({
   );
 };
 
-export default CompletedTraining;
+export default memo(CompletedTraining);

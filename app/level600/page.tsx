@@ -1,14 +1,19 @@
 "use client";
-import { ProgressTraining } from "@/components/training/ProgressTraining";
 import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { Background } from "@/components/aceternity/Background";
-import NotStarted from "@/features/level600/NotStarted";
-import DisplayList from "@/features/level600/DisplayList";
-import SettingTraining from "@/features/level600/SettingTraining";
+import DisplayList from "@/components/training/DisplayList";
 import CompletedTraining from "@/components/training/CompletedTraining";
+import {
+  level600Data,
+  level600FromOptions,
+  level600Options,
+} from "@/data/level600";
+import NotStarted from "@/components/training/NotStarted";
+import SettingTraining from "@/components/training/SettingTraining";
+import ProgressTraining from "@/components/training/ProgressTraining";
 
 const Level600 = () => {
   // テスト状態
@@ -23,13 +28,25 @@ const Level600 = () => {
     <Background>
       <div className="flex w-full h-full relative p-10">
         {status === "not_started" && (
-          <NotStarted handleChangeStatus={handleChangeStatus} />
+          <NotStarted
+            handleChangeStatus={handleChangeStatus}
+            title="600点レベル"
+            description="助走の400語"
+          />
         )}
         {status === "display_list" && (
-          <DisplayList handleChangeStatus={handleChangeStatus} />
+          <DisplayList
+            handleChangeStatus={handleChangeStatus}
+            displayData={level600Data}
+          />
         )}
         {status === "setting_training" && (
-          <SettingTraining handleChangeStatus={handleChangeStatus} />
+          <SettingTraining
+            handleChangeStatus={handleChangeStatus}
+            targetData={level600Data}
+            options={level600Options}
+            fromOptions={level600FromOptions}
+          />
         )}
         {status === "in_progress" && <ProgressTraining />}
         {status === "completed" && (
