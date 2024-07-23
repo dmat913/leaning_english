@@ -8,13 +8,13 @@ import {
   testDataState,
   statusState,
 } from "@/states/trainingState";
-import React, { useCallback, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { FaPlayCircle } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { IoMdClose, IoMdCloseCircle } from "react-icons/io";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-export function ProgressTraining() {
+function ProgressTraining() {
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
   // 問題番号
@@ -56,7 +56,7 @@ export function ProgressTraining() {
   return (
     <>
       <div
-        className="flex flex-col items-center justify-center rounded-2xl w-full"
+        className="flex flex-col items-center justify-center bg-[#0E0E10] rounded-2xl w-full"
         style={{ gap: "40px" }}
       >
         <IoMdCloseCircle
@@ -148,3 +148,5 @@ export function ProgressTraining() {
     </>
   );
 }
+
+export default memo(ProgressTraining);
