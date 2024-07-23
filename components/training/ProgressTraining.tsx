@@ -56,7 +56,7 @@ function ProgressTraining() {
   return (
     <>
       <div
-        className="flex flex-col items-center justify-center bg-[#0E0E10] rounded-2xl w-full"
+        className="flex flex-col items-center justify-center rounded-2xl w-full"
         style={{ gap: "40px" }}
       >
         <IoMdCloseCircle
