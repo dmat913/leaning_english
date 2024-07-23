@@ -101,7 +101,7 @@ const DisplayList = ({
                 title="次へ"
                 icon={<MdNavigateNext size={24} />}
                 handleClick={() => setSelectedIndex(selectedIndex + 1)}
-                disabled={selectedIndex === 399}
+                disabled={selectedIndex === displayData.length - 1}
               />
             </div>
           </WordDetailCard>
