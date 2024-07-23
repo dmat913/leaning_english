@@ -63,7 +63,7 @@ function ProgressTraining() {
           size={32}
           onClick={() => setIsOpenDialog(true)}
           color="#FAF0E6"
-          className="absolute top-4 right-4"
+          className="absolute top-2 right-2"
         />
         <div className="flex gap-3 flex-col w-full">
           <div className="flex items-center gap-2 w-full">

@@ -102,7 +102,7 @@ export const Background = ({
   return (
     <div
       className={cn(
-        "h-screen flex flex-col items-center overflow-scroll w-full",
+        "h-full w-full flex flex-col items-center overflow-scroll",
         containerClassName
       )}
     >
