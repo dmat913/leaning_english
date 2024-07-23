@@ -9,8 +9,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-[100vw] h-[100svh]">
-        <RecoilRoot>{children}</RecoilRoot>
+      <body>
+        <RecoilRoot>
+          <div style={{ height: "100svh", width: "100vw" }}>{children}</div>
+        </RecoilRoot>
       </body>
     </html>
   );
