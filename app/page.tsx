@@ -23,9 +23,8 @@ const Home = () => {
         <MeteorsCard
           title="860点レベル"
           description="飛躍の200語"
-          // path="level860"
-          className="opacity-[0.5]"
-          disabled
+          path="level860"
+          meteorsNumber={15}
         />
         <MeteorsCard
           title="990点レベル"
