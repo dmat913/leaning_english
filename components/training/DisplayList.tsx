@@ -7,7 +7,7 @@ import { handlePlayAudio } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import useAudio from "@/hooks/useAudio";
+import useCloseAudio from "@/hooks/useCloseAudio";
 
 const DisplayList = ({
   handleChangeStatus,
@@ -16,7 +16,7 @@ const DisplayList = ({
   handleChangeStatus: (status: Status) => void;
   displayData: EnglishData[];
 }) => {
-  const { playInterrupt } = useAudio();
+  const { playInterrupt } = useCloseAudio();
 
   // selected word
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);

@@ -1,6 +1,6 @@
 import { getRandomItems } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
-import useAudio from "@/hooks/useAudio";
+import useCloseAudio from "@/hooks/useCloseAudio";
 import { testDataState } from "@/states/trainingState";
 import { EnglishData, Option, Status } from "@/types/types";
 import React, { ChangeEvent, memo, useState } from "react";
@@ -21,7 +21,7 @@ const SettingTraining = ({
   options: Option[];
   fromOptions: Option[];
 }) => {
-  const { playInterrupt } = useAudio();
+  const { playInterrupt } = useCloseAudio();
 
   // testデータ
   const setTestData: (testData: EnglishData[]) => void =

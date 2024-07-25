@@ -3,7 +3,7 @@ import { handlePlayAudio } from "@/common/utils";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import DMATButton from "@/components/elements/DMATButton";
 import Dialog from "@/components/elements/Dialog";
-import useAudio from "@/hooks/useAudio";
+import useCloseAudio from "@/hooks/useCloseAudio";
 import {
   TrainingResultState,
   testDataState,
@@ -16,7 +16,7 @@ import { IoMdClose, IoMdCloseCircle } from "react-icons/io";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 function ProgressTraining() {
-  const { playInterrupt } = useAudio();
+  const { playInterrupt } = useCloseAudio();
 
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
