@@ -38,8 +38,8 @@ const NotStarted = ({
           <DMATButton
             title="一覧"
             handleClick={() => handleChangeStatus("display_list")}
-            otherClassesSpan={{ color: "#0B0B0B", backgroundColor: "#FAF0E6" }}
             icon={<RiSortNumberAsc color="#0B0B0B" />}
+            type="white"
           />
           <DMATButton
             title="Training"
