@@ -1,5 +1,5 @@
 import DMATButton from "@/components/elements/DMATButton";
-import useAudio from "@/hooks/useAudio";
+import useCloseAudio from "@/hooks/useCloseAudio";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React, { memo } from "react";
@@ -16,7 +16,7 @@ const NotStarted = ({
   description: string;
 }) => {
   const router = useRouter();
-  const { playInterrupt } = useAudio();
+  const { playInterrupt } = useCloseAudio();
 
   return (
     <>
