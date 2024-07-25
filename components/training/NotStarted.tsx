@@ -1,4 +1,5 @@
 import DMATButton from "@/components/elements/DMATButton";
+import useAudio from "@/hooks/useAudio";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React, { memo } from "react";
@@ -15,13 +16,18 @@ const NotStarted = ({
   description: string;
 }) => {
   const router = useRouter();
+  const { playInterrupt } = useAudio();
+
   return (
     <>
       <IoMdCloseCircle
         size={32}
-        onClick={() => router.push("/")}
+        onClick={() => {
+          playInterrupt();
+          router.push("/");
+        }}
         color="#FAF0E6"
-        className="absolute top-2 right-2"
+        className="absolute top-2 right-2 z-50"
       />
       <div className="relative w-full h-full flex items-center justify-center flex-col gap-3">
         <div className="flex flex-col gap-1">

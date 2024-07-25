@@ -3,6 +3,7 @@ import { handlePlayAudio } from "@/common/utils";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import DMATButton from "@/components/elements/DMATButton";
 import Dialog from "@/components/elements/Dialog";
+import useAudio from "@/hooks/useAudio";
 import {
   TrainingResultState,
   testDataState,
@@ -15,6 +16,8 @@ import { IoMdClose, IoMdCloseCircle } from "react-icons/io";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 function ProgressTraining() {
+  const { playInterrupt } = useAudio();
+
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
   // 問題番号
@@ -61,7 +64,10 @@ function ProgressTraining() {
       >
         <IoMdCloseCircle
           size={32}
-          onClick={() => setIsOpenDialog(true)}
+          onClick={() => {
+            playInterrupt();
+            setIsOpenDialog(true);
+          }}
           color="#FAF0E6"
           className="absolute top-2 right-2"
         />
