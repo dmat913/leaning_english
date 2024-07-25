@@ -1,3 +1,4 @@
+import useAudio from "@/hooks/useAudio";
 import React, { CSSProperties, ReactElement } from "react";
 import { FaLocationArrow } from "react-icons/fa";
 
@@ -16,9 +17,16 @@ const DMATButton = ({
   disabled?: boolean;
   icon?: ReactElement<any, any>;
 }) => {
+  const { playInterrupt } = useAudio();
+  //ボタン押下時
+  const handleClickButton = () => {
+    playInterrupt();
+    if (handleClick) handleClick();
+  };
+
   return (
     <button
-      onClick={handleClick}
+      onClick={handleClickButton}
       className={`relative inline-flex overflow-hidden rounded-lg p-[1px]  h-10 focus:outline-none disabled:opacity-[0.5]`}
       style={otherClassesButton}
       disabled={disabled}

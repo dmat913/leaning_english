@@ -7,6 +7,7 @@ import { handlePlayAudio } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import useAudio from "@/hooks/useAudio";
 
 const DisplayList = ({
   handleChangeStatus,
@@ -15,13 +16,18 @@ const DisplayList = ({
   handleChangeStatus: (status: Status) => void;
   displayData: EnglishData[];
 }) => {
+  const { playInterrupt } = useAudio();
+
   // selected word
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   return (
     <div className="flex flex-col w-full h-full overflow-auto">
       <IoMdCloseCircle
-        onClick={() => handleChangeStatus("not_started")}
+        onClick={() => {
+          playInterrupt();
+          handleChangeStatus("not_started");
+        }}
         color="#FAF0E6"
         className="absolute top-2 right-2"
         size={32}
