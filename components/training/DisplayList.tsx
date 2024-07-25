@@ -1,13 +1,13 @@
 import React, { memo, useState } from "react";
-import { IoMdCloseCircle } from "react-icons/io";
 import { EnglishData, Status } from "@/types/types";
 import { WordDetailCard } from "@/components/aceternity/WordDetailCard";
-import { IoPlayCircleSharp } from "react-icons/io5";
+import { IoPlayCircleOutline } from "react-icons/io5";
 import { handlePlayAudio } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import useCloseAudio from "@/hooks/useCloseAudio";
+import CloseButton from "../elements/CloseButton";
+import useAudio from "@/hooks/useAudio";
 
 const DisplayList = ({
   handleChangeStatus,
@@ -16,26 +16,26 @@ const DisplayList = ({
   handleChangeStatus: (status: Status) => void;
   displayData: EnglishData[];
 }) => {
-  const { playInterrupt } = useCloseAudio();
+  const { playInterrupt } = useAudio();
 
   // selected word
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
+  // 閉じるボタン押下時
+  const handleClickCloseButton = () => {
+    handleChangeStatus("not_started");
+  };
+
   return (
     <div className="flex flex-col w-full h-full overflow-auto">
-      <IoMdCloseCircle
-        onClick={() => {
-          playInterrupt();
-          handleChangeStatus("not_started");
-        }}
-        color="#FAF0E6"
-        className="absolute top-2 right-2"
-        size={32}
-      />
+      <CloseButton handleClick={handleClickCloseButton} />
       {displayData.map((item, index) => (
         <div
           key={item.id}
-          onClick={() => setSelectedIndex(index)}
+          onClick={() => {
+            setSelectedIndex(index);
+            playInterrupt();
+          }}
           className={cn(
             "flex items-center p-2 bg-[rgba(173,216,230,0.3)]",
             `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
@@ -52,27 +52,24 @@ const DisplayList = ({
         >
           <WordDetailCard className="p-3 gap-2 flex flex-col">
             <div className="absolute" style={{ right: "4px", top: "4px" }}>
-              <IoMdCloseCircle
-                size={30}
-                onClick={() => setSelectedIndex(null)}
-              />
+              <CloseButton handleClick={() => setSelectedIndex(null)} />
             </div>
             <p className="text-black-1 flex flex-col">
               <span className="flex items-center gap-2">
-                <IoPlayCircleSharp
+                <IoPlayCircleOutline
                   onClick={() =>
                     handlePlayAudio(displayData[selectedIndex].word)
                   }
-                  size={24}
+                  size={32}
                 />
                 {`${displayData[selectedIndex].id} ${displayData[selectedIndex].word}`}
               </span>
               <span>{displayData[selectedIndex].wordMeaning}</span>
             </p>
             <p className="flex flex-col">
-              <span className="flex gap-2">
-                <IoPlayCircleSharp
-                  size={24}
+              <span className="flex gap-2 items-center">
+                <IoPlayCircleOutline
+                  size={32}
                   onClick={() =>
                     handlePlayAudio(displayData[selectedIndex].sentence)
                   }

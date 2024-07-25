@@ -1,14 +1,13 @@
 import { getRandomItems } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
-import useCloseAudio from "@/hooks/useCloseAudio";
 import { testDataState } from "@/states/trainingState";
 import { EnglishData, Option, Status } from "@/types/types";
 import React, { ChangeEvent, memo, useState } from "react";
 import { FcStart } from "react-icons/fc";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { ImSortNumericAsc } from "react-icons/im";
-import { IoMdCloseCircle } from "react-icons/io";
 import { useSetRecoilState } from "recoil";
+import CloseButton from "../elements/CloseButton";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -21,8 +20,6 @@ const SettingTraining = ({
   options: Option[];
   fromOptions: Option[];
 }) => {
-  const { playInterrupt } = useCloseAudio();
-
   // testデータ
   const setTestData: (testData: EnglishData[]) => void =
     useSetRecoilState(testDataState);
@@ -94,17 +91,14 @@ const SettingTraining = ({
     setTrainingType("");
   };
 
+  //閉じるボタン押下時
+  const handleClickCloseButton = () => {
+    handleChangeStatus("not_started");
+  };
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-      <IoMdCloseCircle
-        onClick={() => {
-          playInterrupt();
-          handleChangeStatus("not_started");
-        }}
-        color="#FAF0E6"
-        className="absolute top-2 right-2"
-        size={32}
-      />
+      <CloseButton handleClick={handleClickCloseButton} />
       <div className="flex items-center gap-2">
         <DMATButton
           title="順番"
