@@ -1,13 +1,58 @@
 import DMATButton from "@/components/elements/DMATButton";
-import { Status } from "@/types/types";
+import { EnglishData, Status } from "@/types/types";
 import { useRouter } from "next/navigation";
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
+import { Chart, ChartOptions, registerables, Plugin } from "chart.js";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { TrainingResultState, testDataState } from "@/states/trainingState";
+import { CiViewList } from "react-icons/ci";
+import DisplayResult from "@/features/training/DisplayResult";
+import { cn } from "@/lib/utils";
 
 Chart.register(...registerables);
+
+const options: ChartOptions<"doughnut"> = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: true,
+      position: "top",
+      labels: {
+        color: "#FAF0E6",
+      },
+    },
+  },
+};
+
+const centerTextPlugin: Plugin<"doughnut"> = {
+  id: "centerText",
+  afterDraw: (chart) => {
+    const {
+      ctx,
+      chartArea: { left, top, right, bottom },
+    } = chart;
+    ctx.save();
+
+    const total = chart.data.datasets[0].data.reduce(
+      (acc, value) => acc + value,
+      0
+    );
+    const dataValue = chart.data.datasets[0].data[0]; // 表示するデータのインデックスを選択
+    const percentage = ((dataValue / total) * 100).toFixed(1);
+
+    const centerX = (left + right) / 2;
+    const centerY = (top + bottom) / 2;
+
+    ctx.font = "bold 24px Netflix Sans";
+    ctx.fillStyle = "#FAF0E6";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillText(`${Math.ceil(Number(percentage))}%`, centerX, centerY);
+    ctx.restore();
+  },
+};
 
 const CompletedTraining = ({
   handleChangeStatus,
@@ -23,13 +68,15 @@ const CompletedTraining = ({
     useRecoilState(TrainingResultState);
 
   //正解データ
-  const correctData = useMemo(() => {
-    return trainingResult.filter((item) => item.result);
+  const correctData: EnglishData[] = useMemo(() => {
+    const result = trainingResult.filter((item) => item.result);
+    return result.map((item) => item.data);
   }, [trainingResult]);
 
   //不正解データ
   const incorrectData = useMemo(() => {
-    return trainingResult.filter((item) => !item.result);
+    const result = trainingResult.filter((item) => !item.result);
+    return result.map((item) => item.data);
   }, [trainingResult]);
 
   const data = {
@@ -55,11 +102,39 @@ const CompletedTraining = ({
     }, 1000);
   };
 
+  const [isOpenResult, setIsOpenResult] = useState<boolean>(false);
+
   return (
-    <div className="flex flex-col gap-3 items-center justify-center w-full h-full ">
-      <p className="text-white-1 text-xl">結果</p>
-      <Doughnut data={data} />
-      <DMATButton title="ホームに戻る" handleClick={handleClickBackToTop} />
+    <div
+      className={cn(
+        "flex flex-col gap-3 items-center justify-center w-full h-full relative"
+      )}
+    >
+      <div
+        className={cn("relative z-30", `${isOpenResult && "opacity-[0.1]"}`)}
+      >
+        <Doughnut data={data} options={options} plugins={[centerTextPlugin]} />
+      </div>
+      <div
+        className={cn(
+          "flex items-center gap-2",
+          `${isOpenResult && "opacity-[0.1]"}`
+        )}
+      >
+        <DMATButton title="ホームに戻る" handleClick={handleClickBackToTop} />
+        <DMATButton
+          title="一覧"
+          handleClick={() => setIsOpenResult(true)}
+          icon={<CiViewList size={20} />}
+        />
+      </div>
+      {isOpenResult && (
+        <DisplayResult
+          correctData={correctData}
+          incorrectData={incorrectData}
+          setIsOpen={setIsOpenResult}
+        />
+      )}
     </div>
   );
 };

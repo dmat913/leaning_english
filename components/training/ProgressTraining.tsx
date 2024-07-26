@@ -84,25 +84,23 @@ function ProgressTraining() {
             size="small"
           />
 
-          <div className="flex gap-2">
-            <div
-              className="inline-flex items-center gap-2 border"
-              style={{ padding: "4px 10px", borderRadius: "4px" }}
+          <div className="flex gap-2 pl-1">
+            <button
+              className="inline-flex items-center gap-2 border py-1 px-2.5 rounded-md active:scale-105"
               onClick={() => handlePlayAudio(testData[problemNumber].word)}
             >
               <IoPlayCircleOutline size={24} color="#FAF0E6" />
               <span className="text-white-1">単語</span>
-            </div>
-            <div
-              className="inline-flex items-center gap-2 border"
-              style={{ padding: "4px 10px", borderRadius: "4px" }}
+            </button>
+            <button
+              className="inline-flex items-center gap-2 border py-1 px-2.5 rounded-md active:scale-105"
               onClick={() => handlePlayAudio(testData[problemNumber].sentence)}
             >
               <IoPlayCircleOutline size={24} color="#FAF0E6" />
               <span className="text-white-1">文章</span>
-            </div>
+            </button>
           </div>
-          <div className="flex items-center w-full" style={{ gap: "8px" }}>
+          <div className="flex items-center w-full pl-1" style={{ gap: "8px" }}>
             {testData[problemNumber].portOfSpeech.map((item, index) => (
               <div
                 key={index}

@@ -20,6 +20,9 @@ const config: Config = {
         yellow: {
           1: "#EEDD82",
         },
+        red: {
+          1: "#FF4C4C",
+        },
       },
       animation: {
         "meteor-effect": "meteor 5s linear infinite",
