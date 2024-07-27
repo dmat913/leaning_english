@@ -5,7 +5,7 @@ import Sound from "@/public/audio/clickCancelAudio.mp3";
 const useCloseAudio = () => {
   const [playInterrupt] = useSound(Sound, {
     interrupt: true,
-    volume: 0.3,
+    volume: 0.1,
   });
   return { playInterrupt };
 };
