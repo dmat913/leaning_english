@@ -35,9 +35,7 @@ const Home = () => {
         <MeteorsCard
           title="パート1重要語100"
           description="100 Essential Words for Part 1"
-          // path="level730"
-          className="opacity-[0.5]"
-          disabled
+          path="essentialWords100ForPart1"
         />
         <MeteorsCard
           title="部署・職業名"
