@@ -36,6 +36,7 @@ const Home = () => {
           title="パート1重要語100"
           description="100 Essential Words for Part 1"
           path="essentialWords100ForPart1"
+          meteorsNumber={5}
         />
         <MeteorsCard
           title="部署・職業名"
