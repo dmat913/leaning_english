@@ -7,6 +7,7 @@ import {
   TrainingResultState,
   testDataState,
   statusState,
+  trainingDisplayTypeState,
 } from "@/states/trainingState";
 import React, { memo, useCallback, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -20,6 +21,11 @@ function ProgressTraining() {
   const [testData, setTestData] = useRecoilState(testDataState);
   // 問題番号
   const [problemNumber, setProblemNumber] = useState<number>(0);
+
+  // test種類 日本語→英語or英語→日本語
+  const [trainingDisplayType, setTrainingDisplayType] = useRecoilState(
+    trainingDisplayTypeState
+  );
   // status,setter
   const setStatus = useSetRecoilState(statusState);
   //正解不正解,set
@@ -71,19 +77,35 @@ function ProgressTraining() {
             <span className="text-white-1 font-bold text-3xl">
               {problemNumber + 1},
             </span>
-            <TextRevealCard
-              displayText={testData[problemNumber].word}
-              bgText={testData[problemNumber].wordMeaning}
-              className="flex flex-1"
-            />
+            {trainingDisplayType === "englishToJapanese" ? (
+              <TextRevealCard
+                displayText={testData[problemNumber].word}
+                bgText={testData[problemNumber].wordMeaning}
+                className="flex flex-1"
+              />
+            ) : (
+              <TextRevealCard
+                displayText={testData[problemNumber].wordMeaning}
+                bgText={testData[problemNumber].word}
+                className="flex flex-1"
+              />
+            )}
           </div>
-          <TextRevealCard
-            displayText={testData[problemNumber].sentence}
-            bgText={testData[problemNumber].sentenceMeaning}
-            className="flex flex-1"
-            size="small"
-          />
-
+          {trainingDisplayType === "englishToJapanese" ? (
+            <TextRevealCard
+              displayText={testData[problemNumber].sentence}
+              bgText={testData[problemNumber].sentenceMeaning}
+              className="flex flex-1"
+              size="small"
+            />
+          ) : (
+            <TextRevealCard
+              displayText={testData[problemNumber].sentenceMeaning}
+              bgText={testData[problemNumber].sentence}
+              className="flex flex-1"
+              size="small"
+            />
+          )}
           <div className="flex gap-2 pl-1">
             <button
               className="inline-flex items-center gap-2 border py-1 px-2.5 rounded-md active:scale-105"
@@ -142,6 +164,7 @@ function ProgressTraining() {
             setIsOpenDialog(false);
             setTestData([]);
             setStatus("not_started");
+            setTrainingDisplayType("englishToJapanese");
           }}
         />
       )}
