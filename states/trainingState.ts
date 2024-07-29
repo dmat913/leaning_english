@@ -23,3 +23,9 @@ export const TrainingResultState = atom<
   key: "TrainingResultState",
   default: [],
 });
+
+// test種類 日本語→英語or英語→日本語
+export const trainingDisplayTypeState = atom<string>({
+  key: "trainingDisplayTypeState",
+  default: "englishToJapanese",
+});
