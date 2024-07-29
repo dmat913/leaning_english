@@ -41,9 +41,8 @@ const Home = () => {
         <MeteorsCard
           title="部署・職業名"
           description="Departments & Occupations"
-          // path="level730"
-          className="opacity-[0.5]"
-          disabled
+          path="departmentsAndOccupations"
+          meteorsNumber={5}
         />
         <MeteorsCard
           title="前置詞・接続詞・接続副詞"

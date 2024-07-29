@@ -14,6 +14,20 @@ export interface EnglishData {
   portOfSpeech: PortOfSpeech[];
 }
 
+export interface WordData {
+  // 勉強する英単語
+  word: string;
+  // wordの意味
+  wordMeaning: string;
+}
+
+export interface SentenceMeaning {
+  // 例文
+  sentence: string;
+  // 例文の意味
+  sentenceMeaning: string;
+}
+
 // 品詞
 export type PortOfSpeech =
   | "動詞"
