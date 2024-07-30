@@ -50,3 +50,10 @@ export type Option = {
   value: number;
   label: string;
 };
+
+// 部門&職業 前置詞or接続詞or接続副詞 checkbox
+export interface SupplementCheckbox {
+  label: string;
+  data: WordData[];
+  checked: boolean;
+}

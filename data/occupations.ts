@@ -1,4 +1,5 @@
-import { WordData } from "@/types/types";
+import { SupplementCheckbox, WordData } from "@/types/types";
+import { departmentData } from "./departments";
 
 // 技術系職業
 export const technicalOccupationsData: WordData[] = [
@@ -354,4 +355,39 @@ export const academicNameOccupationsData: WordData[] = [
     word: "sociology",
     wordMeaning: "社会学",
   },
+];
+
+// checkbox 表示用
+export const DepartmentsAndOccupationsCheckBoxData: SupplementCheckbox[] = [
+  { label: "部署名", data: departmentData, checked: false },
+  { label: "技術系", data: technicalOccupationsData, checked: false },
+  { label: "医療関連", data: medicalRelatedOccupationsData, checked: false },
+  { label: "店等", data: storesEtcOccupationsData, checked: false },
+  {
+    label: "学者 他",
+    data: scholarsAndOthersOccupationsData,
+    checked: false,
+  },
+  { label: "マスコミ系", data: massMediaOccupationsData, checked: false },
+  { label: "旅行 他", data: travelEtcOccupationsData, checked: false },
+  { label: "芸術", data: artOccupationsData, checked: false },
+  { label: "その他", data: othersOccupationsData, checked: false },
+  { label: "学問名", data: academicNameOccupationsData, checked: false },
+];
+
+// 一覧表示用データ
+export const DepartmentsAndOccupationsDisplayListData: {
+  title: string;
+  data: WordData[];
+}[] = [
+  { title: "部署名", data: [...departmentData] },
+  { title: "技術系職業", data: [...technicalOccupationsData] },
+  { title: "医療関連職業", data: [...medicalRelatedOccupationsData] },
+  { title: "店 等職業", data: [...storesEtcOccupationsData] },
+  { title: "学者 他職業", data: [...scholarsAndOthersOccupationsData] },
+  { title: "マスコミ系職業", data: [...massMediaOccupationsData] },
+  { title: "旅行 他職業", data: [...travelEtcOccupationsData] },
+  { title: "芸術職業", data: [...artOccupationsData] },
+  { title: "その他職業", data: [...othersOccupationsData] },
+  { title: "学問名", data: [...academicNameOccupationsData] },
 ];

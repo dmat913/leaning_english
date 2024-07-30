@@ -47,9 +47,8 @@ const Home = () => {
         <MeteorsCard
           title="前置詞・接続詞・接続副詞"
           description="Prepositions,Conjunctions,and Conjunctive Adverbs"
-          // path="level730"
-          className="opacity-[0.5]"
-          disabled
+          path="functionWords"
+          meteorsNumber={5}
         />
         <MeteorsCard
           title="多義語"

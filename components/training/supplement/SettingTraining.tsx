@@ -1,63 +1,33 @@
 import React, { useEffect, useState } from "react";
-import {
-  technicalOccupationsData,
-  medicalRelatedOccupationsData,
-  storesEtcOccupationsData,
-  scholarsAndOthersOccupationsData,
-  massMediaOccupationsData,
-  travelEtcOccupationsData,
-  artOccupationsData,
-  othersOccupationsData,
-  academicNameOccupationsData,
-} from "@/data/occupations";
-import { Status, WordData } from "@/types/types";
-import { departmentData } from "@/data/departments";
+import { Status, SupplementCheckbox, WordData } from "@/types/types";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { departmentsAndOccupationsTestDataState } from "@/states/departmentsAndOccupationsState";
 import DMATButton from "@/components/elements/DMATButton";
 import { FcStart } from "react-icons/fc";
 import { statusState, trainingDisplayTypeState } from "@/states/trainingState";
 import CloseButton from "@/components/elements/CloseButton";
-
-interface CheckBox {
-  label: string;
-  data: WordData[];
-  checked: boolean;
-}
+import { supplementTestDataState } from "@/states/supplementTrainingState";
 
 const SettingTraining = ({
   handleChangeStatus,
+  defaultCheckboxData,
 }: {
   handleChangeStatus: (status: Status) => void;
+  defaultCheckboxData: SupplementCheckbox[];
 }) => {
   // testData
   const [
     departmentsAndOccupationsTestData,
     setDepartmentsAndOccupationsTestData,
-  ] = useRecoilState(departmentsAndOccupationsTestDataState);
+  ] = useRecoilState(supplementTestDataState);
   // テスト状態
   const setStatus = useSetRecoilState(statusState);
 
-  const [checkBoxData, setCheckBoxData] = useState<CheckBox[]>([
-    { label: "部署名", data: departmentData, checked: false },
-    { label: "技術系", data: technicalOccupationsData, checked: false },
-    { label: "医療関連", data: medicalRelatedOccupationsData, checked: false },
-    { label: "店等", data: storesEtcOccupationsData, checked: false },
-    {
-      label: "学者 他",
-      data: scholarsAndOthersOccupationsData,
-      checked: false,
-    },
-    { label: "マスコミ系", data: massMediaOccupationsData, checked: false },
-    { label: "旅行 他", data: travelEtcOccupationsData, checked: false },
-    { label: "芸術", data: artOccupationsData, checked: false },
-    { label: "その他", data: othersOccupationsData, checked: false },
-    { label: "学問名", data: academicNameOccupationsData, checked: false },
-  ]);
+  const [checkBoxData, setCheckBoxData] =
+    useState<SupplementCheckbox[]>(defaultCheckboxData);
 
   // checkbox event
   const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const updateList: CheckBox[] = checkBoxData.map((data) => {
+    const updateList: SupplementCheckbox[] = checkBoxData.map((data) => {
       if (data.label === event.target.value) {
         return { ...data, checked: !data.checked };
       }
