@@ -10,11 +10,11 @@ import CompletedTraining from "@/components/training/supplement/CompletedTrainin
 import DisplayList from "@/components/training/supplement/DisplayList";
 import SettingTraining from "@/components/training/supplement/SettingTraining";
 import {
-  DepartmentsAndOccupationsCheckBoxData,
-  DepartmentsAndOccupationsDisplayListData,
-} from "@/data/occupations";
+  FunctionWordsCheckBoxData,
+  FunctionWordsDisplayListData,
+} from "@/data/functionWords";
 
-const DepartmentsAndOccupations = () => {
+const FunctionWords = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
 
@@ -29,14 +29,14 @@ const DepartmentsAndOccupations = () => {
         {status === "not_started" && (
           <NotStarted
             handleChangeStatus={handleChangeStatus}
-            title="部署・職業名"
-            description="departments & occupations"
+            title="前置詞・接続詞・接続副詞"
+            description="Prepositions, Conjunctions, and Conjunctive Adverbs"
           />
         )}
         {status === "setting_training" && (
           <SettingTraining
             handleChangeStatus={handleChangeStatus}
-            defaultCheckboxData={DepartmentsAndOccupationsCheckBoxData}
+            defaultCheckboxData={FunctionWordsCheckBoxData}
           />
         )}
         {status === "in_progress" && <ProgressTraining />}
@@ -46,7 +46,7 @@ const DepartmentsAndOccupations = () => {
         {status === "display_list" && (
           <DisplayList
             handleChangeStatus={handleChangeStatus}
-            displayData={DepartmentsAndOccupationsDisplayListData}
+            displayData={FunctionWordsDisplayListData}
           />
         )}
       </div>
@@ -54,4 +54,4 @@ const DepartmentsAndOccupations = () => {
   );
 };
 
-export default DepartmentsAndOccupations;
+export default FunctionWords;

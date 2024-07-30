@@ -5,32 +5,28 @@ import DMATButton from "@/components/elements/DMATButton";
 import Dialog from "@/components/elements/Dialog";
 import { statusState, trainingDisplayTypeState } from "@/states/trainingState";
 import React, { memo, useCallback, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { BsCheckSquare } from "react-icons/bs";
 import { CgCloseR } from "react-icons/cg";
 import CloseButton from "@/components/elements/CloseButton";
 import {
-  departmentsAndOccupationsTestDataState,
-  trainingResultState,
-} from "@/states/departmentsAndOccupationsState";
+  supplementTestDataState,
+  supplementTrainingResultState,
+} from "@/states/supplementTrainingState";
 
 function ProgressTraining() {
   // テスト対象
-  const [testData, setTestData] = useRecoilState(
-    departmentsAndOccupationsTestDataState
-  );
+  const [testData, setTestData] = useRecoilState(supplementTestDataState);
   // 問題番号
   const [problemNumber, setProblemNumber] = useState<number>(0);
 
   // test種類 日本語→英語or英語→日本語
-  const [trainingDisplayType, setTrainingDisplayType] = useRecoilState(
-    trainingDisplayTypeState
-  );
+  const trainingDisplayType = useRecoilValue(trainingDisplayTypeState);
   // status,setter
   const setStatus = useSetRecoilState(statusState);
   //正解不正解,set
-  const setTrainingResult = useSetRecoilState(trainingResultState);
+  const setTrainingResult = useSetRecoilState(supplementTrainingResultState);
 
   // 問題表示判定
   const CheckCurrentProblem = () => {

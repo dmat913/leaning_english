@@ -7,11 +7,11 @@ import { Chart, ChartOptions, registerables, Plugin } from "chart.js";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { CiViewList } from "react-icons/ci";
 import { cn } from "@/lib/utils";
-import {
-  departmentsAndOccupationsTestDataState,
-  trainingResultState,
-} from "@/states/departmentsAndOccupationsState";
 import DisplayResult from "./DisplayResult";
+import {
+  supplementTestDataState,
+  supplementTrainingResultState,
+} from "@/states/supplementTrainingState";
 
 Chart.register(...registerables);
 
@@ -64,11 +64,12 @@ const CompletedTraining = ({
 }) => {
   const router = useRouter();
 
-  const setTestData = useSetRecoilState(departmentsAndOccupationsTestDataState);
+  const setTestData = useSetRecoilState(supplementTestDataState);
 
   // Training結果
-  const [trainingResult, setTrainingResult] =
-    useRecoilState(trainingResultState);
+  const [trainingResult, setTrainingResult] = useRecoilState(
+    supplementTrainingResultState
+  );
 
   //正解データ
   const correctData: WordData[] = useMemo(() => {

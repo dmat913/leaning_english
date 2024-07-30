@@ -1,46 +1,24 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 import { Status, WordData } from "@/types/types";
 import { cn } from "@/lib/utils";
 import CloseButton from "@/components/elements/CloseButton";
-import {
-  technicalOccupationsData,
-  medicalRelatedOccupationsData,
-  storesEtcOccupationsData,
-  scholarsAndOthersOccupationsData,
-  massMediaOccupationsData,
-  travelEtcOccupationsData,
-  artOccupationsData,
-  othersOccupationsData,
-  academicNameOccupationsData,
-} from "@/data/occupations";
-import { departmentData } from "@/data/departments";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { handlePlayAudio } from "@/common/utils";
 
 const DisplayList = ({
   handleChangeStatus,
+  displayData,
 }: {
   handleChangeStatus: (status: Status) => void;
+  displayData: {
+    title: string;
+    data: WordData[];
+  }[];
 }) => {
   // 閉じるボタン押下時
   const handleClickCloseButton = () => {
     handleChangeStatus("not_started");
   };
-
-  const displayData: { title: string; data: WordData[] }[] = useMemo(() => {
-    return [
-      { title: "部署名", data: [...departmentData] },
-      { title: "技術系職業", data: [...technicalOccupationsData] },
-      { title: "医療関連職業", data: [...medicalRelatedOccupationsData] },
-      { title: "店 等職業", data: [...storesEtcOccupationsData] },
-      { title: "学者 他職業", data: [...scholarsAndOthersOccupationsData] },
-      { title: "マスコミ系職業", data: [...massMediaOccupationsData] },
-      { title: "旅行 他職業", data: [...travelEtcOccupationsData] },
-      { title: "芸術職業", data: [...artOccupationsData] },
-      { title: "その他職業", data: [...othersOccupationsData] },
-      { title: "学問名", data: [...academicNameOccupationsData] },
-    ];
-  }, []);
 
   return (
     <div className="flex flex-col gap-3 w-full h-full overflow-auto">
