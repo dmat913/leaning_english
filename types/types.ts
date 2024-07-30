@@ -28,6 +28,33 @@ export interface SentenceMeaning {
   sentenceMeaning: string;
 }
 
+// 部門&職業 前置詞or接続詞or接続副詞 checkbox
+export interface SupplementCheckbox {
+  label: string;
+  data: WordData[];
+  checked: boolean;
+}
+
+// 多義語
+export interface MultipleMeanings {
+  // id
+  id: string;
+  // 勉強する英単語
+  word: string;
+  // wordの意味
+  wordMeaning: string;
+  // 例文
+  meanings: Meaning[];
+}
+
+// 多義語 例文
+export interface Meaning {
+  meaning: string;
+  sentence: string;
+  sentenceMeaning: string;
+  portOfSpeech: PortOfSpeech[];
+}
+
 // 品詞
 export type PortOfSpeech =
   | "動詞"
@@ -50,10 +77,3 @@ export type Option = {
   value: number;
   label: string;
 };
-
-// 部門&職業 前置詞or接続詞or接続副詞 checkbox
-export interface SupplementCheckbox {
-  label: string;
-  data: WordData[];
-  checked: boolean;
-}
