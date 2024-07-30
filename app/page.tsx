@@ -51,15 +51,14 @@ const Home = () => {
           meteorsNumber={5}
         />
         <MeteorsCard
-          title="多義語"
-          description="88 Words with Multiple Meanings"
-          // path="level730"
-          className="opacity-[0.5]"
-          disabled
-        />
-        <MeteorsCard
           title="定型表現"
           description="120 Set Phrases"
+          path="phrases"
+          meteorsNumber={5}
+        />
+        <MeteorsCard
+          title="多義語"
+          description="88 Words with Multiple Meanings"
           // path="level730"
           className="opacity-[0.5]"
           disabled
