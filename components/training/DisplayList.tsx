@@ -37,11 +37,12 @@ const DisplayList = ({
             playInterrupt();
           }}
           className={cn(
-            "flex items-center p-2 bg-[rgba(173,216,230,0.3)]",
+            "flex flex-col gap-2 text-white-1 text-md p-2 bg-[rgba(173,216,230,0.3)]",
             `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
           )}
         >
-          <span className="text-white-1 text-md">{`${item.id} ${item.word}`}</span>
+          <span>{`${item.id} ${item.word}`}</span>
+          <span>{item.wordMeaning}</span>
         </div>
       ))}
 
