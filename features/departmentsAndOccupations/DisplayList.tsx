@@ -1,10 +1,6 @@
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useMemo } from "react";
 import { Status, WordData } from "@/types/types";
-import { WordDetailCard } from "@/components/aceternity/WordDetailCard";
-import DMATButton from "@/components/elements/DMATButton";
-import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import useAudio from "@/hooks/useAudio";
 import CloseButton from "@/components/elements/CloseButton";
 import {
   technicalOccupationsData,
@@ -26,88 +22,58 @@ const DisplayList = ({
 }: {
   handleChangeStatus: (status: Status) => void;
 }) => {
-  const { playInterrupt } = useAudio();
-
-  // selected word
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
   // 閉じるボタン押下時
   const handleClickCloseButton = () => {
     handleChangeStatus("not_started");
   };
 
-  const displayData: WordData[] = useMemo(() => {
+  const displayData: { title: string; data: WordData[] }[] = useMemo(() => {
     return [
-      ...departmentData,
-      ...technicalOccupationsData,
-      ...medicalRelatedOccupationsData,
-      ...storesEtcOccupationsData,
-      ...scholarsAndOthersOccupationsData,
-      ...massMediaOccupationsData,
-      ...travelEtcOccupationsData,
-      ...artOccupationsData,
-      ...othersOccupationsData,
-      ...academicNameOccupationsData,
+      { title: "部署名", data: [...departmentData] },
+      { title: "技術系職業", data: [...technicalOccupationsData] },
+      { title: "医療関連職業", data: [...medicalRelatedOccupationsData] },
+      { title: "店 等職業", data: [...storesEtcOccupationsData] },
+      { title: "学者 他職業", data: [...scholarsAndOthersOccupationsData] },
+      { title: "マスコミ系職業", data: [...massMediaOccupationsData] },
+      { title: "旅行 他職業", data: [...travelEtcOccupationsData] },
+      { title: "芸術職業", data: [...artOccupationsData] },
+      { title: "その他職業", data: [...othersOccupationsData] },
+      { title: "学問名", data: [...academicNameOccupationsData] },
     ];
   }, []);
 
   return (
-    <div className="flex flex-col w-full h-full overflow-auto">
+    <div className="flex flex-col gap-3 w-full h-full overflow-auto">
       <CloseButton handleClick={handleClickCloseButton} />
       {displayData.map((item, index) => (
-        <div
-          key={index}
-          onClick={() => {
-            setSelectedIndex(index);
-            playInterrupt();
-          }}
-          className={cn(
-            "flex items-center p-2 bg-[rgba(173,216,230,0.3)]",
-            `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
-          )}
-        >
-          <span className="text-white-1 text-md">{`${item.word}`}</span>
-        </div>
-      ))}
-
-      {selectedIndex !== null && (
-        <div
-          className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
-          style={{ width: "90vw" }}
-        >
-          <WordDetailCard className="p-3 gap-2 flex flex-col">
-            <div className="absolute" style={{ right: "4px", top: "4px" }}>
-              <CloseButton handleClick={() => setSelectedIndex(null)} />
-            </div>
-            <p className="text-black-1 flex flex-col">
+        <div key={index} className="flex flex-col">
+          <div
+            className="w-full p-2"
+            style={{ backgroundColor: "rgba(100, 149, 237, 0.6)" }}
+          >
+            <span className="text-white-1 text-xl">{item.title}</span>
+          </div>
+          {item.data.map((data, dataIndex) => (
+            <div
+              key={dataIndex}
+              className={cn(
+                "flex flex-col gap-1 p-2 bg-[rgba(173,216,230,0.3)] text-white-1 text-md",
+                `${dataIndex % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
+              )}
+            >
               <div className="flex items-center gap-2">
                 <IoPlayCircleOutline
-                  onClick={() =>
-                    handlePlayAudio(displayData[selectedIndex].word)
-                  }
+                  onClick={() => handlePlayAudio(data.word)}
                   size={32}
+                  color="#FAF0E6"
                 />
-                <span>{displayData[selectedIndex].word}</span>
+                <span>{`${data.word}`}</span>
               </div>
-              <span>{displayData[selectedIndex].wordMeaning}</span>
-            </p>
-            <div className="flex items-center gap-2">
-              <DMATButton
-                title="前へ"
-                icon={<MdNavigateBefore size={24} />}
-                handleClick={() => setSelectedIndex(selectedIndex - 1)}
-                disabled={selectedIndex === 0}
-              />
-              <DMATButton
-                title="次へ"
-                icon={<MdNavigateNext size={24} />}
-                handleClick={() => setSelectedIndex(selectedIndex + 1)}
-                disabled={selectedIndex === displayData.length - 1}
-              />
+              <span>{data.wordMeaning}</span>
             </div>
-          </WordDetailCard>
+          ))}
         </div>
-      )}
+      ))}
     </div>
   );
 };

@@ -91,42 +91,52 @@ const SettingTraining = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-5 w-full h-full relative">
-      <CloseButton handleClick={() => handleChangeStatus("not_started")} />
-      <div className="flex flex-wrap gap-1">
-        {checkBoxData.map((data, index) => (
-          <label className="flex items-center gap-2" key={index}>
+    <div
+      className="flex flex-col items-center justify-center w-full h-full relative"
+      style={{ gap: "40px" }}
+    >
+      <CloseButton
+        handleClick={() => {
+          handleChangeStatus("not_started");
+          setDisplayType("englishToJapanese");
+        }}
+      />
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-1 w-full" style={{ flexWrap: "wrap" }}>
+          {checkBoxData.map((data, index) => (
+            <label className="flex items-center gap-2" key={index}>
+              <input
+                type="checkbox"
+                checked={data.checked}
+                value={data.label}
+                onChange={handleChangeCheckbox}
+              />
+              <span className="text-white-1">{data.label}</span>
+            </label>
+          ))}
+        </div>
+        <div className="flex items-center gap-2">
+          <label className="flex items-center gap-1 text-white-1">
             <input
-              type="checkbox"
-              checked={data.checked}
-              value={data.label}
-              onChange={handleChangeCheckbox}
+              type="radio"
+              value="englishToJapanese"
+              name="display"
+              onChange={handleChangeDisplayRadio}
+              checked={displayType === "englishToJapanese"}
             />
-            <span className="text-white-1">{data.label}</span>
+            英語→日本語
           </label>
-        ))}
-      </div>
-      <div className="flex items-center gap-2">
-        <label className="flex items-center gap-1 text-white-1">
-          <input
-            type="radio"
-            value="englishToJapanese"
-            name="display"
-            onChange={handleChangeDisplayRadio}
-            checked={displayType === "englishToJapanese"}
-          />
-          英語→日本語
-        </label>
-        <label className="flex items-center gap-1 text-white-1">
-          <input
-            type="radio"
-            value="japaneseToEnglish"
-            name="display"
-            onChange={handleChangeDisplayRadio}
-            checked={displayType === "japaneseToEnglish"}
-          />
-          日本語→英語
-        </label>
+          <label className="flex items-center gap-1 text-white-1">
+            <input
+              type="radio"
+              value="japaneseToEnglish"
+              name="display"
+              onChange={handleChangeDisplayRadio}
+              checked={displayType === "japaneseToEnglish"}
+            />
+            日本語→英語
+          </label>
+        </div>
       </div>
       <DMATButton
         title="開始"
