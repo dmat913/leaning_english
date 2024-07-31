@@ -1,4 +1,4 @@
-import { EnglishData, Status, WordData } from "@/types/types";
+import { EnglishData, Status } from "@/types/types";
 import { atom } from "recoil";
 
 // 600点レベルの項目

@@ -1,10 +1,10 @@
 "use client";
 import { Background } from "@/components/aceternity/Background";
 // import NotStarted from "@/components/training/NotStarted";
-import { statusState } from "@/states/trainingState";
-import { Status } from "@/types/types";
-import React, { useCallback } from "react";
-import { useRecoilState } from "recoil";
+// import { statusState } from "@/states/trainingState";
+// import { Status } from "@/types/types";
+import React from "react";
+// import { useRecoilState } from "recoil";
 // import ProgressTraining from "@/components/training/supplement/ProgressTraining";
 // import CompletedTraining from "@/components/training/supplement/CompletedTraining";
 // import SettingTraining from "@/components/training/supplement/SettingTraining";
@@ -13,23 +13,23 @@ import { useRecoilState } from "recoil";
 //   FunctionWordsDisplayListData,
 // } from "@/data/functionWords";
 import DisplayList from "@/features/multipleMeanings/DisplayList";
-import { IoMdCloseCircle } from "react-icons/io";
-import { useRouter } from "next/navigation";
-import DMATButton from "@/components/elements/DMATButton";
-import { RiSortNumberAsc } from "react-icons/ri";
-import useCloseAudio from "@/hooks/useCloseAudio";
+// import { IoMdCloseCircle } from "react-icons/io";
+// import { useRouter } from "next/navigation";
+// import DMATButton from "@/components/elements/DMATButton";
+// import { RiSortNumberAsc } from "react-icons/ri";
+// import useCloseAudio from "@/hooks/useCloseAudio";
 
 const MultiplePhrases = () => {
-  const router = useRouter();
-  const { playInterrupt } = useCloseAudio();
+  // const router = useRouter();
+  // const { playInterrupt } = useCloseAudio();
 
   // テスト状態
-  const [status, setStatus] = useRecoilState(statusState);
+  // const [status, setStatus] = useRecoilState(statusState);
 
   // テストstatus変更
-  const handleChangeStatus = useCallback((status: Status) => {
-    setStatus(status);
-  }, []);
+  // const handleChangeStatus = useCallback((status: Status) => {
+  //   setStatus(status);
+  // }, []);
 
   return (
     <Background>
