@@ -1,19 +1,18 @@
 import React, { memo } from "react";
-import { Status } from "@/types/types";
 import { cn } from "@/lib/utils";
 import CloseButton from "@/components/elements/CloseButton";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { handlePlayAudio } from "@/common/utils";
 import { multipleMeaningsData } from "@/data/multipleMeanings";
+import { useRouter } from "next/navigation";
 
-const DisplayList = ({
-  handleChangeStatus,
-}: {
-  handleChangeStatus: (status: Status) => void;
-}) => {
+const DisplayList = () => {
+  const router = useRouter();
+
   // 閉じるボタン押下時
   const handleClickCloseButton = () => {
-    handleChangeStatus("not_started");
+    // handleChangeStatus("not_started");
+    router.push("/");
   };
 
   return (
