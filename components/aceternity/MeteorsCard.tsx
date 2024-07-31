@@ -42,7 +42,7 @@ export function MeteorsCard({
           <div className="absolute top-4 right-4">
             {/* 星 */}
             <div
-              className={`h-5 w-5 rounded-[50%] shadow-[0px_0px_4px_#FFFACD] bg-yellow-1 relative opacity-[0.8]  ${
+              className={`h-5 w-5 rounded-[50%] shadow-[0px_0px_4px_#FFFACD] bg-yellow-1 relative ${
                 disabled &&
                 "before:content-[''] before:h-5 before:w-5 before:rounded-[50%] before:bg-gray-900 before:absolute before:top-[-2px] before:left-[4px]"
               } `}

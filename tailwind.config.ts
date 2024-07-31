@@ -18,7 +18,7 @@ const config: Config = {
           1: "#FAF0E6",
         },
         yellow: {
-          1: "#EEDD82",
+          1: "rgba(255, 255, 224, 0.9)",
         },
         red: {
           1: "#FF4C4C",
