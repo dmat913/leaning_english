@@ -1,7 +1,6 @@
 "use client";
 import { handlePlayAudio } from "@/common/utils";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
-import DMATButton from "@/components/elements/DMATButton";
 import Dialog from "@/components/elements/Dialog";
 import {
   TrainingResultState,
@@ -12,15 +11,18 @@ import {
 import React, { memo, useCallback, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import CloseButton from "../elements/CloseButton";
-import { IoPlayCircleOutline } from "react-icons/io5";
-import { BsCheckSquare } from "react-icons/bs";
-import { CgCloseR } from "react-icons/cg";
+import { IoCloseCircle } from "react-icons/io5";
+import { BiUserVoice } from "react-icons/bi";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { FaCheckCircle } from "react-icons/fa";
 
 function ProgressTraining() {
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
   // 問題番号
   const [problemNumber, setProblemNumber] = useState<number>(0);
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
 
   // test種類 日本語→英語or英語→日本語
   const [trainingDisplayType, setTrainingDisplayType] = useRecoilState(
@@ -38,6 +40,8 @@ function ProgressTraining() {
     } else {
       setStatus("completed");
     }
+    navigator.vibrate(200);
+    setIsVisible(false);
   };
 
   // わかるボタン押下
@@ -46,7 +50,10 @@ function ProgressTraining() {
       ...trainingResult,
       { data: testData[problemNumber], result: true },
     ]);
-    CheckCurrentProblem();
+    // CheckCurrentProblem();
+    navigator.vibrate(200);
+    setIsCorrect(true);
+    setIsVisible(true);
   }, [testData, problemNumber]);
 
   // わからないボタン押下
@@ -55,7 +62,10 @@ function ProgressTraining() {
       ...trainingResult,
       { data: testData[problemNumber], result: false },
     ]);
-    CheckCurrentProblem();
+    // CheckCurrentProblem();
+    navigator.vibrate(200);
+    setIsCorrect(false);
+    setIsVisible(true);
   }, [testData, problemNumber]);
 
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
@@ -65,6 +75,8 @@ function ProgressTraining() {
     setIsOpenDialog(true);
   };
 
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
     <>
       <div
@@ -72,7 +84,21 @@ function ProgressTraining() {
         style={{ gap: "40px" }}
       >
         <CloseButton handleClick={handleClickCloseButton} />
-        <div className="flex gap-3 flex-col w-full">
+        <div className="flex items-end gap-2 pl-1">
+          <div
+            onClick={() => handlePlayAudio(testData[problemNumber].word)}
+            className="bg-[#FFEB3B] w-24 h-24 rounded-2xl flex items-center justify-center shadow-md active:scale-105"
+          >
+            <BiUserVoice size={60} color="" />
+          </div>
+          <div
+            onClick={() => handlePlayAudio(testData[problemNumber].sentence)}
+            className="bg-[#FFEB3B] w-16 h-16 rounded-2xl flex items-center justify-center shadow-md active:scale-105"
+          >
+            <BiUserVoice size={40} color="" />
+          </div>
+        </div>
+        <div className="flex gap-3 flex-col w-full bg-gray-900 p-4 rounded-md shadow-xl opacity-95">
           <div className="flex items-center gap-2 w-full">
             <span className="text-white-1 font-bold text-3xl">
               {problemNumber + 1},
@@ -106,22 +132,7 @@ function ProgressTraining() {
               size="small"
             />
           )}
-          <div className="flex gap-2 pl-1">
-            <button
-              className="inline-flex items-center gap-2 border py-1 px-2.5 rounded-md active:scale-105"
-              onClick={() => handlePlayAudio(testData[problemNumber].word)}
-            >
-              <IoPlayCircleOutline size={24} color="#FAF0E6" />
-              <span className="text-white-1">単語</span>
-            </button>
-            <button
-              className="inline-flex items-center gap-2 border py-1 px-2.5 rounded-md active:scale-105"
-              onClick={() => handlePlayAudio(testData[problemNumber].sentence)}
-            >
-              <IoPlayCircleOutline size={24} color="#FAF0E6" />
-              <span className="text-white-1">文章</span>
-            </button>
-          </div>
+
           <div className="flex items-center w-full pl-1" style={{ gap: "8px" }}>
             {testData[problemNumber].portOfSpeech.map((item, index) => (
               <div
@@ -138,20 +149,21 @@ function ProgressTraining() {
             ))}
           </div>
         </div>
-        <div className="flex gap-2 w-full">
-          <DMATButton
-            title="わからない"
-            handleClick={handleClickLeftButton}
-            otherClassesButton={{ width: "50%" }}
-            icon={<CgCloseR size={18} />}
-            type="white"
-          />
-          <DMATButton
-            title="わかる"
-            handleClick={handleClickRightButton}
-            otherClassesButton={{ width: "50%" }}
-            icon={<BsCheckSquare size={18} />}
-          />
+        <div className="flex flex-col gap-2 w-full">
+          <button
+            className="bg-white-1 h-10 rounded-lg text-black-1 w-full active:scale-105"
+            onClick={handleClickLeftButton}
+            disabled={isVisible}
+          >
+            わからない
+          </button>
+          <button
+            className="bg-[#FFEB3B] h-10 rounded-lg text-black-1 w-full active:scale-105"
+            onClick={handleClickRightButton}
+            disabled={isVisible}
+          >
+            わかる
+          </button>
         </div>
       </div>
       {isOpenDialog && (
@@ -167,6 +179,51 @@ function ProgressTraining() {
             setTrainingDisplayType("englishToJapanese");
           }}
         />
+      )}
+      {isVisible && (
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            backgroundColor: isCorrect ? "#d4edda" : "#f8d7da",
+            padding: "10px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+        >
+          <div className="flex items-center gap-2">
+            {isCorrect ? (
+              <>
+                <FaCheckCircle color="#4cd964" size={32} />
+                <span className="text-[#4cd964]">わかる</span>
+              </>
+            ) : (
+              <>
+                <IoCloseCircle color="#ff5e57" size={32} />
+                <span className="text-[#ff5e57]">わからない</span>
+              </>
+            )}
+          </div>
+          <div className="flex flex-col gap-1 text-black-1">
+            <span>{testData[problemNumber].wordMeaning}</span>
+            <span>{testData[problemNumber].sentenceMeaning}</span>
+          </div>
+          <button
+            onClick={CheckCurrentProblem}
+            className={cn(
+              `w-full active:scale-105 bg-[#ff5e57] text-white-1 h-10 rounded-lg shadow-md`,
+              `${isCorrect ? "bg-[#4cd964]" : "bg-[#ff5e57]"}`
+            )}
+          >
+            次へ
+          </button>
+        </motion.div>
       )}
     </>
   );

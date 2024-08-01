@@ -106,7 +106,7 @@ export const level600Data: EnglishData[] = [
   {
     id: "003",
     word: "refer",
-    wordMeaning: "参照して,言及する,(人を)紹介する",
+    wordMeaning: "参照する、言及する、(人を)紹介する",
     sentence: "Please refer to the map.",
     sentenceMeaning: "地図を参照してください。",
     portOfSpeech: ["動詞"],
@@ -138,7 +138,7 @@ export const level600Data: EnglishData[] = [
   {
     id: "007",
     word: "according to",
-    wordMeaning: "~によると,~に従って",
+    wordMeaning: "~によると、~に従って",
     sentence: "according to the e-mail",
     sentenceMeaning: "メールによると",
     portOfSpeech: ["前置詞"],
@@ -251,8 +251,8 @@ export const level600Data: EnglishData[] = [
     id: "021",
     word: "indicate",
     wordMeaning: "示す",
-    sentence: "What is indicated about Mr. Kato ?",
-    sentenceMeaning: "加藤さんについて何が示されていますか。",
+    sentence: "What is indicated about Mr.Dmat ?",
+    sentenceMeaning: "ティーマットさんについて何が示されていますか。",
     portOfSpeech: ["動詞"],
   },
   {
@@ -371,8 +371,8 @@ export const level600Data: EnglishData[] = [
     id: "036",
     word: "expect",
     wordMeaning: "予期する、予定する",
-    sentence: "Mr.Kato is expected to arrive tomorrow.",
-    sentenceMeaning: "加藤さんは明日到着する予定だ。",
+    sentence: "Mr.Okamoto is expected to arrive tomorrow.",
+    sentenceMeaning: "岡本さんは明日到着する予定だ。",
     portOfSpeech: ["動詞"],
   },
   {
@@ -538,9 +538,9 @@ export const level600Data: EnglishData[] = [
   {
     id: "057",
     word: "process",
-    wordMeaning: "処理する",
+    wordMeaning: "処理する,プロセス、過程、処理",
     sentence: "process an order",
-    sentenceMeaning: "処理する,プロセス、過程、処理",
+    sentenceMeaning: "注文を処理する",
     portOfSpeech: ["動詞", "名詞"],
   },
   {
@@ -1061,7 +1061,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "原因、大義,引き起こす",
     sentence: "the cause of the problem",
     sentenceMeaning: "問題の原因",
-    portOfSpeech: ["名詞"],
+    portOfSpeech: ["名詞", "動詞"],
   },
   {
     id: "123",
@@ -1389,7 +1389,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "見込みがある、潜在的な,可能性",
     sentence: "potential customers",
     sentenceMeaning: "見込み客",
-    portOfSpeech: ["形容詞"],
+    portOfSpeech: ["形容詞", "名詞"],
   },
   {
     id: "164",
@@ -1426,9 +1426,9 @@ export const level600Data: EnglishData[] = [
   {
     id: "168",
     word: "advise",
-    wordMeaning: "勧める、忠告する,助言する",
+    wordMeaning: "勧める、忠告する、助言する",
     sentence: "What are listeners advised to do?",
-    sentenceMeaning: "聞き手は何をするよう勧められていますか・",
+    sentenceMeaning: "聞き手は何をするよう勧められていますか。",
     portOfSpeech: ["動詞"],
   },
   {
@@ -2325,7 +2325,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "称える、(契約等を)守る,名誉",
     sentence: "honor an employee",
     sentenceMeaning: "社員を称える",
-    portOfSpeech: ["動詞"],
+    portOfSpeech: ["動詞", "名詞"],
   },
   {
     id: "281",
@@ -2589,7 +2589,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "補助金、助成金,与える、許可する",
     sentence: "obtain a grant",
     sentenceMeaning: "補助金を得る",
-    portOfSpeech: ["名詞"],
+    portOfSpeech: ["名詞", "動詞"],
   },
   {
     id: "314",
@@ -3141,7 +3141,7 @@ export const level600Data: EnglishData[] = [
     word: "prevent",
     wordMeaning: "防ぐ、阻む",
     sentence: "Dmat prevented us from entering the room.",
-    sentenceMeaning: "ディーマットは私たちがへえ野に入るのを妨げた。",
+    sentenceMeaning: "ディーマットは私たちが部屋に入るのを妨げた。",
     portOfSpeech: ["動詞"],
   },
   {
@@ -3179,8 +3179,8 @@ export const level600Data: EnglishData[] = [
   {
     id: "387",
     word: "ease",
-    wordMeaning: "容易さ、たやすさ,和らげる、容易にする",
-    sentence: "ease if yse",
+    wordMeaning: "容易さ、たやすさ,やわらげる、容易にする",
+    sentence: "ease of use",
     sentenceMeaning: "使いやすさ",
     portOfSpeech: ["名詞", "動詞"],
   },
