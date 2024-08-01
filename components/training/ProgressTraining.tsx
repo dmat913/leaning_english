@@ -212,8 +212,16 @@ function ProgressTraining() {
             )}
           </div>
           <div className="flex flex-col gap-1 text-black-1">
-            <span>{testData[problemNumber].wordMeaning}</span>
-            <span>{testData[problemNumber].sentenceMeaning}</span>
+            <span>
+              {trainingDisplayType === "englishToJapanese"
+                ? testData[problemNumber].wordMeaning
+                : testData[problemNumber].word}
+            </span>
+            <span>
+              {trainingDisplayType === "englishToJapanese"
+                ? testData[problemNumber].sentenceMeaning
+                : testData[problemNumber].sentence}
+            </span>
           </div>
           <button
             onClick={CheckCurrentProblem}
