@@ -1421,7 +1421,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "返金,返金する",
     sentence: "a full refund",
     sentenceMeaning: "全額返金",
-    portOfSpeech: ["名詞"],
+    portOfSpeech: ["名詞", "動詞"],
   },
   {
     id: "168",
