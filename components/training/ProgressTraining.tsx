@@ -16,8 +16,11 @@ import { BiUserVoice } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { FaCheckCircle } from "react-icons/fa";
+import useAudio from "@/hooks/useAudio";
 
 function ProgressTraining() {
+  const { playInterrupt } = useAudio();
+
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
   // 問題番号
@@ -35,13 +38,13 @@ function ProgressTraining() {
 
   // 問題表示判定
   const CheckCurrentProblem = () => {
+    setIsVisible(false);
+    playInterrupt();
     if (testData.length > problemNumber + 1) {
       setProblemNumber((problemNumber) => problemNumber + 1);
     } else {
       setStatus("completed");
     }
-    navigator.vibrate(200);
-    setIsVisible(false);
   };
 
   // わかるボタン押下
@@ -50,8 +53,7 @@ function ProgressTraining() {
       ...trainingResult,
       { data: testData[problemNumber], result: true },
     ]);
-    // CheckCurrentProblem();
-    navigator.vibrate(200);
+    playInterrupt();
     setIsCorrect(true);
     setIsVisible(true);
   }, [testData, problemNumber]);
@@ -62,8 +64,7 @@ function ProgressTraining() {
       ...trainingResult,
       { data: testData[problemNumber], result: false },
     ]);
-    // CheckCurrentProblem();
-    navigator.vibrate(200);
+    playInterrupt();
     setIsCorrect(false);
     setIsVisible(true);
   }, [testData, problemNumber]);
