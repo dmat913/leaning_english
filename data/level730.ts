@@ -1538,7 +1538,7 @@ export const level730Data: EnglishData[] = [
     wordMeaning: "(スピーチでの)言葉、コメント、意見,コメントする",
     sentence: "opening remarks",
     sentenceMeaning: "家賃にはすべての公共料金が含まれている。",
-    portOfSpeech: ["名詞"],
+    portOfSpeech: ["名詞", "動詞"],
   },
   {
     id: "585",

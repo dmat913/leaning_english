@@ -869,7 +869,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "述べる、言及する,言及",
     sentence: "What problem does the man mention?",
     sentenceMeaning: "男性はどんな問題に付いて述べていますか。",
-    portOfSpeech: ["動詞"],
+    portOfSpeech: ["動詞", "名詞"],
   },
   {
     id: "099",
@@ -2130,7 +2130,7 @@ export const level600Data: EnglishData[] = [
   {
     id: "256",
     word: "significant",
-    wordMeaning: "かなりの、大幅な,重要な",
+    wordMeaning: "かなりの、大幅な、重要な",
     sentence: "a significant increase in profits",
     sentenceMeaning: "かなりの利益増",
     portOfSpeech: ["形容詞"],

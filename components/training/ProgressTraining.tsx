@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { FaCheckCircle } from "react-icons/fa";
 import useAudio from "@/hooks/useAudio";
+import { EnglishData } from "@/types/types";
 
 function ProgressTraining() {
   const { playInterrupt } = useAudio();
@@ -27,6 +28,11 @@ function ProgressTraining() {
   const [problemNumber, setProblemNumber] = useState<number>(0);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
 
+  // 面接中断ダイアログ 表示flag
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
+  // テスト結果画面表示flag
+  const [isVisibleResult, setIsVisibleResult] = useState(false);
+
   // test種類 日本語→英語or英語→日本語
   const [trainingDisplayType, setTrainingDisplayType] = useRecoilState(
     trainingDisplayTypeState
@@ -34,11 +40,12 @@ function ProgressTraining() {
   // status,setter
   const setStatus = useSetRecoilState(statusState);
   //正解不正解,set
-  const setTrainingResult = useSetRecoilState(TrainingResultState);
+  const [trainingResult, setTrainingResult] =
+    useRecoilState(TrainingResultState);
 
   // 問題表示判定
   const CheckCurrentProblem = () => {
-    setIsVisible(false);
+    setIsVisibleResult(false);
     playInterrupt();
     if (testData.length > problemNumber + 1) {
       setProblemNumber((problemNumber) => problemNumber + 1);
@@ -47,36 +54,49 @@ function ProgressTraining() {
     }
   };
 
+  // テスト結果データ更新
+  const updateTrainingResult = (result: boolean) => {
+    if (
+      trainingResult.some((item) => item.data.id === testData[problemNumber].id)
+    ) {
+      const updateList: {
+        data: EnglishData;
+        result: boolean;
+      }[] = trainingResult.map((item) => {
+        if (item.data.id === testData[problemNumber].id) {
+          return { ...item, result: !item.result };
+        }
+        return item;
+      });
+      setTrainingResult(updateList);
+    } else {
+      setTrainingResult((trainingResult) => [
+        ...trainingResult,
+        { data: testData[problemNumber], result: result },
+      ]);
+    }
+  };
+
   // わかるボタン押下
   const handleClickRightButton = useCallback(() => {
-    setTrainingResult((trainingResult) => [
-      ...trainingResult,
-      { data: testData[problemNumber], result: true },
-    ]);
+    updateTrainingResult(true);
     playInterrupt();
     setIsCorrect(true);
-    setIsVisible(true);
-  }, [testData, problemNumber]);
+    setIsVisibleResult(true);
+  }, [testData, problemNumber, trainingResult]);
 
   // わからないボタン押下
   const handleClickLeftButton = useCallback(() => {
-    setTrainingResult((trainingResult) => [
-      ...trainingResult,
-      { data: testData[problemNumber], result: false },
-    ]);
+    updateTrainingResult(false);
     playInterrupt();
     setIsCorrect(false);
-    setIsVisible(true);
-  }, [testData, problemNumber]);
-
-  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
+    setIsVisibleResult(true);
+  }, [testData, problemNumber, trainingResult]);
 
   //閉じるボタン押下時
   const handleClickCloseButton = () => {
     setIsOpenDialog(true);
   };
-
-  const [isVisible, setIsVisible] = useState(false);
 
   return (
     <>
@@ -154,14 +174,14 @@ function ProgressTraining() {
           <button
             className="bg-white-1 h-10 rounded-lg text-black-1 w-full active:scale-105"
             onClick={handleClickLeftButton}
-            disabled={isVisible}
+            disabled={isVisibleResult}
           >
             わからない
           </button>
           <button
             className="bg-[#FFEB3B] h-10 rounded-lg text-black-1 w-full active:scale-105"
             onClick={handleClickRightButton}
-            disabled={isVisible}
+            disabled={isVisibleResult}
           >
             わかる
           </button>
@@ -181,7 +201,7 @@ function ProgressTraining() {
           }}
         />
       )}
-      {isVisible && (
+      {isVisibleResult && (
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -198,16 +218,30 @@ function ProgressTraining() {
             gap: "16px",
           }}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between">
             {isCorrect ? (
               <>
-                <FaCheckCircle color="#4cd964" size={32} />
-                <span className="text-[#4cd964]">わかる</span>
+                <div className="flex items-center gap-2">
+                  <FaCheckCircle color="#4cd964" size={32} />
+                  <span className="text-[#4cd964]">わかる</span>
+                </div>
+                <IoCloseCircle
+                  color="#ff5e57"
+                  size={32}
+                  onClick={handleClickLeftButton}
+                />
               </>
             ) : (
               <>
-                <IoCloseCircle color="#ff5e57" size={32} />
-                <span className="text-[#ff5e57]">わからない</span>
+                <div className="flex items-center gap-2">
+                  <IoCloseCircle color="#ff5e57" size={32} />
+                  <span className="text-[#ff5e57]">わからない</span>
+                </div>
+                <FaCheckCircle
+                  color="#4cd964"
+                  size={32}
+                  onClick={handleClickRightButton}
+                />
               </>
             )}
           </div>
