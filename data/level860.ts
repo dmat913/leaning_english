@@ -1276,7 +1276,7 @@ export const level860Data: EnglishData[] = [
     word: "remedy",
     wordMeaning: "改善策、治療薬,改善する、治療する",
     sentence: "a remedy for slow sales",
-    sentenceMeaning: "不審の売り上げに対する改善策",
+    sentenceMeaning: "不振の売り上げに対する改善策",
     portOfSpeech: ["名詞", "動詞"],
   },
   {

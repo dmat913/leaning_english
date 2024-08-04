@@ -1135,9 +1135,9 @@ export const level730Data: EnglishData[] = [
   {
     id: "534",
     word: "workforce",
-    wordMeaning: "前従業員",
+    wordMeaning: "全従業員",
     sentence: "50 percent of the workforce",
-    sentenceMeaning: "前従業員の50%",
+    sentenceMeaning: "全従業員の50%",
     portOfSpeech: ["名詞"],
   },
   {
