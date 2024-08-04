@@ -6,6 +6,7 @@ import { FcStart } from "react-icons/fc";
 import { statusState, trainingDisplayTypeState } from "@/states/trainingState";
 import CloseButton from "@/components/elements/CloseButton";
 import { supplementTestDataState } from "@/states/supplementTrainingState";
+import { getRandomItems } from "@/common/utils";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -15,10 +16,9 @@ const SettingTraining = ({
   defaultCheckboxData: SupplementCheckbox[];
 }) => {
   // testData
-  const [
-    departmentsAndOccupationsTestData,
-    setDepartmentsAndOccupationsTestData,
-  ] = useRecoilState(supplementTestDataState);
+  const [supplementTestData, setSupplementTestData] = useRecoilState(
+    supplementTestDataState
+  );
   // テスト状態
   const setStatus = useSetRecoilState(statusState);
 
@@ -44,20 +44,36 @@ const SettingTraining = ({
         updateList.push(...data.data);
       }
     });
-    // TODO: ランダムにする可能性あり
-    setDepartmentsAndOccupationsTestData(updateList);
+    setSupplementTestData(updateList);
   }, [checkBoxData]);
 
   // テスト表示種類
   const [displayType, setDisplayType] = useRecoilState(
     trainingDisplayTypeState
   );
+  //トレーニング種類
+  const [orderType, setOrderType] = useState<string>("order");
 
   // テスト表示種類radioボタン変更
   const handleChangeDisplayRadio = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setDisplayType(event.target.value);
+  };
+
+  // ランダムor順番radioボタンchangeイベント
+  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOrderType(event.target.value);
+  };
+
+  // 開始ボタン押下時
+  const handleStartTest = () => {
+    if (orderType === "random") {
+      setSupplementTestData(
+        getRandomItems(supplementTestData, supplementTestData.length)
+      );
+    }
+    setStatus("in_progress");
   };
 
   return (
@@ -107,12 +123,34 @@ const SettingTraining = ({
             日本語→英語
           </label>
         </div>
+        <div className="flex items-center gap-2">
+          <label className="flex items-center gap-1 text-white-1">
+            <input
+              type="radio"
+              value="order"
+              name="order"
+              onChange={handleChangeRadio}
+              checked={orderType === "order"}
+            />
+            順番
+          </label>
+          <label className="flex items-center gap-1 text-white-1">
+            <input
+              type="radio"
+              value="random"
+              name="order"
+              onChange={handleChangeRadio}
+              checked={orderType === "random"}
+            />
+            ランダム
+          </label>
+        </div>
       </div>
       <DMATButton
         title="開始"
-        handleClick={() => setStatus("in_progress")}
+        handleClick={handleStartTest}
         icon={<FcStart size={24} />}
-        disabled={departmentsAndOccupationsTestData.length === 0}
+        disabled={supplementTestData.length === 0}
       />
     </div>
   );
