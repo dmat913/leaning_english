@@ -33,6 +33,7 @@ const SettingTraining = ({
   // 画面切り替え時,先頭10個表示
   useEffect(() => {
     setTestData(targetData.slice(0, 10));
+    // eslint-disable-next-line
   }, []);
 
   // 問題数select変更時

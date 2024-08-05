@@ -21,6 +21,7 @@ const FunctionWords = () => {
   // テストstatus変更
   const handleChangeStatus = useCallback((status: Status) => {
     setStatus(status);
+    // eslint-disable-next-line
   }, []);
 
   return (

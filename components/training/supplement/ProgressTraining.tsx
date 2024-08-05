@@ -85,6 +85,7 @@ function ProgressTraining() {
     playInterrupt();
     setIsCorrect(true);
     setIsVisibleResult(true);
+    // eslint-disable-next-line
   }, [testData, problemNumber, trainingResult]);
 
   // わからないボタン押下
@@ -93,6 +94,7 @@ function ProgressTraining() {
     playInterrupt();
     setIsCorrect(false);
     setIsVisibleResult(true);
+    // eslint-disable-next-line
   }, [testData, problemNumber, trainingResult]);
 
   //閉じるボタン押下時

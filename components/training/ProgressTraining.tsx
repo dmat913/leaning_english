@@ -83,6 +83,7 @@ function ProgressTraining() {
     playInterrupt();
     setIsCorrect(true);
     setIsVisibleResult(true);
+    // eslint-disable-next-line
   }, [testData, problemNumber, trainingResult]);
 
   // わからないボタン押下
@@ -91,6 +92,7 @@ function ProgressTraining() {
     playInterrupt();
     setIsCorrect(false);
     setIsVisibleResult(true);
+    // eslint-disable-next-line
   }, [testData, problemNumber, trainingResult]);
 
   //閉じるボタン押下時
@@ -101,6 +103,7 @@ function ProgressTraining() {
   // 単語意味,カンマで分割
   const wordSplit: string[] = useMemo(() => {
     return testData[problemNumber].wordMeaning.split(",");
+    // eslint-disable-next-line
   }, [problemNumber]);
 
   return (
@@ -255,9 +258,8 @@ function ProgressTraining() {
               {trainingDisplayType === "englishToJapanese" ? (
                 <div className="flex flex-col gap-1">
                   {wordSplit.map((word, index) => (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2" key={index}>
                       <span
-                        key={index}
                         className={cn(
                           `border text-sm text-white-1 bg-green-2`,
                           !isCorrect && "bg-red-2"
