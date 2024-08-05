@@ -19,9 +19,15 @@ const config: Config = {
         },
         yellow: {
           1: "#FFD700",
+          2: "#FFEB3B",
         },
         red: {
           1: "#FF4C4C",
+          2: "#ff5e57",
+        },
+        green: {
+          1: "#d4edda",
+          2: "#4cd964",
         },
       },
       animation: {
