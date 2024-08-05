@@ -27,6 +27,7 @@ const DisplayResult = ({
       default:
         return correctData;
     }
+    // eslint-disable-next-line
   }, [displayType]);
 
   const handleClickButton = (type: string) => {

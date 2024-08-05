@@ -45,6 +45,7 @@ const SettingTraining = ({
       }
     });
     setSupplementTestData(updateList);
+    // eslint-disable-next-line
   }, [checkBoxData]);
 
   // テスト表示種類
