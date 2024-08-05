@@ -110,7 +110,7 @@ function ProgressTraining() {
         <div className="flex items-end gap-2 pl-1">
           <div
             onClick={() => handlePlayAudio(testData[problemNumber].word)}
-            className="bg-[#FFEB3B] w-24 h-24 rounded-2xl flex items-center justify-center shadow-md active:scale-105"
+            className="bg-yellow-2 w-24 h-24 rounded-2xl flex items-center justify-center shadow-md active:scale-105"
           >
             <BiUserVoice size={60} color="" />
           </div>
@@ -144,7 +144,7 @@ function ProgressTraining() {
             わからない
           </button>
           <button
-            className="bg-[#FFEB3B] h-10 rounded-lg text-black-1 w-full active:scale-105"
+            className="bg-yellow-2 h-10 rounded-lg text-black-1 w-full active:scale-105"
             onClick={handleClickRightButton}
             disabled={isVisibleResult}
           >
@@ -188,7 +188,7 @@ function ProgressTraining() {
               <>
                 <div className="flex items-center gap-2">
                   <FaCheckCircle color="#4cd964" size={32} />
-                  <span className="text-[#4cd964]">わかる</span>
+                  <span className="text-green-2">わかる</span>
                 </div>
                 <IoCloseCircle
                   color="#ff5e57"
@@ -200,7 +200,7 @@ function ProgressTraining() {
               <>
                 <div className="flex items-center gap-2">
                   <IoCloseCircle color="#ff5e57" size={32} />
-                  <span className="text-[#ff5e57]">わからない</span>
+                  <span className="text-red-2">わからない</span>
                 </div>
                 <FaCheckCircle
                   color="#4cd964"
@@ -221,7 +221,7 @@ function ProgressTraining() {
             onClick={CheckCurrentProblem}
             className={cn(
               `w-full active:scale-105 bg-[#ff5e57] text-white-1 h-10 rounded-lg shadow-md`,
-              `${isCorrect ? "bg-[#4cd964]" : "bg-[#ff5e57]"}`
+              `${isCorrect ? "bg-green-2" : "bg-red-2"}`
             )}
           >
             次へ

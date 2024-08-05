@@ -354,7 +354,7 @@ export const level600Data: EnglishData[] = [
   {
     id: "034",
     word: "advertising",
-    wordMeaning: "広告(業),宣伝(活動)",
+    wordMeaning: "広告(業)、宣伝(活動)",
     sentence: "an advertising campaign",
     sentenceMeaning: "顧客アンケート調査",
     portOfSpeech: ["名詞"],
