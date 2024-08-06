@@ -1093,7 +1093,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "専門家,専門的な",
     sentence: "an expert in the field",
     sentenceMeaning: "その分野の専門家",
-    portOfSpeech: ["形容詞"],
+    portOfSpeech: ["名詞", "形容詞"],
   },
   {
     id: "127",
@@ -3026,7 +3026,7 @@ export const level600Data: EnglishData[] = [
   {
     id: "368",
     word: "identify",
-    wordMeaning: "問題を特定する",
+    wordMeaning: "特定する",
     sentence: "identify problems",
     sentenceMeaning: "問題を特定する",
     portOfSpeech: ["動詞"],
@@ -3150,7 +3150,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "同様に,よく似た",
     sentence: "teachers and students alike",
     sentenceMeaning: "教師も生徒も同様に",
-    portOfSpeech: ["副詞"],
+    portOfSpeech: ["副詞", "形容詞"],
   },
   {
     id: "384",

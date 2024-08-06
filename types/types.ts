@@ -70,6 +70,7 @@ export type Status =
   | "display_list"
   | "setting_training"
   | "in_progress"
+  | "continuous_english"
   | "completed"
   | "blocked";
 

@@ -5,8 +5,19 @@ export const getRandomItems = <T>(array: T[], count: number) => {
 };
 
 // 音声再生
-export const handlePlayAudio = (text: string) => {
-  const uttr = new SpeechSynthesisUtterance(text);
-  uttr.lang = "en-US";
-  window.speechSynthesis.speak(uttr);
+export const handlePlayAudio = (
+  text: string,
+  language: string = "en-US",
+  onEndCallback?: () => void
+) => {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = language;
+
+  if (onEndCallback) {
+    utterance.onend = () => {
+      onEndCallback();
+    };
+  }
+
+  window.speechSynthesis.speak(utterance);
 };

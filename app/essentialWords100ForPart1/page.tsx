@@ -14,6 +14,7 @@ import {
   essentialWords100ForPart1FromOptions,
   essentialWords100ForPart1Options,
 } from "@/data/EssentialWords100_forPart1";
+import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 
 const EssentialWords100ForPart1 = () => {
   // テスト状態
@@ -50,6 +51,7 @@ const EssentialWords100ForPart1 = () => {
           />
         )}
         {status === "in_progress" && <ProgressTraining />}
+        {status === "continuous_english" && <ContinuousEnglish />}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
         )}

@@ -67,8 +67,6 @@ const CompletedTraining = ({
   const [trainingResult, setTrainingResult] =
     useRecoilState(TrainingResultState);
 
-  console.log(trainingResult);
-
   //正解データ
   const correctData: EnglishData[] = useMemo(() => {
     const result = trainingResult.filter((item) => item.result);

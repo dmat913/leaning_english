@@ -14,6 +14,7 @@ import {
   level990FromOptions,
   level990Options,
 } from "@/data/level990";
+import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 
 const Level990 = () => {
   // テスト状態
@@ -50,6 +51,7 @@ const Level990 = () => {
           />
         )}
         {status === "in_progress" && <ProgressTraining />}
+        {status === "continuous_english" && <ContinuousEnglish />}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
         )}
