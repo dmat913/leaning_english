@@ -76,7 +76,11 @@ const SettingTraining = ({
 
   // 開始ボタン押下時
   const handleClickStartButton = () => {
-    handleChangeStatus("in_progress");
+    if (orderType === "continuousEnglish") {
+      handleChangeStatus("continuous_english");
+    } else {
+      handleChangeStatus("in_progress");
+    }
     setSelectedFromValue("1");
     setSelectedValue("10");
     setSelectedToValue("10");
@@ -141,8 +145,18 @@ const SettingTraining = ({
               />
               ランダム
             </label>
+            <label className="flex items-center gap-1 text-white-1">
+              <input
+                type="radio"
+                value="continuousEnglish"
+                name="order"
+                onChange={handleChangeRadio}
+                checked={orderType === "continuousEnglish"}
+              />
+              垂れ流し
+            </label>
           </div>
-          {orderType === "order" && (
+          {orderType !== "random" && (
             <div className="flex gap-2">
               <p className="text-white-1">from</p>
               <select
@@ -182,28 +196,30 @@ const SettingTraining = ({
             </div>
           )}
         </div>
-        <div className="flex items-center gap-2">
-          <label className="flex items-center gap-1 text-white-1">
-            <input
-              type="radio"
-              value="englishToJapanese"
-              name="display"
-              onChange={handleChangeDisplayRadio}
-              checked={displayType === "englishToJapanese"}
-            />
-            英語→日本語
-          </label>
-          <label className="flex items-center gap-1 text-white-1">
-            <input
-              type="radio"
-              value="japaneseToEnglish"
-              name="display"
-              onChange={handleChangeDisplayRadio}
-              checked={displayType === "japaneseToEnglish"}
-            />
-            日本語→英語
-          </label>
-        </div>
+        {orderType !== "continuousEnglish" && (
+          <div className="flex items-center gap-2">
+            <label className="flex items-center gap-1 text-white-1">
+              <input
+                type="radio"
+                value="englishToJapanese"
+                name="display"
+                onChange={handleChangeDisplayRadio}
+                checked={displayType === "englishToJapanese"}
+              />
+              英語→日本語
+            </label>
+            <label className="flex items-center gap-1 text-white-1">
+              <input
+                type="radio"
+                value="japaneseToEnglish"
+                name="display"
+                onChange={handleChangeDisplayRadio}
+                checked={displayType === "japaneseToEnglish"}
+              />
+              日本語→英語
+            </label>
+          </div>
+        )}
       </div>
       <DMATButton
         title="開始"

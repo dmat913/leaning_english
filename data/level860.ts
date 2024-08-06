@@ -1395,7 +1395,7 @@ export const level860Data: EnglishData[] = [
     id: "869",
     word: "concise",
     wordMeaning: "簡潔な",
-    sentence: "Tge report was clear and concise.",
+    sentence: "The report was clear and concise.",
     sentenceMeaning: "そのレポートはわかりやすく完結だった。",
     portOfSpeech: ["形容詞"],
   },
