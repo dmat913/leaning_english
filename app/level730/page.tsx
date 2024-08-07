@@ -14,7 +14,7 @@ import DisplayList from "@/components/training/DisplayList";
 import NotStarted from "@/components/training/NotStarted";
 import SettingTraining from "@/components/training/SettingTraining";
 import ProgressTraining from "@/components/training/ProgressTraining";
-import ContinuousEnglish from "@/components/training/ContinuousEnglish";
+// import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 
 const Level730 = () => {
   // テスト状態
@@ -51,7 +51,7 @@ const Level730 = () => {
           />
         )}
         {status === "in_progress" && <ProgressTraining />}
-        {status === "continuous_english" && <ContinuousEnglish />}
+        {/* {status === "continuous_english" && <ContinuousEnglish />} */}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
         )}

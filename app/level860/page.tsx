@@ -14,7 +14,7 @@ import {
   level860FromOptions,
   level860Options,
 } from "@/data/level860";
-import ContinuousEnglish from "@/components/training/ContinuousEnglish";
+// import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 
 const Level860 = () => {
   // テスト状態
@@ -51,7 +51,7 @@ const Level860 = () => {
           />
         )}
         {status === "in_progress" && <ProgressTraining />}
-        {status === "continuous_english" && <ContinuousEnglish />}
+        {/* {status === "continuous_english" && <ContinuousEnglish />} */}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
         )}

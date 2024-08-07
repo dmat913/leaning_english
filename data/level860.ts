@@ -746,9 +746,9 @@ export const level860Data: EnglishData[] = [
   {
     id: "788",
     word: "designated",
-    wordMeaning: "洗剤",
-    sentence: "指定された、指名された",
-    sentenceMeaning: "a designated parking area",
+    wordMeaning: "指定された、指名された",
+    sentence: "a designated parking area",
+    sentenceMeaning: "指定の駐車区域",
     portOfSpeech: ["形容詞"],
   },
   {
@@ -1093,7 +1093,7 @@ export const level860Data: EnglishData[] = [
     wordMeaning: "余分な,余り",
     sentence: "surplus promotional materials",
     sentenceMeaning: "余分な販促物",
-    portOfSpeech: ["形容詞"],
+    portOfSpeech: ["形容詞", "名詞"],
   },
   {
     id: "832",

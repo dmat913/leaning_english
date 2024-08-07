@@ -145,7 +145,7 @@ const SettingTraining = ({
               />
               ランダム
             </label>
-            <label className="flex items-center gap-1 text-white-1">
+            {/* <label className="flex items-center gap-1 text-white-1">
               <input
                 type="radio"
                 value="continuousEnglish"
@@ -154,7 +154,7 @@ const SettingTraining = ({
                 checked={orderType === "continuousEnglish"}
               />
               垂れ流し
-            </label>
+            </label> */}
           </div>
           {orderType !== "random" && (
             <div className="flex gap-2">
