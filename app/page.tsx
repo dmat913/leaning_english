@@ -9,7 +9,6 @@ const LoginPage = () => {
   const router = useRouter();
 
   const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
   const [error, setError] = useState<string | null>(null);
 
@@ -19,10 +18,12 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`/api/login`, {
-        method: "POST",
-        body: JSON.stringify({ name: username, password }),
-      });
+      const response = await fetch(
+        `/api/user?name=${encodeURIComponent(username)}`,
+        {
+          method: "GET",
+        }
+      );
 
       const data = await response.json();
 
@@ -33,8 +34,8 @@ const LoginPage = () => {
         setError(data.message);
       }
     } catch (error) {
-      console.error("ログインエラー:", error);
-      setError("ログインに失敗しました。");
+      console.error("取得エラー:", error);
+      setError("データ取得に失敗しました。");
     }
   };
 
@@ -57,22 +58,6 @@ const LoginPage = () => {
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="DMAT"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="username"
-            >
-              パスワード
-            </label>
-            <input
-              type="text"
-              id="username"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="0000"
             />
           </div>
           <button className="w-full py-2 bg-blue-500 text-white-1 font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
