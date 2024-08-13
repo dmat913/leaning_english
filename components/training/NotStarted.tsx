@@ -24,7 +24,7 @@ const NotStarted = ({
         size={32}
         onClick={() => {
           playInterrupt();
-          router.push("/");
+          router.push("/home");
         }}
         color="#FAF0E6"
         className="absolute top-2 right-2 z-50"

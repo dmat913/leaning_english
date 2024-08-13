@@ -1,7 +1,7 @@
 import { EnglishData, Status } from "@/types/types";
 import { atom } from "recoil";
 
-// 600点レベルの項目
+// trainingの項目
 export const testDataState = atom<EnglishData[]>({
   key: "testDataState",
   default: [],

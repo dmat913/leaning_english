@@ -1,5 +1,5 @@
 "use client";
-import { Background } from "@/components/aceternity/Background";
+
 import NotStarted from "@/components/training/NotStarted";
 import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
@@ -25,33 +25,31 @@ const DepartmentsAndOccupations = () => {
   }, []);
 
   return (
-    <Background>
-      <div className="flex w-full h-full relative">
-        {status === "not_started" && (
-          <NotStarted
-            handleChangeStatus={handleChangeStatus}
-            title="部署・職業名"
-            description="departments & occupations"
-          />
-        )}
-        {status === "setting_training" && (
-          <SettingTraining
-            handleChangeStatus={handleChangeStatus}
-            defaultCheckboxData={DepartmentsAndOccupationsCheckBoxData}
-          />
-        )}
-        {status === "in_progress" && <ProgressTraining />}
-        {status === "completed" && (
-          <CompletedTraining handleChangeStatus={handleChangeStatus} />
-        )}
-        {status === "display_list" && (
-          <DisplayList
-            handleChangeStatus={handleChangeStatus}
-            displayData={DepartmentsAndOccupationsDisplayListData}
-          />
-        )}
-      </div>
-    </Background>
+    <div className="flex w-full h-full relative">
+      {status === "not_started" && (
+        <NotStarted
+          handleChangeStatus={handleChangeStatus}
+          title="部署・職業名"
+          description="departments & occupations"
+        />
+      )}
+      {status === "setting_training" && (
+        <SettingTraining
+          handleChangeStatus={handleChangeStatus}
+          defaultCheckboxData={DepartmentsAndOccupationsCheckBoxData}
+        />
+      )}
+      {status === "in_progress" && <ProgressTraining />}
+      {status === "completed" && (
+        <CompletedTraining handleChangeStatus={handleChangeStatus} />
+      )}
+      {status === "display_list" && (
+        <DisplayList
+          handleChangeStatus={handleChangeStatus}
+          displayData={DepartmentsAndOccupationsDisplayListData}
+        />
+      )}
+    </div>
   );
 };
 

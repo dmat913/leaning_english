@@ -309,7 +309,7 @@ export const level600Data: EnglishData[] = [
     wordMeaning: "詳細,詳しく調べる",
     sentence: "details of a plan",
     sentenceMeaning: "計画の詳細",
-    portOfSpeech: ["動詞"],
+    portOfSpeech: ["名詞", "動詞"],
   },
   {
     id: "029",
