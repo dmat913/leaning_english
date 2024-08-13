@@ -1,4 +1,5 @@
 "use client";
+import { Background } from "@/components/aceternity/Background";
 import "./globals.css";
 import { RecoilRoot } from "recoil";
 
@@ -9,8 +10,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-[100svh] w-[100vw] overflow-hidden p-5">
-        <RecoilRoot>{children}</RecoilRoot>
+      <body className="h-[100svh] w-[100vw]">
+        <RecoilRoot>
+          <Background>{children}</Background>
+        </RecoilRoot>
       </body>
     </html>
   );

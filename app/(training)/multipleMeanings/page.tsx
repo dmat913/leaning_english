@@ -1,5 +1,5 @@
 "use client";
-import { Background } from "@/components/aceternity/Background";
+
 // import NotStarted from "@/components/training/NotStarted";
 // import { statusState } from "@/states/trainingState";
 // import { Status } from "@/types/types";
@@ -32,9 +32,8 @@ const MultiplePhrases = () => {
   // }, []);
 
   return (
-    <Background>
-      <div className="flex justify-center w-full h-full relative">
-        {/* {status === "not_started" && (
+    <div className="flex justify-center w-full h-full relative">
+      {/* {status === "not_started" && (
           <>
             <IoMdCloseCircle
               size={32}
@@ -67,21 +66,20 @@ const MultiplePhrases = () => {
             </div>
           </>
         )} */}
-        {/* {status === "setting_training" && (
+      {/* {status === "setting_training" && (
           <SettingTraining
             handleChangeStatus={handleChangeStatus}
             defaultCheckboxData={FunctionWordsCheckBoxData}
           />
         )} */}
-        {/* {status === "in_progress" && <ProgressTraining />}
+      {/* {status === "in_progress" && <ProgressTraining />}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
         )} */}
-        {/* {status === "display_list" && ( */}
-        <DisplayList />
-        {/* )} */}
-      </div>
-    </Background>
+      {/* {status === "display_list" && ( */}
+      <DisplayList />
+      {/* )} */}
+    </div>
   );
 };
 

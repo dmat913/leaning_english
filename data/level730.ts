@@ -1466,7 +1466,7 @@ export const level730Data: EnglishData[] = [
     wordMeaning: "報いる、ほうびを与える,報酬、ほうび",
     sentence: "reward employees for their hard work",
     sentenceMeaning: "従業員のがんばりに報いる",
-    portOfSpeech: ["動詞"],
+    portOfSpeech: ["動詞", "名詞"],
   },
   {
     id: "576",

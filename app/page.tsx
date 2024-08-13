@@ -1,70 +1,91 @@
 "use client";
+import { userState } from "@/states/userState";
+import { useRouter } from "next/navigation";
+// components/Home.tsx
+import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 
-import { Background } from "@/components/aceternity/Background";
-import { MeteorsCard } from "@/components/aceternity/MeteorsCard";
-import React from "react";
+const LoginPage = () => {
+  const router = useRouter();
 
-const Home = () => {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const [error, setError] = useState<string | null>(null);
+
+  const setUser = useSetRecoilState(userState);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUser(data.user);
+        router.push("/home");
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.error("ログインエラー:", error);
+      setError("ログインに失敗しました。");
+    }
+  };
+
   return (
-    <Background>
-      <div className="w-full h-full flex flex-col items-center gap-3">
-        <MeteorsCard
-          title="600点レベル"
-          description="助走の400語"
-          path="level600"
-          meteorsNumber={5}
-        />
-        <MeteorsCard
-          title="730点レベル"
-          description="加速の300語"
-          path="level730"
-          meteorsNumber={10}
-        />
-        <MeteorsCard
-          title="860点レベル"
-          description="飛躍の200語"
-          path="level860"
-          meteorsNumber={15}
-        />
-        <MeteorsCard
-          title="990点レベル"
-          description="頂点の100語"
-          path="level990"
-          meteorsNumber={20}
-        />
-        <MeteorsCard
-          title="パート1重要語100"
-          description="100 Essential Words for Part 1"
-          path="essentialWords100ForPart1"
-          meteorsNumber={5}
-        />
-        <MeteorsCard
-          title="部署・職業名"
-          description="Departments & Occupations"
-          path="departmentsAndOccupations"
-          meteorsNumber={5}
-        />
-        <MeteorsCard
-          title="前置詞・接続詞・接続副詞"
-          description="Prepositions,Conjunctions,and Conjunctive Adverbs"
-          path="functionWords"
-          meteorsNumber={5}
-        />
-        <MeteorsCard
-          title="多義語"
-          description="88 Words with Multiple Meanings"
-          path="multipleMeanings"
-          meteorsNumber={5}
-        />
-        <MeteorsCard
-          title="定型表現"
-          description="120 Set Phrases"
-          path="phrases"
-          meteorsNumber={5}
-        />
+    <form onSubmit={handleSubmit}>
+      <div className="flex items-center justify-center min-h-screen p-5">
+        <div className="w-full max-w-sm p-8 bg-white shadow-md rounded-lg bg-white-1">
+          <h1 className="text-2xl font-semibold mb-6 text-center">ログイン</h1>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              ユーザー名
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="DMAT"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              パスワード
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="0000"
+            />
+          </div>
+          <button className="w-full py-2 bg-blue-500 text-white-1 font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            ログイン
+          </button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </div>
       </div>
-    </Background>
+    </form>
   );
 };
 
-export default Home;
+export default LoginPage;

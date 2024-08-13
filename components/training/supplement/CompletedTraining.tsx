@@ -98,7 +98,7 @@ const CompletedTraining = ({
 
   // ホームへ戻るボタン押下
   const handleClickBackToTop = () => {
-    router.push("/");
+    router.push("/home");
     setTrainingResult([]);
     setTestData([]);
     setTimeout(() => {

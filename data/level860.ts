@@ -1035,8 +1035,8 @@ export const level860Data: EnglishData[] = [
     id: "824",
     word: "incentive",
     wordMeaning: "動機付け、やる気を起こさせるもの",
-    sentence: "offer exercise into everyday life",
-    sentenceMeaning: "毎日の生活に運動を取り入れる",
+    sentence: "offer incentives to customers",
+    sentenceMeaning: "お客様に動機付けを提供する",
     portOfSpeech: ["動詞"],
   },
   {

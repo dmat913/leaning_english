@@ -12,7 +12,7 @@ const DisplayList = () => {
   // 閉じるボタン押下時
   const handleClickCloseButton = () => {
     // handleChangeStatus("not_started");
-    router.push("/");
+    router.push("/home");
   };
 
   return (
