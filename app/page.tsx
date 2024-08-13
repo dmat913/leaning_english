@@ -19,11 +19,8 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.API_URL}/login`, {
+      const response = await fetch(`/api/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ name: username, password }),
       });
 
