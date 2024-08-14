@@ -21,11 +21,13 @@ export const GET = async (request: NextRequest) => {
     const user = await UserModel.findOne({ name });
 
     if (user) {
+      console.log(user);
       return NextResponse.json({
         message: "データ取得成功",
         user: user,
       });
     } else {
+      console.log("ユーザー見つからない");
       return NextResponse.json(
         { message: "データ取得失敗：ユーザーが見つかりません" },
         { status: 404 }
