@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
+  experimental: {
+    appDir: true,
+  },
   webpack(config, options) {
     config.module.rules.push({
       test: /\.(mp3)$/,
