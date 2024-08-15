@@ -19,7 +19,7 @@ const LoginPage = () => {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}?name=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_API_URL}/user?name=${encodeURIComponent(
           username
         )}`,
         {
