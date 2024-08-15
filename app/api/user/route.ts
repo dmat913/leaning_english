@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDb } from "@/utils/database";
 import { UserModel } from "@/models/userModel";
 
-export const GET = async (request: NextRequest) => {
+export async function GET(request: NextRequest) {
   try {
     await connectDb();
 
@@ -40,4 +40,4 @@ export const GET = async (request: NextRequest) => {
       { status: 500 }
     );
   }
-};
+}
