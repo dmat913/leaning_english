@@ -9,7 +9,7 @@ import {
   trainingDisplayTypeState,
 } from "@/states/trainingState";
 import React, { memo, useCallback, useMemo, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import CloseButton from "../elements/CloseButton";
 import { IoCloseCircle } from "react-icons/io5";
 import { BiUserVoice } from "react-icons/bi";
@@ -18,9 +18,21 @@ import { cn } from "@/lib/utils";
 import { FaCheckCircle, FaRegStar, FaStar } from "react-icons/fa";
 import useAudio from "@/hooks/useAudio";
 import { EnglishData } from "@/types/types";
+import { usePathname } from "next/navigation";
+import { userState } from "@/states/userState";
+import {
+  level600State,
+  level730State,
+  level860State,
+  level990State,
+} from "@/states/testDataState";
 
 function ProgressTraining() {
   const { playInterrupt } = useAudio();
+  const pathname = usePathname();
+
+  // user info
+  const user = useRecoilValue(userState);
 
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
@@ -108,6 +120,49 @@ function ProgressTraining() {
     // eslint-disable-next-line
   }, [problemNumber]);
 
+  // testData
+  const setLevel600Data = useSetRecoilState(level600State);
+  const setLevel730Data = useSetRecoilState(level730State);
+  const setLevel860Data = useSetRecoilState(level860State);
+  const setLevel990Data = useSetRecoilState(level990State);
+
+  // 星押下時
+  const handleClickStar = async (isCompleted: boolean) => {
+    try {
+      const response = await fetch("/api/update-completed", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?._id,
+          word_id: testData[problemNumber].word_id,
+          isCompleted: isCompleted,
+          levelKey: `${pathname.slice(1)}_data`,
+        }),
+      });
+
+      const data = await response.json();
+      sessionStorage.clear();
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+      setTestData((testData) =>
+        testData.map((data) => {
+          if (data.word_id === testData[problemNumber].word_id) {
+            return { ...data, isCompleted: isCompleted };
+          } else {
+            return data;
+          }
+        })
+      );
+      setLevel600Data(data.user.level600_data);
+      setLevel730Data(data.user.level730_data);
+      setLevel860Data(data.user.level860_data);
+      setLevel990Data(data.user.level990_data);
+    } catch (error) {
+      alert("更新失敗");
+    }
+  };
+
   return (
     <>
       <div
@@ -184,9 +239,17 @@ function ProgressTraining() {
               ))}
             </div>
             {testData[problemNumber].isCompleted ? (
-              <FaStar color="#FFD700" size={40} />
+              <FaStar
+                color="#FFD700"
+                size={40}
+                onClick={() => handleClickStar(false)}
+              />
             ) : (
-              <FaRegStar color="#FAF0E6" size={40} />
+              <FaRegStar
+                color="#FAF0E6"
+                size={40}
+                onClick={() => handleClickStar(true)}
+              />
             )}
           </div>
         </div>
