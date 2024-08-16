@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import CloseButton from "../elements/CloseButton";
 import useAudio from "@/hooks/useAudio";
 import { TestData } from "@/models/userModel";
+import { FaStar } from "react-icons/fa";
 
 const DisplayList = ({
   handleChangeStatus,
@@ -42,7 +43,10 @@ const DisplayList = ({
             `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
           )}
         >
-          <span>{`${item.word_id} ${item.word}`}</span>
+          <span className="flex items-center gap-2">
+            {`${item.word_id} ${item.word}`}
+            {item.isCompleted && <FaStar color="#FFD700" size={20} />}
+          </span>
           <span>{item.wordMeaning}</span>
         </div>
       ))}

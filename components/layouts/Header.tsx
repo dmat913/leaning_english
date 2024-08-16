@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Dialog from "../elements/Dialog";
 import { resetState } from "@/states/testDataState";
+import useAudio from "@/hooks/useAudio";
 
 const Header = () => {
   const router = useRouter();
+  const { playInterrupt } = useAudio();
 
   // ユーザー情報
   const user = useRecoilValue(userState);
@@ -16,8 +18,9 @@ const Header = () => {
 
   // click sign out button
   const handleSignOut = () => {
+    playInterrupt();
     sessionStorage.clear();
-    setReset()
+    setReset();
     router.push("/");
   };
 
@@ -29,7 +32,10 @@ const Header = () => {
             {`Hello! ${user?.name}!`}
           </h1>
           <button
-            onClick={() => setIsOpenDialog(true)}
+            onClick={() => {
+              playInterrupt();
+              setIsOpenDialog(true);
+            }}
             className="px-4 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50 transition"
           >
             Sign Out
@@ -41,7 +47,9 @@ const Header = () => {
           mainText="サインアウトしますか？"
           leftButtonText="キャンセル"
           rightButtonText="サインアウト"
-          handleClickLeftButton={() => setIsOpenDialog(false)}
+          handleClickLeftButton={() => {
+            setIsOpenDialog(false);
+          }}
           handleClickRightButton={handleSignOut}
         />
       )}
