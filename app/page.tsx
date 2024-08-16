@@ -17,7 +17,9 @@ const LoginPage = () => {
   // ユーザー情報取得
   const getUser = async (name: string) => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/${name}`
+      `${process.env.NEXT_PUBLIC_API_URL}/user?name=${encodeURIComponent(
+        username
+      )}`
     );
 
     // response data
