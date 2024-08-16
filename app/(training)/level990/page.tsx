@@ -8,11 +8,7 @@ import DisplayList from "@/components/training/DisplayList";
 import NotStarted from "@/components/training/NotStarted";
 import SettingTraining from "@/components/training/SettingTraining";
 import ProgressTraining from "@/components/training/ProgressTraining";
-import {
-  level990Data,
-  level990FromOptions,
-  level990Options,
-} from "@/data/level990";
+import { level990FromOptions, level990Options } from "@/data/level990";
 import { level990State } from "@/states/testDataState";
 // import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 

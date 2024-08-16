@@ -50,6 +50,7 @@ const Layout = ({
       setLevel860Data(user.level860_data);
       setLevel990Data(user.level990_data);
     }
+    // eslint-disable-next-line
   }, [user]);
 
   return (
