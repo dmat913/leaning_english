@@ -11,27 +11,36 @@ const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
   // error Message
   const [error, setError] = useState<string | null>(null);
+  // ローディング状態
+  const [loading, setLoading] = useState<boolean>(false);
   // loginUser
   const setUser = useSetRecoilState(userState);
 
   // ユーザー情報取得
   const getUser = async (name: string) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/user?name=${encodeURIComponent(
-        username
-      )}`
-    );
+    setLoading(true); // ローディング開始
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user?name=${encodeURIComponent(
+          username
+        )}`
+      );
 
-    // response data
-    const data = await response.json();
+      // response data
+      const data = await response.json();
 
-    // successful
-    if (response.ok) {
-      setUser(data.user);
-      sessionStorage.setItem("user", JSON.stringify(data.user));
-      router.push("/home");
-    } else {
-      setError(data.message);
+      // successful
+      if (response.ok) {
+        setUser(data.user);
+        sessionStorage.setItem("user", JSON.stringify(data.user));
+        router.push("/home");
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      setError("エラーが発生しました。");
+    } finally {
+      setLoading(false); // ローディング終了
     }
   };
 
@@ -59,14 +68,15 @@ const LoginPage = () => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
               placeholder="DMAT"
+              disabled={loading}
             />
           </div>
           <button
-            className="w-full py-2 bg-blue-500 text-white-1 font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-70"
+            className="w-full py-2 bg-blue-500 text-white-1 font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
             type="submit"
-            disabled={username.length === 0}
+            disabled={username.length === 0 || loading}
           >
             ログイン
           </button>
