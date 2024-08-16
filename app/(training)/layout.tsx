@@ -1,6 +1,7 @@
 "use client";
 
 import { Background } from "@/components/aceternity/Background";
+import Header from "@/components/layouts/Header";
 import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -30,8 +31,15 @@ const Layout = ({
   }, []);
 
   return (
-    <Background className="h-[100svh] w-[100vw] overflow-hidden p-5">
-      {user && children}
+    <Background className="h-[100svh] w-[100vw]">
+      {user && (
+        <div className="w-full h-full">
+          <Header />
+          <div className="p-5 h-[calc(100svh-56px)] w-full overflow-hidden">
+            {children}
+          </div>
+        </div>
+      )}
       {!user && isDisplay && (
         <div className="flex items-center justify-center min-h-screen p-5">
           <div className="w-full max-w-sm p-8 bg-white shadow-md rounded-lg bg-white-1">
