@@ -1,7 +1,9 @@
 // 表示する英語データ
 export interface EnglishData {
-  // id
-  id: string;
+  // mongodbId
+  _id: string;
+  // word_id
+  word_id: string;
   // 勉強する英単語
   word: string;
   // wordの意味
@@ -12,6 +14,8 @@ export interface EnglishData {
   sentenceMeaning: string;
   // 品詞
   portOfSpeech: PortOfSpeech[];
+  // 暗記済みflag
+  isCompleted: boolean;
 }
 
 export interface WordData {

@@ -57,13 +57,15 @@ function ProgressTraining() {
   // テスト結果データ更新
   const updateTrainingResult = (result: boolean) => {
     if (
-      trainingResult.some((item) => item.data.id === testData[problemNumber].id)
+      trainingResult.some(
+        (item) => item.data._id === testData[problemNumber]._id
+      )
     ) {
       const updateList: {
         data: EnglishData;
         result: boolean;
       }[] = trainingResult.map((item) => {
-        if (item.data.id === testData[problemNumber].id) {
+        if (item.data._id === testData[problemNumber]._id) {
           return { ...item, result: !item.result };
         }
         return item;

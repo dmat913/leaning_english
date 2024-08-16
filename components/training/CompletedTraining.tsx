@@ -1,5 +1,5 @@
 import DMATButton from "@/components/elements/DMATButton";
-import { EnglishData, Status } from "@/types/types";
+import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React, { memo, useMemo, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
@@ -9,6 +9,7 @@ import { TrainingResultState, testDataState } from "@/states/trainingState";
 import { CiViewList } from "react-icons/ci";
 import DisplayResult from "@/features/training/DisplayResult";
 import { cn } from "@/lib/utils";
+import { TestData } from "@/models/userModel";
 
 Chart.register(...registerables);
 
@@ -68,13 +69,13 @@ const CompletedTraining = ({
     useRecoilState(TrainingResultState);
 
   //正解データ
-  const correctData: EnglishData[] = useMemo(() => {
+  const correctData: TestData[] = useMemo(() => {
     const result = trainingResult.filter((item) => item.result);
     return result.map((item) => item.data);
   }, [trainingResult]);
 
   //不正解データ
-  const incorrectData = useMemo(() => {
+  const incorrectData: TestData[] = useMemo(() => {
     const result = trainingResult.filter((item) => !item.result);
     return result.map((item) => item.data);
   }, [trainingResult]);

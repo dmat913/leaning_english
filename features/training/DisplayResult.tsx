@@ -1,7 +1,7 @@
 import { handlePlayAudio } from "@/common/utils";
 import CloseButton from "@/components/elements/CloseButton";
 import { cn } from "@/lib/utils";
-import { EnglishData } from "@/types/types";
+import { TestData } from "@/models/userModel";
 import React, { useMemo, useState } from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
 
@@ -10,15 +10,15 @@ const DisplayResult = ({
   incorrectData,
   setIsOpen,
 }: {
-  correctData: EnglishData[];
-  incorrectData: EnglishData[];
+  correctData: TestData[];
+  incorrectData: TestData[];
   setIsOpen: (isOpen: boolean) => void;
 }) => {
   // 表示するlistType
   const [displayType, setIsDisplayType] = useState<string>("correct");
 
   // 画面表示データ
-  const displayData: EnglishData[] = useMemo(() => {
+  const displayData: TestData[] = useMemo(() => {
     switch (displayType) {
       case "correct":
         return correctData;
@@ -39,14 +39,14 @@ const DisplayResult = ({
       <div className="flex flex-col flex-1 overflow-auto">
         {displayData.map((item, index) => (
           <div
-            key={item.id}
+            key={item._id}
             className={cn(
               "flex flex-col text-white-1 p-2 bg-[rgba(173,216,230,0.3)]",
               `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"}`
             )}
           >
             <div className="text-md flex items-center gap-2">
-              <span>{item.id}</span>
+              <span>{item.word_id}</span>
               <IoPlayCircleOutline
                 size={30}
                 onClick={() => handlePlayAudio(item.word)}

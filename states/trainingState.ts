@@ -1,8 +1,9 @@
+import { TestData } from "@/models/userModel";
 import { EnglishData, Status } from "@/types/types";
 import { atom } from "recoil";
 
 // trainingの項目
-export const testDataState = atom<EnglishData[]>({
+export const testDataState = atom<TestData[]>({
   key: "testDataState",
   default: [],
 });
@@ -16,7 +17,7 @@ export const statusState = atom<Status>({
 // 正解数
 export const TrainingResultState = atom<
   {
-    data: EnglishData;
+    data: TestData;
     result: boolean;
   }[]
 >({

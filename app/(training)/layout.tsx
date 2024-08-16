@@ -2,10 +2,16 @@
 
 import { Background } from "@/components/aceternity/Background";
 import Header from "@/components/layouts/Header";
+import {
+  level600State,
+  level730State,
+  level860State,
+  level990State,
+} from "@/states/testDataState";
 import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 const Layout = ({
   children,
@@ -19,6 +25,12 @@ const Layout = ({
   // 表示可能 flag
   const [isDisplay, setIsDisplay] = useState<boolean>(false);
 
+  // testData
+  const setLevel600Data = useSetRecoilState(level600State);
+  const setLevel730Data = useSetRecoilState(level730State);
+  const setLevel860Data = useSetRecoilState(level860State);
+  const setLevel990Data = useSetRecoilState(level990State);
+
   // get user data from session storage
   useEffect(() => {
     const user: string | null = sessionStorage.getItem("user");
@@ -29,6 +41,16 @@ const Layout = ({
     }
     // eslint-disable-next-line
   }, []);
+
+  // set testData
+  useEffect(() => {
+    if (user) {
+      setLevel600Data(user.level600_data);
+      setLevel730Data(user.level730_data);
+      setLevel860Data(user.level860_data);
+      setLevel990Data(user.level990_data);
+    }
+  }, [user]);
 
   return (
     <Background className="h-[100svh] w-[100vw]">

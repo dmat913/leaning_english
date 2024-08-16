@@ -2,22 +2,21 @@
 import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CompletedTraining from "@/components/training/CompletedTraining";
 import DisplayList from "@/components/training/DisplayList";
 import NotStarted from "@/components/training/NotStarted";
 import SettingTraining from "@/components/training/SettingTraining";
 import ProgressTraining from "@/components/training/ProgressTraining";
-import {
-  level860Data,
-  level860FromOptions,
-  level860Options,
-} from "@/data/level860";
+import { level860FromOptions, level860Options } from "@/data/level860";
+import { level860State } from "@/states/testDataState";
 // import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 
 const Level860 = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
+  // level860 test data
+  const level860Data = useRecoilValue(level860State);
 
   // テストstatus変更
   const handleChangeStatus = useCallback((status: Status) => {
