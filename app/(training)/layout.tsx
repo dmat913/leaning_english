@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
-const layout = ({
+const Layout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -51,4 +51,4 @@ const layout = ({
   );
 };
 
-export default layout;
+export default Layout;
