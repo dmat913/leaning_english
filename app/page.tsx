@@ -1,44 +1,43 @@
 "use client";
 import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
-// components/Home.tsx
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 
 const LoginPage = () => {
   const router = useRouter();
 
+  // username
   const [username, setUsername] = useState<string>("");
-
+  // error Message
   const [error, setError] = useState<string | null>(null);
-
+  // loginUser
   const setUser = useSetRecoilState(userState);
 
+  // ユーザー情報取得
+  const getUser = async (name: string) => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/${name}`
+    );
+
+    // response data
+    const data = await response.json();
+
+    // successful
+    if (response.ok) {
+      setUser(data.user);
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+      router.push("/home");
+    } else {
+      setError(data.message);
+    }
+  };
+
+  // ログインボタン押下時
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/user?name=${encodeURIComponent(
-          username
-        )}`,
-        {
-          method: "GET",
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUser(data.user);
-        router.push("/home");
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      console.error("取得エラー:", error);
-      setError("データ取得に失敗しました。");
-    }
+    // user取得
+    await getUser(username);
   };
 
   return (
@@ -62,7 +61,11 @@ const LoginPage = () => {
               placeholder="DMAT"
             />
           </div>
-          <button className="w-full py-2 bg-blue-500 text-white-1 font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <button
+            className="w-full py-2 bg-blue-500 text-white-1 font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-70"
+            type="submit"
+            disabled={username.length === 0}
+          >
             ログイン
           </button>
           {error && <p style={{ color: "red" }}>{error}</p>}
