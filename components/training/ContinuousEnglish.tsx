@@ -34,7 +34,7 @@ const ContinuousEnglish = () => {
     if (isPlayId) {
       console.log("id再生");
       handlePlayAudio(
-        `Number${testData[currentIndex].id.replace(/^0+/, "")}`,
+        `Number${testData[currentIndex]._id.replace(/^0+/, "")}`,
         "en-US",
         () => {
           setIsPlayWord(true);

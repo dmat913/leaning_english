@@ -4,11 +4,12 @@ import {
   trainingDisplayTypeState,
   testDataState,
 } from "@/states/trainingState";
-import { EnglishData, Option, Status } from "@/types/types";
+import { Option, Status } from "@/types/types";
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { FcStart } from "react-icons/fc";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import CloseButton from "../elements/CloseButton";
+import { TestData } from "@/models/userModel";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -17,12 +18,12 @@ const SettingTraining = ({
   fromOptions,
 }: {
   handleChangeStatus: (status: Status) => void;
-  targetData: EnglishData[];
+  targetData: TestData[];
   options: Option[];
   fromOptions: Option[];
 }) => {
   // testデータ
-  const setTestData: (testData: EnglishData[]) => void =
+  const setTestData: (testData: TestData[]) => void =
     useSetRecoilState(testDataState);
 
   //問題数

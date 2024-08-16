@@ -1,7 +1,8 @@
 import { PortOfSpeech } from "@/types/types";
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface WordData {
+export interface TestData {
+  _id: string;
   word_id: string;
   word: string;
   wordMeaning: string;
@@ -14,10 +15,10 @@ export interface WordData {
 export interface User {
   name: string;
   password: string;
-  level600_data: WordData[];
-  level730_data: WordData[];
-  level860_data: WordData[];
-  level990_data: WordData[];
+  level600_data: TestData[];
+  level730_data: TestData[];
+  level860_data: TestData[];
+  level990_data: TestData[];
 }
 
 export interface UserDocument extends User, Document {

@@ -2,7 +2,7 @@
 import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CompletedTraining from "@/components/training/CompletedTraining";
 import DisplayList from "@/components/training/DisplayList";
 import NotStarted from "@/components/training/NotStarted";
@@ -13,11 +13,14 @@ import {
   level990FromOptions,
   level990Options,
 } from "@/data/level990";
+import { level990State } from "@/states/testDataState";
 // import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 
 const Level990 = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
+  // level990 test data
+  const level990Data = useRecoilValue(level990State);
 
   // テストstatus変更
   const handleChangeStatus = useCallback((status: Status) => {

@@ -1,8 +1,6 @@
 "use client";
-import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -13,11 +11,11 @@ const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
   // ローディング状態
   const [loading, setLoading] = useState<boolean>(false);
-  // loginUser
-  const setUser = useSetRecoilState(userState);
 
-  // ユーザー情報取得
-  const getUser = async (name: string) => {
+  // ログインボタン押下時
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    // user取得
     setLoading(true); // ローディング開始
     try {
       const response = await fetch(
@@ -31,7 +29,6 @@ const LoginPage = () => {
 
       // successful
       if (response.ok) {
-        setUser(data.user);
         sessionStorage.setItem("user", JSON.stringify(data.user));
         router.push("/home");
       } else {
@@ -42,13 +39,6 @@ const LoginPage = () => {
     } finally {
       setLoading(false); // ローディング終了
     }
-  };
-
-  // ログインボタン押下時
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    // user取得
-    await getUser(username);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { EnglishData, Status } from "@/types/types";
+import { Status } from "@/types/types";
 import { WordDetailCard } from "@/components/aceternity/WordDetailCard";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { handlePlayAudio } from "@/common/utils";
@@ -8,13 +8,14 @@ import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import CloseButton from "../elements/CloseButton";
 import useAudio from "@/hooks/useAudio";
+import { TestData } from "@/models/userModel";
 
 const DisplayList = ({
   handleChangeStatus,
   displayData,
 }: {
   handleChangeStatus: (status: Status) => void;
-  displayData: EnglishData[];
+  displayData: TestData[];
 }) => {
   const { playInterrupt } = useAudio();
 
@@ -31,7 +32,7 @@ const DisplayList = ({
       <CloseButton handleClick={handleClickCloseButton} />
       {displayData.map((item, index) => (
         <div
-          key={item.id}
+          key={item._id}
           onClick={() => {
             setSelectedIndex(index);
             playInterrupt();
@@ -41,7 +42,7 @@ const DisplayList = ({
             `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
           )}
         >
-          <span>{`${item.id} ${item.word}`}</span>
+          <span>{`${item.word_id} ${item.word}`}</span>
           <span>{item.wordMeaning}</span>
         </div>
       ))}
@@ -63,7 +64,7 @@ const DisplayList = ({
                   }
                   size={32}
                 />
-                {`${displayData[selectedIndex].id} ${displayData[selectedIndex].word}`}
+                {`${displayData[selectedIndex].word_id} ${displayData[selectedIndex].word}`}
               </span>
               <span>{displayData[selectedIndex].wordMeaning}</span>
             </p>
