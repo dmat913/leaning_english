@@ -15,7 +15,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import { BiUserVoice } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaRegStar, FaStar } from "react-icons/fa";
 import useAudio from "@/hooks/useAudio";
 import { EnglishData } from "@/types/types";
 
@@ -164,20 +164,30 @@ function ProgressTraining() {
             />
           )}
 
-          <div className="flex items-center w-full pl-1" style={{ gap: "8px" }}>
-            {testData[problemNumber].portOfSpeech.map((item, index) => (
-              <div
-                key={index}
-                className="border text-sm text-black-1 bg-white-1"
-                style={{
-                  padding: "4px 10px",
-                  borderColor: "#FAF0E6",
-                  borderRadius: "4px",
-                }}
-              >
-                {item}
-              </div>
-            ))}
+          <div className="flex items-center justify-between">
+            <div
+              className="flex items-center w-full pl-1"
+              style={{ gap: "8px" }}
+            >
+              {testData[problemNumber].portOfSpeech.map((item, index) => (
+                <div
+                  key={index}
+                  className="border text-sm text-black-1 bg-white-1"
+                  style={{
+                    padding: "4px 10px",
+                    borderColor: "#FAF0E6",
+                    borderRadius: "4px",
+                  }}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+            {testData[problemNumber].isCompleted ? (
+              <FaStar color="#FFD700" size={40} />
+            ) : (
+              <FaRegStar color="#FAF0E6" size={40} />
+            )}
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full">
