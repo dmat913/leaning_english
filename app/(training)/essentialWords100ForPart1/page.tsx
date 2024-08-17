@@ -38,6 +38,7 @@ const EssentialWords100ForPart1 = () => {
         <DisplayList
           handleChangeStatus={handleChangeStatus}
           displayData={essentialWords100ForPart1Data}
+          totalQuestions={100}
         />
       )}
       {status === "setting_training" && (
