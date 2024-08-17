@@ -37,6 +37,7 @@ const Level990 = () => {
         <DisplayList
           handleChangeStatus={handleChangeStatus}
           displayData={level990Data}
+          totalQuestions={100}
         />
       )}
       {status === "setting_training" && (

@@ -37,6 +37,7 @@ const Level860 = () => {
         <DisplayList
           handleChangeStatus={handleChangeStatus}
           displayData={level860Data}
+          totalQuestions={200}
         />
       )}
       {status === "setting_training" && (

@@ -10,13 +10,16 @@ import CloseButton from "../elements/CloseButton";
 import useAudio from "@/hooks/useAudio";
 import { TestData } from "@/models/userModel";
 import { FaStar } from "react-icons/fa";
+import ProgressBar from "../elements/ ProgressBar";
 
 const DisplayList = ({
   handleChangeStatus,
   displayData,
+  totalQuestions,
 }: {
   handleChangeStatus: (status: Status) => void;
   displayData: TestData[];
+  totalQuestions: number;
 }) => {
   const { playInterrupt } = useAudio();
 
@@ -29,27 +32,35 @@ const DisplayList = ({
   };
 
   return (
-    <div className="flex flex-col w-full h-full overflow-auto">
+    <div className="flex flex-col gap-4 w-full h-full">
       <CloseButton handleClick={handleClickCloseButton} />
-      {displayData.map((item, index) => (
-        <div
-          key={item._id}
-          onClick={() => {
-            setSelectedIndex(index);
-            playInterrupt();
-          }}
-          className={cn(
-            "flex flex-col gap-2 text-white-1 text-md p-2 bg-[rgba(173,216,230,0.3)]",
-            `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
-          )}
-        >
-          <span className="flex items-center gap-2">
-            {`${item.word_id} ${item.word}`}
-            {item.isCompleted && <FaStar color="#FFD700" size={20} />}
-          </span>
-          <span>{item.wordMeaning}</span>
-        </div>
-      ))}
+      <ProgressBar
+        totalQuestions={totalQuestions}
+        completedQuestions={
+          displayData.filter((data) => data.isCompleted).length
+        }
+      />
+      <div className="flex flex-col overflow-auto">
+        {displayData.map((item, index) => (
+          <div
+            key={item._id}
+            onClick={() => {
+              setSelectedIndex(index);
+              playInterrupt();
+            }}
+            className={cn(
+              "flex flex-col gap-2 text-white-1 text-md p-2 bg-[rgba(173,216,230,0.3)]",
+              `${index % 2 === 0 && "bg-[rgba(240,248,255,0.3)]"} `
+            )}
+          >
+            <span className="flex items-center gap-2">
+              {`${item.word_id} ${item.word}`}
+              {item.isCompleted && <FaStar color="#FFD700" size={20} />}
+            </span>
+            <span>{item.wordMeaning}</span>
+          </div>
+        ))}
+      </div>
 
       {selectedIndex !== null && (
         <div
