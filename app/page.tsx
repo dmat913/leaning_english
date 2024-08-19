@@ -38,7 +38,7 @@ const LoginPage = () => {
     } catch (err) {
       setError("エラーが発生しました。");
     } finally {
-      setLoading(false); // ローディング終了
+      setLoading(false);
     }
   };
 
