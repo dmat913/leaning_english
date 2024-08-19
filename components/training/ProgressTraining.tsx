@@ -136,8 +136,11 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
     }
   };
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   // 星押下時
   const handleClickStar = async (isCompleted: boolean) => {
+    setIsLoading(true);
     try {
       const response = await fetch("/api/update-completed", {
         method: "POST",
@@ -173,6 +176,8 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
       }
     } catch (error) {
       alert("更新失敗");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -233,10 +238,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
           )}
 
           <div className="flex items-center justify-between">
-            <div
-              className="flex items-center w-full pl-1"
-              style={{ gap: "8px" }}
-            >
+            <div className="flex items-center pl-1" style={{ gap: "8px" }}>
               {testData[problemNumber].portOfSpeech.map((item, index) => (
                 <div
                   key={index}
@@ -251,19 +253,25 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
                 </div>
               ))}
             </div>
-            {testData[problemNumber].isCompleted ? (
-              <FaStar
-                color="#FFD700"
-                size={40}
-                onClick={() => handleClickStar(false)}
-              />
-            ) : (
-              <FaRegStar
-                color="#FAF0E6"
-                size={40}
-                onClick={() => handleClickStar(true)}
-              />
-            )}
+            <button
+              className="border rounded-md h-10 w-10 flex items-center justify-center active:scale-105"
+              disabled={isLoading}
+              onClick={() =>
+                handleClickStar(!testData[problemNumber].isCompleted)
+              }
+            >
+              {isLoading ? (
+                <div className="animate-spin h-5 w-5 border-4 border-[#FFD700] rounded-full border-t-transparent"></div>
+              ) : (
+                <>
+                  {testData[problemNumber].isCompleted ? (
+                    <FaStar color="#FFD700" size={24} />
+                  ) : (
+                    <FaRegStar color="#FFD700" size={24} />
+                  )}
+                </>
+              )}
+            </button>
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full">
@@ -274,13 +282,15 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
           >
             わからない
           </button>
-          <button
-            className="bg-yellow-2 h-10 rounded-lg text-black-1 w-full active:scale-105"
-            onClick={handleClickRightButton}
-            disabled={isVisibleResult}
-          >
-            わかる
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              className="bg-yellow-2 h-10 rounded-lg text-black-1 flex-1 active:scale-105"
+              onClick={handleClickRightButton}
+              disabled={isVisibleResult}
+            >
+              わかる
+            </button>
+          </div>
         </div>
       </div>
       {isOpenDialog && (
