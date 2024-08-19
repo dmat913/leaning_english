@@ -21,6 +21,7 @@ import { EnglishData } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { userState } from "@/states/userState";
 import { TestData } from "@/models/userModel";
+import Loading from "../elements/Loading";
 
 interface ProgressTrainingProps {
   setOriginalTestData: (testData: TestData[]) => void;
@@ -90,28 +91,17 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
     }
   };
 
-  // わかるボタン押下
-  const handleClickRightButton = useCallback(() => {
-    updateTrainingResult(true);
-    playInterrupt();
-    setIsCorrect(true);
-    setIsVisibleResult(true);
-    // eslint-disable-next-line
-  }, [testData, problemNumber, trainingResult]);
-
-  // わからないボタン押下
-  const handleClickLeftButton = useCallback(() => {
-    updateTrainingResult(false);
-    playInterrupt();
-    setIsCorrect(false);
-    setIsVisibleResult(true);
-    // eslint-disable-next-line
-  }, [testData, problemNumber, trainingResult]);
-
-  //閉じるボタン押下時
-  const handleClickCloseButton = () => {
-    setIsOpenDialog(true);
-  };
+  // わかるorわからないボタン押下
+  const handleClickDisplayResult = useCallback(
+    (displayResultFlag: boolean) => {
+      updateTrainingResult(displayResultFlag);
+      playInterrupt();
+      setIsCorrect(displayResultFlag);
+      setIsVisibleResult(true);
+      // eslint-disable-next-line
+    },
+    [testData, problemNumber, trainingResult]
+  );
 
   // 単語意味,カンマで分割
   const wordSplit: string[] = useMemo(() => {
@@ -119,6 +109,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
     // eslint-disable-next-line
   }, [problemNumber]);
 
+  // 更新対象テスト結果取得
   const getUpdateTargetData = (data: any) => {
     switch (pathname) {
       case "/level600":
@@ -136,6 +127,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
     }
   };
 
+  // Api呼び出し時ローディング判定
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // 星押下時
@@ -157,8 +149,9 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
               : `${pathname.slice(1)}_data`,
         }),
       });
-
+      // 更新後データ
       const data = await response.json();
+      // 更新成功時
       if (response.ok) {
         sessionStorage.clear();
         sessionStorage.setItem("user", JSON.stringify(data.user));
@@ -171,7 +164,6 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
             }
           })
         );
-
         setOriginalTestData(getUpdateTargetData(data));
       }
     } catch (error) {
@@ -187,7 +179,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         className="flex flex-col items-center justify-center rounded-2xl w-full"
         style={{ gap: "40px" }}
       >
-        <CloseButton handleClick={handleClickCloseButton} />
+        <CloseButton handleClick={() => setIsOpenDialog(true)} />
         <div className="flex items-end gap-2 pl-1">
           <div
             onClick={() => handlePlayAudio(testData[problemNumber].word)}
@@ -261,7 +253,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
               }
             >
               {isLoading ? (
-                <div className="animate-spin h-5 w-5 border-4 border-[#FFD700] rounded-full border-t-transparent"></div>
+                <Loading />
               ) : (
                 <>
                   {testData[problemNumber].isCompleted ? (
@@ -277,7 +269,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         <div className="flex flex-col gap-2 w-full">
           <button
             className="bg-white-1 h-10 rounded-lg text-black-1 w-full active:scale-105"
-            onClick={handleClickLeftButton}
+            onClick={() => handleClickDisplayResult(false)}
             disabled={isVisibleResult}
           >
             わからない
@@ -285,7 +277,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
           <div className="flex items-center gap-2">
             <button
               className="bg-yellow-2 h-10 rounded-lg text-black-1 flex-1 active:scale-105"
-              onClick={handleClickRightButton}
+              onClick={() => handleClickDisplayResult(true)}
               disabled={isVisibleResult}
             >
               わかる
@@ -334,7 +326,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
                 <IoCloseCircle
                   color="#ff5e57"
                   size={32}
-                  onClick={handleClickLeftButton}
+                  onClick={() => handleClickDisplayResult(false)}
                 />
               </>
             ) : (
@@ -346,7 +338,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
                 <FaCheckCircle
                   color="#4cd964"
                   size={32}
-                  onClick={handleClickRightButton}
+                  onClick={() => handleClickDisplayResult(true)}
                 />
               </>
             )}
