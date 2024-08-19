@@ -19,6 +19,7 @@ export interface User {
   level730_data: TestData[];
   level860_data: TestData[];
   level990_data: TestData[];
+  part1_essentialWord100: TestData[];
 }
 
 export interface UserDocument extends User, Document {
@@ -78,6 +79,20 @@ const userSchema = new Schema<UserDocument>(
       default: [],
     },
     level990_data: {
+      type: [
+        {
+          word_id: String,
+          word: String,
+          wordMeaning: String,
+          sentence: String,
+          sentenceMeaning: String,
+          portOfSpeech: [String],
+          isCompleted: Boolean,
+        },
+      ],
+      default: [],
+    },
+    part1_essentialWord100: {
       type: [
         {
           word_id: String,

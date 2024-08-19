@@ -20,14 +20,13 @@ import useAudio from "@/hooks/useAudio";
 import { EnglishData } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { userState } from "@/states/userState";
-import {
-  level600State,
-  level730State,
-  level860State,
-  level990State,
-} from "@/states/testDataState";
+import { TestData } from "@/models/userModel";
 
-function ProgressTraining() {
+interface ProgressTrainingProps {
+  setOriginalTestData: (testData: TestData[]) => void;
+}
+
+function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
   const { playInterrupt } = useAudio();
   const pathname = usePathname();
 
@@ -120,11 +119,22 @@ function ProgressTraining() {
     // eslint-disable-next-line
   }, [problemNumber]);
 
-  // testData
-  const setLevel600Data = useSetRecoilState(level600State);
-  const setLevel730Data = useSetRecoilState(level730State);
-  const setLevel860Data = useSetRecoilState(level860State);
-  const setLevel990Data = useSetRecoilState(level990State);
+  const getUpdateTargetData = (data: any) => {
+    switch (pathname) {
+      case "/level600":
+        return data.user.level600_data;
+      case "/level730":
+        return data.user.level730_data;
+      case "/level860":
+        return data.user.level860_data;
+      case "/level990":
+        return data.user.level990_data;
+      case "/part1_essentialWord100":
+        return data.user.part1_essentialWord100;
+      default:
+        return [];
+    }
+  };
 
   // 星押下時
   const handleClickStar = async (isCompleted: boolean) => {
@@ -138,26 +148,29 @@ function ProgressTraining() {
           userId: user?._id,
           word_id: testData[problemNumber].word_id,
           isCompleted: isCompleted,
-          levelKey: `${pathname.slice(1)}_data`,
+          levelKey:
+            pathname === "/part1_essentialWord100"
+              ? "part1_essentialWord100"
+              : `${pathname.slice(1)}_data`,
         }),
       });
 
       const data = await response.json();
-      sessionStorage.clear();
-      sessionStorage.setItem("user", JSON.stringify(data.user));
-      setTestData((testData) =>
-        testData.map((data) => {
-          if (data.word_id === testData[problemNumber].word_id) {
-            return { ...data, isCompleted: isCompleted };
-          } else {
-            return data;
-          }
-        })
-      );
-      setLevel600Data(data.user.level600_data);
-      setLevel730Data(data.user.level730_data);
-      setLevel860Data(data.user.level860_data);
-      setLevel990Data(data.user.level990_data);
+      if (response.ok) {
+        sessionStorage.clear();
+        sessionStorage.setItem("user", JSON.stringify(data.user));
+        setTestData((testData) =>
+          testData.map((data) => {
+            if (data.word_id === testData[problemNumber].word_id) {
+              return { ...data, isCompleted: isCompleted };
+            } else {
+              return data;
+            }
+          })
+        );
+
+        setOriginalTestData(getUpdateTargetData(data));
+      }
     } catch (error) {
       alert("更新失敗");
     }
