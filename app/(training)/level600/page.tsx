@@ -2,7 +2,7 @@
 import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { Background } from "@/components/aceternity/Background";
 import DisplayList from "@/components/training/DisplayList";
 import CompletedTraining from "@/components/training/CompletedTraining";
@@ -18,7 +18,7 @@ const Level600 = () => {
   const [status, setStatus] = useRecoilState(statusState);
 
   // level600 test data
-  const level600Data = useRecoilValue(level600State);
+  const [level600Data, setLevel600Data] = useRecoilState(level600State);
 
   // テストstatus変更
   const handleChangeStatus = useCallback((status: Status) => {
@@ -51,7 +51,9 @@ const Level600 = () => {
             fromOptions={level600FromOptions}
           />
         )}
-        {status === "in_progress" && <ProgressTraining />}
+        {status === "in_progress" && (
+          <ProgressTraining setOriginalTestData={setLevel600Data} />
+        )}
         {/* {status === "continuous_english" && <ContinuousEnglish />} */}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />

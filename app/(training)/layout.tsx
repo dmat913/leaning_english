@@ -7,6 +7,7 @@ import {
   level730State,
   level860State,
   level990State,
+  part1EssentialWords100State,
 } from "@/states/testDataState";
 import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
@@ -30,6 +31,7 @@ const Layout = ({
   const setLevel730Data = useSetRecoilState(level730State);
   const setLevel860Data = useSetRecoilState(level860State);
   const setLevel990Data = useSetRecoilState(level990State);
+  const part1EssentialWords100 = useSetRecoilState(part1EssentialWords100State);
 
   // get user data from session storage
   useEffect(() => {
@@ -49,6 +51,7 @@ const Layout = ({
       setLevel730Data(user.level730_data);
       setLevel860Data(user.level860_data);
       setLevel990Data(user.level990_data);
+      part1EssentialWords100(user.part1_essentialWord100);
     }
     // eslint-disable-next-line
   }, [user]);

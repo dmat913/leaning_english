@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
     // ユーザーを検索してデータを更新
     const user = await UserModel.findOneAndUpdate(query, update, { new: true });
 
+    console.log(update);
+
     if (user) {
       return NextResponse.json({ message: "更新成功", user });
     } else {
