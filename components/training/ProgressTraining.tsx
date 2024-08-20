@@ -253,7 +253,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
               }
             >
               {isLoading ? (
-                <Loading />
+                <Loading otherClass="h-5 w-5" />
               ) : (
                 <>
                   {testData[problemNumber].isCompleted ? (
