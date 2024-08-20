@@ -5,6 +5,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import Dialog from "../elements/Dialog";
 import { resetState } from "@/states/testDataState";
 import useAudio from "@/hooks/useAudio";
+import Image from "next/image";
+import Logo from "@/public/logo.png";
 
 const Header = () => {
   const router = useRouter();
@@ -28,9 +30,18 @@ const Header = () => {
     <>
       <header className="relative z-10 bg-gray-900 h-[56px] w-full flex items-center justify-between px-5 shadow-md">
         <div className="container mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-bold text-yellow-400 drop-shadow-lg">
-            {`Hello! ${user?.name}!`}
-          </h1>
+          <div className="flex items-center gap-2">
+            <Image
+              src={Logo}
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-md"
+            />
+            <h1 className="text-xl font-bold text-yellow-400 drop-shadow-lg">
+              {`Hello! ${user?.name}!`}
+            </h1>
+          </div>
           <button
             onClick={() => {
               playInterrupt();
