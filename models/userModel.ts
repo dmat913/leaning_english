@@ -20,6 +20,7 @@ export interface User {
   level860_data: TestData[];
   level990_data: TestData[];
   part1_essentialWord100: TestData[];
+  thumbnail: string;
 }
 
 export interface UserDocument extends User, Document {
@@ -105,6 +106,10 @@ const userSchema = new Schema<UserDocument>(
         },
       ],
       default: [],
+    },
+    thumbnail: {
+      type: String,
+      required: true,
     },
   },
   { collection: "user_data" }

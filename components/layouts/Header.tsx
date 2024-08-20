@@ -42,15 +42,18 @@ const Header = () => {
               {`Hello! ${user?.name}!`}
             </h1>
           </div>
-          <button
+
+          <Image
+            src={String(user?.thumbnail)}
+            alt=""
+            width={40}
+            height={40}
+            className="rounded-full w-10 h-10"
             onClick={() => {
               playInterrupt();
               setIsOpenDialog(true);
             }}
-            className="px-4 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50 transition"
-          >
-            Sign Out
-          </button>
+          />
         </div>
       </header>
       {isOpenDialog && (
