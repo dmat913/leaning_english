@@ -23,9 +23,6 @@ export function MeteorsCard({
 
   // trainingボタン押下時
   const handleClickButton = () => {
-    if ("vibrate" in navigator) {
-      window.requestAnimationFrame(() => navigator.vibrate(200));
-    }
     if (path) router.push(`/${path}`);
   };
 
