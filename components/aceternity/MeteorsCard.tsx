@@ -23,6 +23,7 @@ export function MeteorsCard({
 
   // trainingボタン押下時
   const handleClickButton = () => {
+    navigator.vibrate(200);
     if (path) router.push(`/${path}`);
   };
 
