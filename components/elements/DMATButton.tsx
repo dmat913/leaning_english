@@ -1,5 +1,5 @@
 import useAudio from "@/hooks/useAudio";
-import React, { CSSProperties, ReactElement } from "react";
+import { CSSProperties, ReactElement } from "react";
 import { FaLocationArrow } from "react-icons/fa";
 
 const DMATButton = ({

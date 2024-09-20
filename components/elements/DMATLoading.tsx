@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
-import React from "react";
 
-const Loading = ({ otherClass }: { otherClass?: string }) => {
+const DMATLoading = ({ otherClass }: { otherClass?: string }) => {
   return (
     <div
       className={cn(
@@ -12,4 +11,4 @@ const Loading = ({ otherClass }: { otherClass?: string }) => {
   );
 };
 
-export default Loading;
+export default DMATLoading;
