@@ -59,7 +59,6 @@ const HomePage = () => {
         description="120 Set Phrases"
         path="phrase120"
         meteorsNumber={5}
-        disabled
       />
     </div>
   );

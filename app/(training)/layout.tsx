@@ -50,6 +50,7 @@ const Layout = ({
 
   // set testData
   useEffect(() => {
+    console.log(user?.phrase120_data);
     if (user) {
       setLevel600Data(user.level600_data);
       setLevel730Data(user.level730_data);

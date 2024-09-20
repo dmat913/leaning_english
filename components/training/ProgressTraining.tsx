@@ -122,7 +122,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         return data.user.level990_data;
       case "/part1_essentialWord100":
         return data.user.part1_essentialWord100;
-      case "/phrases":
+      case "/phrase120":
         return data.user.phrase120_data;
       default:
         return [];
@@ -215,21 +215,22 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
               />
             )}
           </div>
-          {trainingDisplayType === "englishToJapanese" ? (
-            <TextRevealCard
-              displayText={testData[problemNumber].sentence}
-              bgText={testData[problemNumber].sentenceMeaning}
-              className="flex flex-1"
-              size="small"
-            />
-          ) : (
-            <TextRevealCard
-              displayText={testData[problemNumber].sentenceMeaning}
-              bgText={testData[problemNumber].sentence}
-              className="flex flex-1"
-              size="small"
-            />
-          )}
+          {testData[problemNumber].sentence !== "" &&
+            (trainingDisplayType === "englishToJapanese" ? (
+              <TextRevealCard
+                displayText={testData[problemNumber].sentence}
+                bgText={testData[problemNumber].sentenceMeaning}
+                className="flex flex-1"
+                size="small"
+              />
+            ) : (
+              <TextRevealCard
+                displayText={testData[problemNumber].sentenceMeaning}
+                bgText={testData[problemNumber].sentence}
+                className="flex flex-1"
+                size="small"
+              />
+            ))}
 
           <div className="flex items-center justify-between">
             <div className="flex items-center pl-1" style={{ gap: "8px" }}>
@@ -351,18 +352,20 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
                 <div className="flex flex-col gap-1">
                   {wordSplit.map((word, index) => (
                     <div className="flex items-center gap-2" key={index}>
-                      <span
-                        className={cn(
-                          `border text-sm text-white-1 bg-green-2`,
-                          !isCorrect && "bg-red-2"
-                        )}
-                        style={{
-                          padding: "4px 10px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        {testData[problemNumber].portOfSpeech[index]}
-                      </span>
+                      {testData[problemNumber].portOfSpeech.length > 0 && (
+                        <span
+                          className={cn(
+                            `border text-sm text-white-1 bg-green-2`,
+                            !isCorrect && "bg-red-2"
+                          )}
+                          style={{
+                            padding: "4px 10px",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          {testData[problemNumber].portOfSpeech[index]}
+                        </span>
+                      )}
                       {word}
                     </div>
                   ))}

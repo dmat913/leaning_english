@@ -5,14 +5,14 @@ import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import ProgressTraining from "@/components/training/supplement/ProgressTraining";
-import CompletedTraining from "@/components/training/supplement/CompletedTraining";
-import DisplayList from "@/components/training/supplement/DisplayList";
-import SettingTraining from "@/components/training/supplement/SettingTraining";
 import {
   DepartmentsAndOccupationsCheckBoxData,
   DepartmentsAndOccupationsDisplayListData,
 } from "@/data/occupations";
+import SettingTraining from "@/features/supplement/SettingTraining";
+import ProgressTraining from "@/features/supplement/ProgressTraining";
+import CompletedTraining from "@/components/training/CompletedTraining";
+import DisplayList from "@/features/supplement/DisplayList";
 
 const DepartmentsAndOccupations = () => {
   // テスト状態
