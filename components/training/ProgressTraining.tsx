@@ -122,6 +122,8 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         return data.user.level990_data;
       case "/part1_essentialWord100":
         return data.user.part1_essentialWord100;
+      case "/phrases":
+        return data.user.phrase120_data;
       default:
         return [];
     }

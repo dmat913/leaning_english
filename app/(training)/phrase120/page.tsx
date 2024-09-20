@@ -5,14 +5,19 @@ import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import ProgressTraining from "@/components/training/supplement/ProgressTraining";
-import CompletedTraining from "@/components/training/supplement/CompletedTraining";
-import DisplayList from "@/features/phrases/DisplayList";
-import SettingTraining from "@/features/phrases/SettingTraining";
+import DisplayList from "@/components/training/DisplayList";
+import { phrase120State } from "@/states/testDataState";
+import ProgressTraining from "@/components/training/ProgressTraining";
+import SettingTraining from "@/components/training/SettingTraining";
+import { phrases120FromOptions, phrases120Options } from "@/data/120SetPhrases";
+import CompletedTraining from "@/components/training/CompletedTraining";
 
 const Phrases = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
+
+  // phrase120 test data
+  const [phrase120Data, setPhrase120Data] = useRecoilState(phrase120State);
 
   // テストstatus変更
   const handleChangeStatus = useCallback((status: Status) => {
@@ -31,14 +36,25 @@ const Phrases = () => {
           />
         )}
         {status === "setting_training" && (
-          <SettingTraining handleChangeStatus={handleChangeStatus} />
+          <SettingTraining
+            handleChangeStatus={handleChangeStatus}
+            targetData={phrase120Data}
+            options={phrases120Options}
+            fromOptions={phrases120FromOptions}
+          />
         )}
-        {status === "in_progress" && <ProgressTraining />}
+        {status === "in_progress" && (
+          <ProgressTraining setOriginalTestData={setPhrase120Data} />
+        )}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
         )}
         {status === "display_list" && (
-          <DisplayList handleChangeStatus={handleChangeStatus} />
+          <DisplayList
+            totalQuestions={120}
+            displayData={phrase120Data}
+            handleChangeStatus={handleChangeStatus}
+          />
         )}
       </div>
     </Background>

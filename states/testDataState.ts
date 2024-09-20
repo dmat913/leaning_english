@@ -25,9 +25,15 @@ export const level990State = atom<TestData[]>({
   default: [],
 });
 
-// level990 data
+// part1EssentialWords100 data
 export const part1EssentialWords100State = atom<TestData[]>({
   key: "part1EssentialWords100State",
+  default: [],
+});
+
+// phrase120 data
+export const phrase120State = atom<TestData[]>({
+  key: "phrase120State",
   default: [],
 });
 
@@ -44,5 +50,6 @@ export const resetState = selector({
     reset(level860State);
     reset(level990State);
     reset(part1EssentialWords100State);
+    reset(phrase120State);
   },
 });
