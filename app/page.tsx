@@ -1,5 +1,5 @@
 "use client";
-import GlassLoadingSpinner from "@/components/elements/GlassLoadingSpinner";
+import DMATGlassLoadingSpinner from "@/components/elements/DMATGlassLoadingSpinner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -51,7 +51,7 @@ const LoginPage = () => {
     <form onSubmit={handleSubmit} className="h-full w-full">
       {loading ? (
         <div className="h-full w-full flex items-center justify-center">
-          <GlassLoadingSpinner />
+          <DMATGlassLoadingSpinner />
         </div>
       ) : (
         !isSuccessLogin && (

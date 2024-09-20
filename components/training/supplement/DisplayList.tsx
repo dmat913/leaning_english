@@ -1,9 +1,9 @@
 import React, { memo } from "react";
 import { Status, WordData } from "@/types/types";
 import { cn } from "@/lib/utils";
-import CloseButton from "@/components/elements/CloseButton";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { handlePlayAudio } from "@/common/utils";
+import DMATCloseButton from "@/components/elements/DMATCloseButton";
 
 const DisplayList = ({
   handleChangeStatus,
@@ -22,7 +22,7 @@ const DisplayList = ({
 
   return (
     <div className="flex flex-col gap-3 w-full h-full overflow-auto">
-      <CloseButton handleClick={handleClickCloseButton} />
+      <DMATCloseButton handleClick={handleClickCloseButton} />
       {displayData.map((item, index) => (
         <div key={index} className="flex flex-col">
           <div

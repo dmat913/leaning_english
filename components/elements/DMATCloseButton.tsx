@@ -2,7 +2,7 @@ import useCloseAudio from "@/hooks/useCloseAudio";
 import React from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const CloseButton = ({ handleClick }: { handleClick: () => void }) => {
+const DMATCloseButton = ({ handleClick }: { handleClick: () => void }) => {
   const { playInterrupt } = useCloseAudio();
   return (
     <IoMdCloseCircle
@@ -17,4 +17,4 @@ const CloseButton = ({ handleClick }: { handleClick: () => void }) => {
   );
 };
 
-export default CloseButton;
+export default DMATCloseButton;

@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 import { cn } from "@/lib/utils";
-import CloseButton from "@/components/elements/CloseButton";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { handlePlayAudio } from "@/common/utils";
 import { multipleMeaningsData } from "@/data/multipleMeanings";
 import { useRouter } from "next/navigation";
+import DMATCloseButton from "@/components/elements/DMATCloseButton";
 
 const DisplayList = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const DisplayList = () => {
 
   return (
     <div className="flex flex-col gap-3 w-full h-full overflow-auto">
-      <CloseButton handleClick={handleClickCloseButton} />
+      <DMATCloseButton handleClick={handleClickCloseButton} />
       {multipleMeaningsData.map((data) => (
         <div key={data.id} className={cn("flex flex-col text-white-1 text-md")}>
           <div

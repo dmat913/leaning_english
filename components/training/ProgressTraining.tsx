@@ -1,7 +1,6 @@
 "use client";
 import { handlePlayAudio } from "@/common/utils";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
-import Dialog from "@/components/elements/Dialog";
 import {
   TrainingResultState,
   testDataState,
@@ -10,7 +9,6 @@ import {
 } from "@/states/trainingState";
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import CloseButton from "../elements/CloseButton";
 import { IoCloseCircle } from "react-icons/io5";
 import { BiUserVoice } from "react-icons/bi";
 import { motion } from "framer-motion";
@@ -21,7 +19,9 @@ import { EnglishData } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { userState } from "@/states/userState";
 import { TestData } from "@/models/userModel";
-import Loading from "../elements/Loading";
+import DMATLoading from "../elements/DMATLoading";
+import DMATDialog from "../elements/DMATDialog";
+import DMATCloseButton from "../elements/DMATCloseButton";
 
 interface ProgressTrainingProps {
   setOriginalTestData: (testData: TestData[]) => void;
@@ -181,7 +181,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         className="flex flex-col items-center justify-center rounded-2xl w-full"
         style={{ gap: "40px" }}
       >
-        <CloseButton handleClick={() => setIsOpenDialog(true)} />
+        <DMATCloseButton handleClick={() => setIsOpenDialog(true)} />
         <div className="flex items-end gap-2 pl-1">
           <div
             onClick={() => handlePlayAudio(testData[problemNumber].word)}
@@ -255,7 +255,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
               }
             >
               {isLoading ? (
-                <Loading otherClass="h-5 w-5" />
+                <DMATLoading otherClass="h-5 w-5" />
               ) : (
                 <>
                   {testData[problemNumber].isCompleted ? (
@@ -288,7 +288,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         </div>
       </div>
       {isOpenDialog && (
-        <Dialog
+        <DMATDialog
           mainText="Trainingを中断しますか？"
           leftButtonText="キャンセル"
           rightButtonText="中断"

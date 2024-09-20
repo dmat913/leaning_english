@@ -1,7 +1,6 @@
 "use client";
 import { handlePlayAudio } from "@/common/utils";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
-import Dialog from "@/components/elements/Dialog";
 import { statusState, trainingDisplayTypeState } from "@/states/trainingState";
 import React, { memo, useCallback, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -16,7 +15,8 @@ import {
   supplementTestDataState,
   supplementTrainingResultState,
 } from "@/states/supplementTrainingState";
-import CloseButton from "@/components/elements/CloseButton";
+import DMATDialog from "@/components/elements/DMATDialog";
+import DMATCloseButton from "@/components/elements/DMATCloseButton";
 
 function ProgressTraining() {
   const { playInterrupt } = useAudio();
@@ -108,7 +108,7 @@ function ProgressTraining() {
         className="flex flex-col items-center justify-center rounded-2xl w-full"
         style={{ gap: "40px" }}
       >
-        <CloseButton handleClick={handleClickCloseButton} />
+        <DMATCloseButton handleClick={handleClickCloseButton} />
         <div className="flex items-end gap-2 pl-1">
           <div
             onClick={() => handlePlayAudio(testData[problemNumber].word)}
@@ -155,7 +155,7 @@ function ProgressTraining() {
         </div>
       </div>
       {isOpenDialog && (
-        <Dialog
+        <DMATDialog
           mainText="Trainingを中断しますか？"
           leftButtonText="キャンセル"
           rightButtonText="中断"

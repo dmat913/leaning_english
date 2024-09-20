@@ -2,7 +2,7 @@ import { handlePlayAudio } from "@/common/utils";
 import { statusState, testDataState } from "@/states/trainingState";
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import Dialog from "../elements/Dialog";
+import DMATDialog from "../elements/DMATDialog";
 
 const ContinuousEnglish = () => {
   const [testData, setTestData] = useRecoilState(testDataState);
@@ -110,7 +110,7 @@ const ContinuousEnglish = () => {
   return (
     <div>
       {isFinish && (
-        <Dialog
+        <DMATDialog
           mainText="トレーニングを終了します。"
           leftButtonText="押しても何も起こらないよ☺️"
           rightButtonText="終了"
