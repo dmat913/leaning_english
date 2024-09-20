@@ -8,8 +8,8 @@ import { Option, Status } from "@/types/types";
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { FcStart } from "react-icons/fc";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import CloseButton from "../elements/CloseButton";
 import { TestData } from "@/models/userModel";
+import DMATCloseButton from "../elements/DMATCloseButton";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -122,7 +122,7 @@ const SettingTraining = ({
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-      <CloseButton handleClick={handleClickCloseButton} />
+      <DMATCloseButton handleClick={handleClickCloseButton} />
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">

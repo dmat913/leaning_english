@@ -1,6 +1,6 @@
 import React from "react";
 
-const Dialog = ({
+const DMATDialog = ({
   rightButtonText,
   leftButtonText,
   mainText,
@@ -49,4 +49,4 @@ const Dialog = ({
   );
 };
 
-export default Dialog;
+export default DMATDialog;

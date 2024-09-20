@@ -4,9 +4,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import DMATButton from "@/components/elements/DMATButton";
 import { FcStart } from "react-icons/fc";
 import { statusState, trainingDisplayTypeState } from "@/states/trainingState";
-import CloseButton from "@/components/elements/CloseButton";
 import { supplementTestDataState } from "@/states/supplementTrainingState";
 import { getRandomItems } from "@/common/utils";
+import DMATCloseButton from "@/components/elements/DMATCloseButton";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -82,7 +82,7 @@ const SettingTraining = ({
       className="flex flex-col items-center justify-center w-full h-full relative"
       style={{ gap: "40px" }}
     >
-      <CloseButton
+      <DMATCloseButton
         handleClick={() => {
           handleChangeStatus("not_started");
           setDisplayType("englishToJapanese");

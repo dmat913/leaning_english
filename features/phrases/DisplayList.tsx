@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 import { Status } from "@/types/types";
 import { cn } from "@/lib/utils";
-import CloseButton from "@/components/elements/CloseButton";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { handlePlayAudio } from "@/common/utils";
 import { phrasesData } from "@/data/120SetPhrases";
+import DMATCloseButton from "@/components/elements/DMATCloseButton";
 
 const DisplayList = ({
   handleChangeStatus,
@@ -18,7 +18,7 @@ const DisplayList = ({
 
   return (
     <div className="flex flex-col w-full h-full overflow-auto">
-      <CloseButton handleClick={handleClickCloseButton} />
+      <DMATCloseButton handleClick={handleClickCloseButton} />
       {phrasesData.map((data, index) => (
         <div
           key={index}

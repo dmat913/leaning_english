@@ -1,5 +1,5 @@
 import { handlePlayAudio } from "@/common/utils";
-import CloseButton from "@/components/elements/CloseButton";
+import DMATCloseButton from "@/components/elements/DMATCloseButton";
 import { cn } from "@/lib/utils";
 import { WordData } from "@/types/types";
 import React, { useMemo, useState } from "react";
@@ -36,7 +36,7 @@ const DisplayResult = ({
 
   return (
     <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full h-full z-50 bg-[rgba(173,216,230,0.3)] flex flex-col">
-      <CloseButton handleClick={() => setIsOpen(false)} />
+      <DMATCloseButton handleClick={() => setIsOpen(false)} />
       <div className="flex flex-col flex-1 overflow-auto">
         {displayData.map((item, index) => (
           <div

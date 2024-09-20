@@ -2,11 +2,11 @@ import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import Dialog from "../elements/Dialog";
 import { resetState } from "@/states/testDataState";
 import useAudio from "@/hooks/useAudio";
 import Image from "next/image";
 import Logo from "@/public/logo.png";
+import DMATDialog from "../elements/DMATDialog";
 
 const Header = () => {
   const router = useRouter();
@@ -57,7 +57,7 @@ const Header = () => {
         </div>
       </header>
       {isOpenDialog && (
-        <Dialog
+        <DMATDialog
           mainText="サインアウトしますか？"
           leftButtonText="キャンセル"
           rightButtonText="サインアウト"

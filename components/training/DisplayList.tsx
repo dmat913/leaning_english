@@ -6,11 +6,11 @@ import { handlePlayAudio } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import CloseButton from "../elements/CloseButton";
+import DMATCloseButton from "../elements/DMATCloseButton";
 import useAudio from "@/hooks/useAudio";
 import { TestData } from "@/models/userModel";
 import { FaStar } from "react-icons/fa";
-import ProgressBar from "../elements/ ProgressBar";
+import DMATProgressBar from "../elements/DMATProgressBar";
 
 const DisplayList = ({
   handleChangeStatus,
@@ -33,8 +33,8 @@ const DisplayList = ({
 
   return (
     <div className="flex flex-col gap-4 w-full h-full">
-      <CloseButton handleClick={handleClickCloseButton} />
-      <ProgressBar
+      <DMATCloseButton handleClick={handleClickCloseButton} />
+      <DMATProgressBar
         totalQuestions={totalQuestions}
         completedQuestions={
           displayData.filter((data) => data.isCompleted).length
@@ -69,7 +69,7 @@ const DisplayList = ({
         >
           <WordDetailCard className="p-3 gap-2 flex flex-col">
             <div className="absolute" style={{ right: "4px", top: "4px" }}>
-              <CloseButton handleClick={() => setSelectedIndex(null)} />
+              <DMATCloseButton handleClick={() => setSelectedIndex(null)} />
             </div>
             <p className="text-black-1 flex flex-col">
               <span className="flex items-center gap-2">

@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import { FaStar } from "react-icons/fa";
 
-interface ProgressBarProps {
+interface DMATProgressBarProps {
   totalQuestions: number;
   completedQuestions: number;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({
+const DMATProgressBar: React.FC<DMATProgressBarProps> = ({
   totalQuestions,
   completedQuestions,
 }) => {
@@ -35,4 +35,4 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   );
 };
 
-export default ProgressBar;
+export default DMATProgressBar;

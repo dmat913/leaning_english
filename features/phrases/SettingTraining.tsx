@@ -1,5 +1,4 @@
 import { getRandomItems } from "@/common/utils";
-import CloseButton from "@/components/elements/CloseButton";
 import DMATButton from "@/components/elements/DMATButton";
 import {
   phrases120FromOptions,
@@ -12,6 +11,7 @@ import { Status, WordData } from "@/types/types";
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { FcStart } from "react-icons/fc";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import DMATCloseButton from "@/components/elements/DMATCloseButton";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -114,7 +114,7 @@ const SettingTraining = ({
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-      <CloseButton handleClick={handleClickCloseButton} />
+      <DMATCloseButton handleClick={handleClickCloseButton} />
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
