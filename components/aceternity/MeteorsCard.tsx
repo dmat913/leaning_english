@@ -3,6 +3,7 @@ import React from "react";
 import { Meteors } from "./Meteors";
 import { useRouter } from "next/navigation";
 import DMATButton from "../elements/DMATButton";
+import { cn } from "@/lib/utils";
 
 export function MeteorsCard({
   title,
@@ -27,7 +28,7 @@ export function MeteorsCard({
   };
 
   return (
-    <div className="w-full flex justify-center">
+    <div className={cn(`w-full flex justify-center`, disabled && "opacity-70")}>
       <div className={`w-full relative max-w-x ${className}`}>
         <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
           <h1 className="font-bold text-xl text-white-1 mb-4 relative z-30">
@@ -38,7 +39,11 @@ export function MeteorsCard({
               {description}
             </p>
           )}
-          <DMATButton title="Training" handleClick={handleClickButton} />
+          <DMATButton
+            title="Training"
+            handleClick={handleClickButton}
+            disabled={disabled}
+          />
           <div className="absolute top-4 right-4">
             {/* 星 */}
             <div
@@ -51,7 +56,7 @@ export function MeteorsCard({
           <Meteors disabled={disabled} number={meteorsNumber} />
         </div>
         {disabled && (
-          <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-3xl text-white z-50">
+          <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-3xl text-white-1 z-50 w-full text-center">
             Coming soon
           </p>
         )}

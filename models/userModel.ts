@@ -20,6 +20,7 @@ export interface User {
   level860_data: TestData[];
   level990_data: TestData[];
   part1_essentialWord100: TestData[];
+  phrase120_data: TestData[];
   thumbnail: string;
 }
 
@@ -94,6 +95,20 @@ const userSchema = new Schema<UserDocument>(
       default: [],
     },
     part1_essentialWord100: {
+      type: [
+        {
+          word_id: String,
+          word: String,
+          wordMeaning: String,
+          sentence: String,
+          sentenceMeaning: String,
+          portOfSpeech: [String],
+          isCompleted: Boolean,
+        },
+      ],
+      default: [],
+    },
+    phrase120_data: {
       type: [
         {
           word_id: String,
