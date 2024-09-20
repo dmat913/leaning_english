@@ -1,5 +1,4 @@
 import useCloseAudio from "@/hooks/useCloseAudio";
-import React from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 
 const DMATCloseButton = ({ handleClick }: { handleClick: () => void }) => {

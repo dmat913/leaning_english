@@ -2,7 +2,7 @@
 import { handlePlayAudio } from "@/common/utils";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import { statusState, trainingDisplayTypeState } from "@/states/trainingState";
-import React, { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { IoCloseCircle } from "react-icons/io5";
 import { BiUserVoice } from "react-icons/bi";
