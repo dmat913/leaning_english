@@ -1,6 +1,8 @@
 import { useMemo } from "react";
-import { ChartOptions, Plugin } from "chart.js";
+import { Chart, ChartOptions, Plugin, registerables } from "chart.js";
 import { TestData } from "@/models/userModel";
+
+Chart.register(...registerables);
 
 const useDoughnutChart = (
   correctData: TestData[],
