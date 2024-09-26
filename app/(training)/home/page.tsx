@@ -42,9 +42,22 @@ const HomePage = () => {
         disabled
       />
       <MeteorsCard
-        title="前置詞・接続詞・接続副詞"
-        description="Prepositions,Conjunctions,and Conjunctive Adverbs"
-        path="functionWords"
+        title="前置詞"
+        description="Prepositions"
+        path="prepositions"
+        meteorsNumber={5}
+      />
+      <MeteorsCard
+        title="接続詞"
+        description="Conjunctions"
+        path="conjunctions"
+        meteorsNumber={5}
+        disabled
+      />
+      <MeteorsCard
+        title="接続副詞"
+        description="Conjunctive Adverbs"
+        path="conjunctiveAdverbs"
         meteorsNumber={5}
         disabled
       />

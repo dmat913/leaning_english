@@ -83,18 +83,20 @@ const DisplayList = ({
               </span>
               <span>{displayData[selectedIndex].wordMeaning}</span>
             </p>
-            <p className="flex flex-col">
-              <span className="flex gap-2 items-center">
-                <IoPlayCircleOutline
-                  size={32}
-                  onClick={() =>
-                    handlePlayAudio(displayData[selectedIndex].sentence)
-                  }
-                />
-                {displayData[selectedIndex].sentence}
-              </span>
-              <span>{displayData[selectedIndex].sentenceMeaning}</span>
-            </p>
+            {displayData[selectedIndex].sentence !== "" && (
+              <p className="flex flex-col">
+                <span className="flex gap-2 items-center">
+                  <IoPlayCircleOutline
+                    size={32}
+                    onClick={() =>
+                      handlePlayAudio(displayData[selectedIndex].sentence)
+                    }
+                  />
+                  {displayData[selectedIndex].sentence}
+                </span>
+                <span>{displayData[selectedIndex].sentenceMeaning}</span>
+              </p>
+            )}
             <p className="flex gap-2">
               {displayData[selectedIndex].portOfSpeech.map((item, index) => (
                 <div

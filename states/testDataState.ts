@@ -37,6 +37,12 @@ export const phrase120State = atom<TestData[]>({
   default: [],
 });
 
+// 前置詞 data
+export const prepositionsState = atom<TestData[]>({
+  key: "prepositionsState",
+  default: [],
+});
+
 // Reset all states selector
 export const resetState = selector({
   key: "resetState",
@@ -51,5 +57,6 @@ export const resetState = selector({
     reset(level990State);
     reset(part1EssentialWords100State);
     reset(phrase120State);
+    reset(prepositionsState);
   },
 });

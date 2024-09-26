@@ -36,6 +36,7 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
 
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
+
   // 問題番号
   const [problemNumber, setProblemNumber] = useState<number>(0);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
@@ -124,6 +125,8 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         return data.user.part1_essentialWord100;
       case "/phrase120":
         return data.user.phrase120_data;
+      case "/prepositions":
+        return data.user.prepositions_data;
       default:
         return [];
     }
