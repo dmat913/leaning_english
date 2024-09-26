@@ -10,9 +10,9 @@ import {
   DepartmentsAndOccupationsDisplayListData,
 } from "@/data/occupations";
 import SettingTraining from "@/features/supplement/SettingTraining";
-import ProgressTraining from "@/features/supplement/ProgressTraining";
+// import ProgressTraining from "@/features/supplement/ProgressTraining";
 import CompletedTraining from "@/components/training/CompletedTraining";
-import DisplayList from "@/features/supplement/DisplayList";
+// import DisplayList from "@/features/supplement/DisplayList";
 
 const DepartmentsAndOccupations = () => {
   // テスト状態
@@ -33,22 +33,22 @@ const DepartmentsAndOccupations = () => {
           description="departments & occupations"
         />
       )}
-      {status === "setting_training" && (
+      {/* {status === "setting_training" && (
         <SettingTraining
           handleChangeStatus={handleChangeStatus}
           defaultCheckboxData={DepartmentsAndOccupationsCheckBoxData}
         />
-      )}
-      {status === "in_progress" && <ProgressTraining />}
+      )} */}
+      {/* {status === "in_progress" && <ProgressTraining />} */}
       {status === "completed" && (
         <CompletedTraining handleChangeStatus={handleChangeStatus} />
       )}
-      {status === "display_list" && (
+      {/* {status === "display_list" && (
         <DisplayList
           handleChangeStatus={handleChangeStatus}
           displayData={DepartmentsAndOccupationsDisplayListData}
         />
-      )}
+      )} */}
     </div>
   );
 };
