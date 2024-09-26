@@ -5,18 +5,20 @@ import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import {
-  FunctionWordsCheckBoxData,
-  FunctionWordsDisplayListData,
-} from "@/data/functionWords";
 import SettingTraining from "@/features/supplement/SettingTraining";
-import ProgressTraining from "@/features/supplement/ProgressTraining";
 import CompletedTraining from "@/components/training/CompletedTraining";
-import DisplayList from "@/features/supplement/DisplayList";
+import DisplayList from "@/components/training/DisplayList";
+import { TestData } from "@/models/userModel";
+import { prepositionsState } from "@/states/testDataState";
+import ProgressTraining from "@/components/training/ProgressTraining";
 
 const FunctionWords = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
+
+  // 前置詞データ
+  const [prepositionsData, setPrepositionsData] =
+    useRecoilState(prepositionsState);
 
   // テストstatus変更
   const handleChangeStatus = useCallback((status: Status) => {
@@ -29,24 +31,27 @@ const FunctionWords = () => {
       {status === "not_started" && (
         <NotStarted
           handleChangeStatus={handleChangeStatus}
-          title="前置詞・接続詞・接続副詞"
-          description="Prepositions, Conjunctions, and Conjunctive Adverbs"
+          title="前置詞"
+          description="Prepositions"
         />
       )}
       {status === "setting_training" && (
         <SettingTraining
           handleChangeStatus={handleChangeStatus}
-          defaultCheckboxData={FunctionWordsCheckBoxData}
+          targetTestData={prepositionsData}
         />
       )}
-      {status === "in_progress" && <ProgressTraining />}
+      {status === "in_progress" && (
+        <ProgressTraining setOriginalTestData={setPrepositionsData} />
+      )}
       {status === "completed" && (
         <CompletedTraining handleChangeStatus={handleChangeStatus} />
       )}
       {status === "display_list" && (
         <DisplayList
           handleChangeStatus={handleChangeStatus}
-          displayData={FunctionWordsDisplayListData}
+          displayData={prepositionsData}
+          totalQuestions={prepositionsData.length}
         />
       )}
     </div>

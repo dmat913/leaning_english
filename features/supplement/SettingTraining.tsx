@@ -1,52 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Status, SupplementCheckbox, WordData } from "@/types/types";
+import { Status } from "@/types/types";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import DMATButton from "@/components/elements/DMATButton";
 import { FcStart } from "react-icons/fc";
-import { statusState, trainingDisplayTypeState } from "@/states/trainingState";
-import { supplementTestDataState } from "@/states/supplementTrainingState";
+import {
+  statusState,
+  testDataState,
+  trainingDisplayTypeState,
+} from "@/states/trainingState";
 import { getRandomItems } from "@/common/utils";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
+import { TestData } from "@/models/userModel";
 
 const SettingTraining = ({
   handleChangeStatus,
-  defaultCheckboxData,
+  targetTestData,
 }: {
   handleChangeStatus: (status: Status) => void;
-  defaultCheckboxData: SupplementCheckbox[];
+  targetTestData: TestData[];
 }) => {
   // testData
-  const [supplementTestData, setSupplementTestData] = useRecoilState(
-    supplementTestDataState
-  );
+  const [testData, setTestData] = useRecoilState(testDataState);
   // テスト状態
   const setStatus = useSetRecoilState(statusState);
-
-  const [checkBoxData, setCheckBoxData] =
-    useState<SupplementCheckbox[]>(defaultCheckboxData);
-
-  // checkbox event
-  const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const updateList: SupplementCheckbox[] = checkBoxData.map((data) => {
-      if (data.label === event.target.value) {
-        return { ...data, checked: !data.checked };
-      }
-      return data;
-    });
-    setCheckBoxData(updateList);
-  };
-
-  // checkbox更新時,テストデータも更新
-  useEffect(() => {
-    let updateList: WordData[] = [];
-    checkBoxData.forEach((data) => {
-      if (data.checked) {
-        updateList.push(...data.data);
-      }
-    });
-    setSupplementTestData(updateList);
-    // eslint-disable-next-line
-  }, [checkBoxData]);
 
   // テスト表示種類
   const [displayType, setDisplayType] = useRecoilState(
@@ -54,6 +30,11 @@ const SettingTraining = ({
   );
   //トレーニング種類
   const [orderType, setOrderType] = useState<string>("order");
+
+  // テストデータ設定
+  useEffect(() => {
+    setTestData(targetTestData);
+  }, [targetTestData]);
 
   // テスト表示種類radioボタン変更
   const handleChangeDisplayRadio = (
@@ -70,9 +51,7 @@ const SettingTraining = ({
   // 開始ボタン押下時
   const handleStartTest = () => {
     if (orderType === "random") {
-      setSupplementTestData(
-        getRandomItems(supplementTestData, supplementTestData.length)
-      );
+      setTestData(getRandomItems(testData, testData.length));
     }
     setStatus("in_progress");
   };
@@ -89,19 +68,6 @@ const SettingTraining = ({
         }}
       />
       <div className="flex flex-col gap-3">
-        <div className="flex gap-1 w-full" style={{ flexWrap: "wrap" }}>
-          {checkBoxData.map((data, index) => (
-            <label className="flex items-center gap-2" key={index}>
-              <input
-                type="checkbox"
-                checked={data.checked}
-                value={data.label}
-                onChange={handleChangeCheckbox}
-              />
-              <span className="text-white-1">{data.label}</span>
-            </label>
-          ))}
-        </div>
         <div className="flex items-center gap-2">
           <label className="flex items-center gap-1 text-white-1">
             <input
@@ -151,7 +117,6 @@ const SettingTraining = ({
         title="開始"
         handleClick={handleStartTest}
         icon={<FcStart size={24} />}
-        disabled={supplementTestData.length === 0}
       />
     </div>
   );

@@ -9,6 +9,7 @@ import {
   level990State,
   part1EssentialWords100State,
   phrase120State,
+  prepositionsState,
 } from "@/states/testDataState";
 import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
@@ -36,6 +37,7 @@ const Layout = ({
     part1EssentialWords100State
   );
   const setPhrase120 = useSetRecoilState(phrase120State);
+  const setPrepositionsData = useSetRecoilState(prepositionsState);
 
   // get user data from session storage
   useEffect(() => {
@@ -50,7 +52,6 @@ const Layout = ({
 
   // set testData
   useEffect(() => {
-    console.log(user?.phrase120_data);
     if (user) {
       setLevel600Data(user.level600_data);
       setLevel730Data(user.level730_data);
@@ -58,6 +59,7 @@ const Layout = ({
       setLevel990Data(user.level990_data);
       setPart1EssentialWords100(user.part1_essentialWord100);
       setPhrase120(user.phrase120_data);
+      setPrepositionsData(user.prepositions_data);
     }
     // eslint-disable-next-line
   }, [user]);
