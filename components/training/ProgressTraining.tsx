@@ -99,8 +99,8 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
       playInterrupt();
       setIsCorrect(displayResultFlag);
       setIsVisibleResult(true);
-      // eslint-disable-next-line
     },
+    // eslint-disable-next-line
     [testData, problemNumber, trainingResult]
   );
 
