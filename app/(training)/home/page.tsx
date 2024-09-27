@@ -44,7 +44,7 @@ const HomePage = () => {
       <MeteorsCard
         title="前置詞"
         description="Prepositions"
-        path="prepositions"
+        path="functionWords/prepositions"
         meteorsNumber={5}
       />
       <MeteorsCard
