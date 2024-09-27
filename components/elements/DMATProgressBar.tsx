@@ -13,7 +13,7 @@ const DMATProgressBar: React.FC<DMATProgressBarProps> = ({
   // 割合を計算
   const percentage = useMemo(() => {
     return (completedQuestions / totalQuestions) * 100;
-  }, []);
+  }, [completedQuestions, totalQuestions]);
 
   return (
     <div className="w-full">
