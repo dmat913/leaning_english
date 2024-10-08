@@ -8,7 +8,6 @@ import { useRecoilState } from "recoil";
 import SettingTraining from "@/features/supplement/SettingTraining";
 import CompletedTraining from "@/components/training/CompletedTraining";
 import DisplayList from "@/components/training/DisplayList";
-import { TestData } from "@/models/userModel";
 import { prepositionsState } from "@/states/testDataState";
 import ProgressTraining from "@/components/training/ProgressTraining";
 

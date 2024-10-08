@@ -10,6 +10,9 @@ export const handlePlayAudio = (
   language: string = "en-US",
   onEndCallback?: () => void
 ) => {
+  // 既存の再生を停止
+  window.speechSynthesis.cancel();
+
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = language;
 

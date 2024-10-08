@@ -77,8 +77,8 @@ const SettingTraining = ({
 
   // 開始ボタン押下時
   const handleClickStartButton = () => {
-    if (orderType === "continuousEnglish") {
-      handleChangeStatus("continuous_english");
+    if (orderType === "listening") {
+      handleChangeStatus("listening");
     } else {
       handleChangeStatus("in_progress");
     }
@@ -146,10 +146,20 @@ const SettingTraining = ({
               />
               ランダム
             </label>
+            <label className="flex items-center gap-1 text-white-1">
+              <input
+                type="radio"
+                value="listening"
+                name="order"
+                onChange={handleChangeRadio}
+                checked={orderType === "listening"}
+              />
+              リスニング
+            </label>
             {/* <label className="flex items-center gap-1 text-white-1">
               <input
                 type="radio"
-                value="continuousEnglish"
+                value="listening"
                 name="order"
                 onChange={handleChangeRadio}
                 checked={orderType === "continuousEnglish"}
@@ -197,7 +207,7 @@ const SettingTraining = ({
             </div>
           )}
         </div>
-        {orderType !== "continuousEnglish" && (
+        {orderType !== "listening" && (
           <div className="flex items-center gap-2">
             <label className="flex items-center gap-1 text-white-1">
               <input

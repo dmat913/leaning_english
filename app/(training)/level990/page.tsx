@@ -10,7 +10,7 @@ import SettingTraining from "@/components/training/SettingTraining";
 import ProgressTraining from "@/components/training/ProgressTraining";
 import { level990FromOptions, level990Options } from "@/data/level990";
 import { level990State } from "@/states/testDataState";
-// import ContinuousEnglish from "@/components/training/ContinuousEnglish";
+import ListeningEnglish from "@/components/training/ListeningEnglish";
 
 const Level990 = () => {
   // テスト状態
@@ -51,7 +51,9 @@ const Level990 = () => {
       {status === "in_progress" && (
         <ProgressTraining setOriginalTestData={setLevel990Data} />
       )}
-      {/* {status === "continuous_english" && <ContinuousEnglish />} */}
+      {status === "listening" && (
+        <ListeningEnglish handleChangeStatus={handleChangeStatus} />
+      )}
       {status === "completed" && (
         <CompletedTraining handleChangeStatus={handleChangeStatus} />
       )}

@@ -11,6 +11,7 @@ import ProgressTraining from "@/components/training/ProgressTraining";
 import SettingTraining from "@/components/training/SettingTraining";
 import { phrases120FromOptions, phrases120Options } from "@/data/120SetPhrases";
 import CompletedTraining from "@/components/training/CompletedTraining";
+import ListeningEnglish from "@/components/training/ListeningEnglish";
 
 const Phrases = () => {
   // テスト状態
@@ -48,6 +49,9 @@ const Phrases = () => {
         )}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
+        )}
+        {status === "listening" && (
+          <ListeningEnglish handleChangeStatus={handleChangeStatus} />
         )}
         {status === "display_list" && (
           <DisplayList
