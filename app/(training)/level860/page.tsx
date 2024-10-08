@@ -10,7 +10,7 @@ import SettingTraining from "@/components/training/SettingTraining";
 import ProgressTraining from "@/components/training/ProgressTraining";
 import { level860FromOptions, level860Options } from "@/data/level860";
 import { level860State } from "@/states/testDataState";
-// import ContinuousEnglish from "@/components/training/ContinuousEnglish";
+import ListeningEnglish from "@/components/training/ListeningEnglish";
 
 const Level860 = () => {
   // テスト状態
@@ -51,7 +51,9 @@ const Level860 = () => {
       {status === "in_progress" && (
         <ProgressTraining setOriginalTestData={setLevel860Data} />
       )}
-      {/* {status === "continuous_english" && <ContinuousEnglish />} */}
+      {status === "listening" && (
+        <ListeningEnglish handleChangeStatus={handleChangeStatus} />
+      )}
       {status === "completed" && (
         <CompletedTraining handleChangeStatus={handleChangeStatus} />
       )}

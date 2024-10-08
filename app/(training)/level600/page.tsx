@@ -11,6 +11,7 @@ import NotStarted from "@/components/training/NotStarted";
 import SettingTraining from "@/components/training/SettingTraining";
 import ProgressTraining from "@/components/training/ProgressTraining";
 import { level600State } from "@/states/testDataState";
+import ListeningEnglish from "@/components/training/ListeningEnglish";
 // import ContinuousEnglish from "@/components/training/ContinuousEnglish";
 
 const Level600 = () => {
@@ -54,7 +55,9 @@ const Level600 = () => {
         {status === "in_progress" && (
           <ProgressTraining setOriginalTestData={setLevel600Data} />
         )}
-        {/* {status === "continuous_english" && <ContinuousEnglish />} */}
+        {status === "listening" && (
+          <ListeningEnglish handleChangeStatus={handleChangeStatus} />
+        )}
         {status === "completed" && (
           <CompletedTraining handleChangeStatus={handleChangeStatus} />
         )}
