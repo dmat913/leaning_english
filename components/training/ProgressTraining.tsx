@@ -127,6 +127,10 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         return data.user.phrase120_data;
       case "/prepositions":
         return data.user.prepositions_data;
+      case "/conjunctions":
+        return data.user.conjunctions_data;
+      case "conjunctiveAdverbs":
+        return data.user.conjunctiveAdverbs_data;
       default:
         return [];
     }

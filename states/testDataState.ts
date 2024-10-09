@@ -43,6 +43,18 @@ export const prepositionsState = atom<TestData[]>({
   default: [],
 });
 
+// 接続詞 data
+export const conjunctionsState = atom<TestData[]>({
+  key: "conjunctionsState",
+  default: [],
+});
+
+// 接続副詞 data
+export const conjunctiveAdverbsState = atom<TestData[]>({
+  key: "conjunctiveAdverbsState",
+  default: [],
+});
+
 // Reset all states selector
 export const resetState = selector({
   key: "resetState",

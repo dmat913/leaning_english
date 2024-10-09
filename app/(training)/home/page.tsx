@@ -52,14 +52,12 @@ const HomePage = () => {
         description="Conjunctions"
         path="conjunctions"
         meteorsNumber={5}
-        disabled
       />
       <MeteorsCard
         title="接続副詞"
         description="Conjunctive Adverbs"
         path="conjunctiveAdverbs"
         meteorsNumber={5}
-        disabled
       />
       <MeteorsCard
         title="多義語"
