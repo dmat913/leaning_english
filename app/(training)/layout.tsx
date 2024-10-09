@@ -3,6 +3,8 @@
 import { Background } from "@/components/aceternity/Background";
 import Header from "@/components/layouts/Header";
 import {
+  conjunctionsState,
+  conjunctiveAdverbsState,
   level600State,
   level730State,
   level860State,
@@ -38,6 +40,8 @@ const Layout = ({
   );
   const setPhrase120 = useSetRecoilState(phrase120State);
   const setPrepositionsData = useSetRecoilState(prepositionsState);
+  const setConjunctionsData = useSetRecoilState(conjunctionsState);
+  const setConjunctiveAdverbsData = useSetRecoilState(conjunctiveAdverbsState);
 
   // get user data from session storage
   useEffect(() => {
@@ -60,6 +64,8 @@ const Layout = ({
       setPart1EssentialWords100(user.part1_essentialWord100);
       setPhrase120(user.phrase120_data);
       setPrepositionsData(user.prepositions_data);
+      setConjunctionsData(user.conjunctions_data);
+      setConjunctiveAdverbsData(user.conjunctiveAdverbs_data);
     }
     // eslint-disable-next-line
   }, [user]);

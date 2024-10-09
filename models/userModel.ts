@@ -22,6 +22,8 @@ export interface User {
   part1_essentialWord100: TestData[];
   phrase120_data: TestData[];
   prepositions_data: TestData[];
+  conjunctions_data: TestData[];
+  conjunctiveAdverbs_data: TestData[];
   thumbnail: string;
 }
 
@@ -124,6 +126,34 @@ const userSchema = new Schema<UserDocument>(
       default: [],
     },
     prepositions_data: {
+      type: [
+        {
+          word_id: String,
+          word: String,
+          wordMeaning: String,
+          sentence: String,
+          sentenceMeaning: String,
+          portOfSpeech: [String],
+          isCompleted: Boolean,
+        },
+      ],
+      default: [],
+    },
+    conjunctions_data: {
+      type: [
+        {
+          word_id: String,
+          word: String,
+          wordMeaning: String,
+          sentence: String,
+          sentenceMeaning: String,
+          portOfSpeech: [String],
+          isCompleted: Boolean,
+        },
+      ],
+      default: [],
+    },
+    conjunctiveAdverbs_data: {
       type: [
         {
           word_id: String,
