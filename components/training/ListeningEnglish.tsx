@@ -20,22 +20,35 @@ const ListeningEnglish = ({
 
   const testData = useRecoilValue(testDataState);
 
+  // 音声再生を Promise でラップした関数
+  const playAudioPromise = (text: string, language: string): Promise<void> => {
+    return new Promise((resolve) => {
+      handlePlayAudio(text, language, resolve);
+    });
+  };
+
   // 音声再生関数
-  const playAudio = (targetIndex: number) => {
+  const playAudio = async (targetIndex: number) => {
     if (testData.length > 0 && targetIndex < testData.length) {
-      setCurrentIndex(targetIndex + 1);
-      setIsPlaying(true);
-      const { word, wordMeaning, sentence, sentenceMeaning } =
-        testData[targetIndex];
-      handlePlayAudio(word, "en-US", () => {
-        handlePlayAudio(wordMeaning, "ja-JP", () => {
-          handlePlayAudio(sentence, "en-US", () => {
-            handlePlayAudio(sentenceMeaning, "ja-JP", () => {
-              playAudio(targetIndex + 1);
-            });
-          });
-        });
-      });
+      try {
+        setCurrentIndex(targetIndex + 1);
+        setIsPlaying(true);
+
+        const { word, wordMeaning, sentence, sentenceMeaning } =
+          testData[targetIndex];
+
+        // 順番に音声を再生
+        await playAudioPromise(word, "en-US");
+        await playAudioPromise(wordMeaning, "ja-JP");
+        await playAudioPromise(sentence, "en-US");
+        await playAudioPromise(sentenceMeaning, "ja-JP");
+
+        // 次のアイテムを再生
+        playAudio(targetIndex + 1);
+      } catch (error) {
+        console.error("音声再生エラー:", error);
+        setIsPlaying(false);
+      }
     } else {
       setIsPlaying(false);
       setCurrentIndex(0);
