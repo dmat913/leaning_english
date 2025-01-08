@@ -15,25 +15,25 @@ export const handlePlayAudio = (
 
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = language;
-  
+
   // 声を明示的に選択
   const voices = window.speechSynthesis.getVoices();
-  
+
   // 指定された言語に最適な声を選択
-  const targetVoice = voices.find(voice => 
-    language === "en-US" 
-      ? (voice.lang.includes("en") && !voice.lang.includes("GB")) // アメリカ英語を優先
-      : voice.lang.includes("ja")  // 日本語
+  const targetVoice = voices.find((voice) =>
+    language === "en-US"
+      ? voice.lang.includes("en") && !voice.lang.includes("GB")
+      : voice.lang.includes("ja")
   );
-  
+
   if (targetVoice) {
     utterance.voice = targetVoice;
   }
 
   // 英語の場合、音声パラメータを調整
   if (language === "en-US") {
-    utterance.pitch = 1.0;  // 標準のピッチ
-    utterance.rate = 0.9;   // やや遅めの速度
+    utterance.pitch = 1.0;
+    utterance.rate = 1.0;
   }
 
   if (onEndCallback) {
