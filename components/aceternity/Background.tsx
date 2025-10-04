@@ -85,7 +85,7 @@ export const Background = ({
 
   let animationId: number;
   const render = () => {
-    ctx.fillStyle = backgroundFill || "#0B0B0B";
+    ctx.fillStyle = backgroundFill || "#1a1a1a"; // より明るいダークグレーに変更
     ctx.globalAlpha = waveOpacity || 0.5;
     ctx.fillRect(0, 0, w, h);
     drawWave(5);

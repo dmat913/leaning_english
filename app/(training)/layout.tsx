@@ -75,7 +75,7 @@ const Layout = ({
       {user && (
         <div className="w-full h-full">
           <Header />
-          <div className="p-5 h-[calc(100svh-56px)] w-full overflow-hidden">
+          <div className="pt-[64px] h-full w-full overflow-hidden">
             {children}
           </div>
         </div>

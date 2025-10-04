@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { Status } from "@/types/types";
 import { cn } from "@/lib/utils";
 import { IoPlayCircleOutline } from "react-icons/io5";
-import { handlePlayAudio } from "@/common/utils";
+import { playEnglish } from "@/common/audioPlayer";
 import { phrasesData } from "@/data/120SetPhrases";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
 
@@ -30,7 +30,7 @@ const DisplayList = ({
           <div className="flex items-center gap-2">
             <span>{index + 1}</span>
             <IoPlayCircleOutline
-              onClick={() => handlePlayAudio(data.word)}
+              onClick={() => playEnglish(data.word, { quality: "high" })}
               size={32}
               color="#FAF0E6"
             />
