@@ -1,4 +1,4 @@
-import { handlePlayAudio } from "@/common/utils";
+import { playEnglish } from "@/common/audioPlayer";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
 import { cn } from "@/lib/utils";
 import { WordData } from "@/types/types";
@@ -49,7 +49,7 @@ const DisplayResult = ({
             <div className="text-md flex items-center gap-2">
               <IoPlayCircleOutline
                 size={30}
-                onClick={() => handlePlayAudio(item.word)}
+                onClick={() => playEnglish(item.word, { quality: "high" })}
               />
               <span>{item.word}</span>
             </div>

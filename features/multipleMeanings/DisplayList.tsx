@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { cn } from "@/lib/utils";
 import { IoPlayCircleOutline } from "react-icons/io5";
-import { handlePlayAudio } from "@/common/utils";
+import { playEnglish } from "@/common/audioPlayer";
 import { multipleMeaningsData } from "@/data/multipleMeanings";
 import { useRouter } from "next/navigation";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
@@ -27,7 +27,7 @@ const DisplayList = () => {
             <div className="flex items-center gap-2">
               <span>{data.id}</span>
               <IoPlayCircleOutline
-                onClick={() => handlePlayAudio(data.word)}
+                onClick={() => playEnglish(data.word, { quality: "high" })}
                 size={32}
                 color="#FAF0E6"
               />
@@ -63,7 +63,9 @@ const DisplayList = () => {
               </div>
               <div className="flex items-center gap-2">
                 <IoPlayCircleOutline
-                  onClick={() => handlePlayAudio(meaning.sentence)}
+                  onClick={() =>
+                    playEnglish(meaning.sentence, { quality: "high" })
+                  }
                   size={32}
                   color="#FAF0E6"
                 />

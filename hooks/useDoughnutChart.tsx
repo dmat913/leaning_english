@@ -10,7 +10,6 @@ const useDoughnutChart = (
 ) => {
   const data = useMemo(
     () => ({
-      labels: ["わかる", "わからない"],
       datasets: [
         {
           data: [correctData.length, incorrectData.length],

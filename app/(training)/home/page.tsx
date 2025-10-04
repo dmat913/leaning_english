@@ -3,7 +3,7 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <div className="w-full h-full flex overflow-auto flex-col items-center gap-3">
+    <div className="w-full h-full flex overflow-auto flex-col items-center gap-3 p-4">
       <MeteorsCard
         title="600点レベル"
         description="助走の400語"

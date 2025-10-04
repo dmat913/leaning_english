@@ -1,5 +1,5 @@
 "use client";
-import { handlePlayAudio } from "@/common/utils";
+import { playEnglish } from "@/common/audioPlayer";
 import { TextRevealCard } from "@/components/aceternity/TextRevealCard";
 import {
   TrainingResultState,
@@ -9,11 +9,8 @@ import {
 } from "@/states/trainingState";
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { IoCloseCircle } from "react-icons/io5";
-import { BiUserVoice } from "react-icons/bi";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { FaCheckCircle, FaRegStar, FaStar } from "react-icons/fa";
 import useAudio from "@/hooks/useAudio";
 import { EnglishData } from "@/types/types";
 import { usePathname } from "next/navigation";
@@ -22,6 +19,16 @@ import { TestData } from "@/models/userModel";
 import DMATLoading from "../elements/DMATLoading";
 import DMATDialog from "../elements/DMATDialog";
 import DMATCloseButton from "../elements/DMATCloseButton";
+import {
+  MdVolumeUp,
+  MdCheck,
+  MdClose,
+  MdStar,
+  MdStarBorder,
+  MdArrowForward,
+  MdQuiz,
+  MdRecordVoiceOver,
+} from "react-icons/md";
 
 interface ProgressTrainingProps {
   setOriginalTestData: (testData: TestData[]) => void;
@@ -183,31 +190,94 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
   };
 
   return (
-    <>
-      <div
-        className="flex flex-col items-center justify-center rounded-2xl w-full"
-        style={{ gap: "40px" }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col items-center justify-center w-full h-full p-4 space-y-6"
+    >
+      <DMATCloseButton handleClick={() => setIsOpenDialog(true)} />
+
+      {/* Progress Header */}
+      <motion.div
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+        className="flex items-center gap-3 mb-2"
       >
-        <DMATCloseButton handleClick={() => setIsOpenDialog(true)} />
-        <div className="flex items-end gap-2 pl-1">
-          <div
-            onClick={() => handlePlayAudio(testData[problemNumber].word)}
-            className="bg-yellow-2 w-24 h-24 rounded-2xl flex items-center justify-center shadow-md active:scale-105"
-          >
-            <BiUserVoice size={60} color="" />
-          </div>
-          <div
-            onClick={() => handlePlayAudio(testData[problemNumber].sentence)}
-            className="bg-[#FFEB3B] w-16 h-16 rounded-2xl flex items-center justify-center shadow-md active:scale-105"
-          >
-            <BiUserVoice size={40} color="" />
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+          <MdQuiz size={24} className="text-white" />
+        </div>
+        <div>
+          <h2 className="text-lg font-bold text-white-1">
+            問題 {problemNumber + 1} / {testData.length}
+          </h2>
+          <div className="w-32 h-1 bg-white-1/20 rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{
+                width: `${((problemNumber + 1) / testData.length) * 100}%`,
+              }}
+              transition={{ duration: 0.3 }}
+              className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
+            />
           </div>
         </div>
-        <div className="flex gap-3 flex-col w-full bg-gray-900 p-4 rounded-md shadow-xl opacity-95">
-          <div className="flex items-center gap-2 w-full">
-            <span className="text-white-1 font-bold text-3xl">
-              {problemNumber + 1},
-            </span>
+      </motion.div>
+
+      {/* Audio Controls */}
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+        className="flex items-end gap-4"
+      >
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() =>
+            playEnglish(testData[problemNumber].word, { quality: "high" })
+          }
+          className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-200 group"
+        >
+          <MdVolumeUp
+            size={40}
+            className="text-white group-hover:scale-110 transition-transform duration-200"
+          />
+          <div className="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center border-2 border-white shadow-lg">
+            <MdRecordVoiceOver size={14} className="text-white" />
+          </div>
+        </motion.button>
+
+        {testData[problemNumber].sentence !== "" && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() =>
+              playEnglish(testData[problemNumber].sentence, { quality: "high" })
+            }
+            className="relative w-16 h-16 rounded-xl bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-200 group"
+          >
+            <MdVolumeUp
+              size={28}
+              className="text-white group-hover:scale-110 transition-transform duration-200"
+            />
+          </motion.button>
+        )}
+      </motion.div>
+
+      {/* Question Card */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+        className="w-full max-w-md bg-white-1/10 backdrop-blur-md rounded-2xl p-6 border border-white-1/20 shadow-xl space-y-4"
+      >
+        <div className="flex items-start gap-3">
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white-1/20 text-sm font-bold text-white-1 flex-shrink-0 mt-1">
+            {problemNumber + 1}
+          </span>
+          <div className="flex-1">
             {trainingDisplayType === "englishToJapanese" ? (
               <TextRevealCard
                 displayText={testData[problemNumber].word}
@@ -222,8 +292,11 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
               />
             )}
           </div>
-          {testData[problemNumber].sentence !== "" &&
-            (trainingDisplayType === "englishToJapanese" ? (
+        </div>
+
+        {testData[problemNumber].sentence !== "" && (
+          <div className="pl-11">
+            {trainingDisplayType === "englishToJapanese" ? (
               <TextRevealCard
                 displayText={testData[problemNumber].sentence}
                 bgText={testData[problemNumber].sentenceMeaning}
@@ -237,168 +310,218 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
                 className="flex flex-1"
                 size="small"
               />
-            ))}
+            )}
+          </div>
+        )}
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center pl-1" style={{ gap: "8px" }}>
-              {testData[problemNumber].portOfSpeech.map((item, index) => (
-                <div
-                  key={index}
-                  className="border text-sm text-black-1 bg-white-1"
-                  style={{
-                    padding: "4px 10px",
-                    borderColor: "#FAF0E6",
-                    borderRadius: "4px",
-                  }}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-            <button
-              className="border rounded-md h-10 w-10 flex items-center justify-center active:scale-105"
-              disabled={isLoading}
-              onClick={() =>
-                handleClickStar(!testData[problemNumber].isCompleted)
-              }
-            >
-              {isLoading ? (
-                <DMATLoading otherClass="h-5 w-5" />
-              ) : (
-                <>
-                  {testData[problemNumber].isCompleted ? (
-                    <FaStar color="#FFD700" size={24} />
-                  ) : (
-                    <FaRegStar color="#FFD700" size={24} />
-                  )}
-                </>
-              )}
-            </button>
+        <div className="flex items-center justify-between pt-2">
+          <div className="flex flex-wrap gap-2">
+            {testData[problemNumber].portOfSpeech.map((item, index) => (
+              <motion.span
+                key={index}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.6 + index * 0.1 }}
+                className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-medium border border-purple-500/30"
+              >
+                {item}
+              </motion.span>
+            ))}
           </div>
-        </div>
-        <div className="flex flex-col gap-2 w-full">
-          <button
-            className="bg-white-1 h-10 rounded-lg text-black-1 w-full active:scale-105"
-            onClick={() => handleClickDisplayResult(false)}
-            disabled={isVisibleResult}
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            disabled={isLoading}
+            onClick={() =>
+              handleClickStar(!testData[problemNumber].isCompleted)
+            }
+            className="w-10 h-10 rounded-xl bg-white-1/10 border border-white-1/30 flex items-center justify-center hover:bg-white-1/20 transition-colors duration-200"
           >
-            わからない
-          </button>
-          <div className="flex items-center gap-2">
-            <button
-              className="bg-yellow-2 h-10 rounded-lg text-black-1 flex-1 active:scale-105"
-              onClick={() => handleClickDisplayResult(true)}
-              disabled={isVisibleResult}
-            >
-              わかる
-            </button>
-          </div>
-        </div>
-      </div>
-      {isOpenDialog && (
-        <DMATDialog
-          mainText="Trainingを中断しますか？"
-          leftButtonText="キャンセル"
-          rightButtonText="中断"
-          handleClickLeftButton={() => setIsOpenDialog(false)}
-          handleClickRightButton={() => {
-            setIsOpenDialog(false);
-            setTestData([]);
-            setStatus("not_started");
-            setTrainingDisplayType("englishToJapanese");
-          }}
-        />
-      )}
-      {isVisibleResult && (
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            backgroundColor: isCorrect ? "#d4edda" : "#f8d7da",
-            padding: "10px",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-          }}
-        >
-          <div className="flex items-center justify-between">
-            {isCorrect ? (
-              <>
-                <div className="flex items-center gap-2">
-                  <FaCheckCircle color="#4cd964" size={32} />
-                  <span className="text-green-2">わかる</span>
-                </div>
-                <IoCloseCircle
-                  color="#ff5e57"
-                  size={32}
-                  onClick={() => handleClickDisplayResult(false)}
-                />
-              </>
+            {isLoading ? (
+              <DMATLoading otherClass="h-5 w-5" />
             ) : (
               <>
-                <div className="flex items-center gap-2">
-                  <IoCloseCircle color="#ff5e57" size={32} />
-                  <span className="text-red-2">わからない</span>
-                </div>
-                <FaCheckCircle
-                  color="#4cd964"
-                  size={32}
-                  onClick={() => handleClickDisplayResult(true)}
-                />
+                {testData[problemNumber].isCompleted ? (
+                  <MdStar size={20} className="text-yellow-400" />
+                ) : (
+                  <MdStarBorder size={20} className="text-yellow-400" />
+                )}
               </>
             )}
-          </div>
-          <div className="flex flex-col gap-1 text-black-1">
-            <span>
-              {trainingDisplayType === "englishToJapanese" ? (
-                <div className="flex flex-col gap-1">
-                  {wordSplit.map((word, index) => (
-                    <div className="flex items-center gap-2" key={index}>
-                      {testData[problemNumber].portOfSpeech.length > 0 && (
-                        <span
-                          className={cn(
-                            `border text-sm text-white-1 bg-green-2`,
-                            !isCorrect && "bg-red-2"
-                          )}
-                          style={{
-                            padding: "4px 10px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          {testData[problemNumber].portOfSpeech[index]}
-                        </span>
-                      )}
-                      {word}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                testData[problemNumber].word
-              )}
-            </span>
-            <span>
-              {trainingDisplayType === "englishToJapanese"
-                ? testData[problemNumber].sentenceMeaning
-                : testData[problemNumber].sentence}
-            </span>
-          </div>
-          <button
-            onClick={CheckCurrentProblem}
-            className={cn(
-              `w-full active:scale-105 bg-red-2 text-white-1 h-10 rounded-lg shadow-md`,
-              `${isCorrect ? "bg-green-2" : "bg-red-2"}`
-            )}
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Answer Buttons */}
+      <motion.div
+        initial={{ y: 30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.4 }}
+        className="w-full max-w-md space-y-3"
+      >
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => handleClickDisplayResult(false)}
+          disabled={isVisibleResult}
+          className="w-full h-12 rounded-xl bg-white-1/90 hover:bg-white-1 text-black-1 font-semibold border-2 border-white-1/50 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          <MdClose size={20} />
+          わからない
+        </motion.button>
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => handleClickDisplayResult(true)}
+          disabled={isVisibleResult}
+          className="w-full h-12 rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          <MdCheck size={20} />
+          わかる
+        </motion.button>
+      </motion.div>
+      {/* Dialog */}
+      <AnimatePresence>
+        {isOpenDialog && (
+          <DMATDialog
+            mainText="Trainingを中断しますか？"
+            leftButtonText="キャンセル"
+            rightButtonText="中断"
+            handleClickLeftButton={() => setIsOpenDialog(false)}
+            handleClickRightButton={() => {
+              setIsOpenDialog(false);
+              setTestData([]);
+              setStatus("not_started");
+              setTrainingDisplayType("englishToJapanese");
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Result Modal */}
+      <AnimatePresence>
+        {isVisibleResult && (
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed bottom-0 left-0 right-0 z-50"
           >
-            次へ
-          </button>
-        </motion.div>
-      )}
-    </>
+            <div
+              className={cn(
+                "p-6 rounded-t-3xl shadow-2xl border-t-2 backdrop-blur-md",
+                isCorrect
+                  ? "bg-green-400/90 border-green-300"
+                  : "bg-red-400/90 border-red-300"
+              )}
+            >
+              {/* Result Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={cn(
+                      "w-12 h-12 rounded-full flex items-center justify-center shadow-lg",
+                      isCorrect ? "bg-green-500" : "bg-red-500"
+                    )}
+                  >
+                    {isCorrect ? (
+                      <MdCheck size={24} className="text-white" />
+                    ) : (
+                      <MdClose size={24} className="text-white" />
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">
+                      {isCorrect ? "正解！" : "不正解"}
+                    </h3>
+                    <p className="text-sm text-white/80">
+                      {isCorrect ? "よくできました" : "もう一度確認しましょう"}
+                    </p>
+                  </div>
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => handleClickDisplayResult(!isCorrect)}
+                  className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-colors duration-200",
+                    isCorrect
+                      ? "bg-red-500 hover:bg-red-600"
+                      : "bg-green-500 hover:bg-green-600"
+                  )}
+                >
+                  {isCorrect ? (
+                    <MdClose size={20} className="text-white" />
+                  ) : (
+                    <MdCheck size={20} className="text-white" />
+                  )}
+                </motion.button>
+              </div>
+
+              {/* Answer Content */}
+              <div className="mb-6 p-4 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30">
+                <div className="space-y-2 text-white">
+                  {trainingDisplayType === "englishToJapanese" ? (
+                    <div className="space-y-2">
+                      {wordSplit.map((word, index) => (
+                        <div className="flex items-center gap-3" key={index}>
+                          {testData[problemNumber].portOfSpeech.length > 0 && (
+                            <span
+                              className={cn(
+                                "px-3 py-1 rounded-full text-xs font-medium border",
+                                isCorrect
+                                  ? "bg-green-600 border-green-500 text-white"
+                                  : "bg-red-600 border-red-500 text-white"
+                              )}
+                            >
+                              {testData[problemNumber].portOfSpeech[index]}
+                            </span>
+                          )}
+                          <span className="font-medium">{word}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="font-medium">
+                      {testData[problemNumber].word}
+                    </span>
+                  )}
+
+                  {testData[problemNumber].sentence !== "" && (
+                    <div className="pt-2 mt-2 border-t border-white/30">
+                      <p className="text-sm text-white/90">
+                        {trainingDisplayType === "englishToJapanese"
+                          ? testData[problemNumber].sentenceMeaning
+                          : testData[problemNumber].sentence}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Next Button */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={CheckCurrentProblem}
+                className={cn(
+                  "w-full h-12 rounded-xl font-semibold text-white shadow-lg flex items-center justify-center gap-2 transition-colors duration-200",
+                  isCorrect
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-red-600 hover:bg-red-700"
+                )}
+              >
+                次の問題へ
+                <MdArrowForward size={20} />
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
