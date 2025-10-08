@@ -67,7 +67,6 @@ const wordSchema = new Schema<WordDocument>(
 );
 
 // インデックスを作成してパフォーマンスを向上
-wordSchema.index({ word_id: 1 });
 wordSchema.index({ category: 1 });
 
 export const WordModel =
