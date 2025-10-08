@@ -8,8 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npm run build && gh-pages -d build -m \"Updates --skip-ci\"",
-    "seed:level600": "npx ts-node scripts/seedLevel600Final.ts"
+    "deploy": "npm run build && gh-pages -d build -m \"Updates --skip-ci\""
   },
   "dependencies": {
     "chart.js": "^4.4.3",
