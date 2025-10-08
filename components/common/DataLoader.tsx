@@ -22,11 +22,6 @@ const DataLoader: React.FC<DataLoaderProps> = ({
 
   useEffect(() => {
     const loadData = async () => {
-      // データが既に存在する場合はスキップ
-      if (data.length > 0) {
-        return;
-      }
-
       // ユーザーが存在しない場合はスキップ
       if (!user) {
         return;
@@ -53,7 +48,7 @@ const DataLoader: React.FC<DataLoaderProps> = ({
     };
 
     loadData();
-  }, [user, category, data.length, setData]);
+  }, [user, category, setData]);
 
   return <>{children(data, isLoading)}</>;
 };
