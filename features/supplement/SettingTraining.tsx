@@ -10,7 +10,7 @@ import {
 } from "@/states/trainingState";
 import { getRandomItems } from "@/common/utils";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
-import { TestData } from "@/models/userModel";
+import { TestData } from "@/types/types";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -34,7 +34,7 @@ const SettingTraining = ({
   // テストデータ設定
   useEffect(() => {
     setTestData(targetTestData);
-  }, [targetTestData]);
+  }, [targetTestData, setTestData]);
 
   // テスト表示種類radioボタン変更
   const handleChangeDisplayRadio = (

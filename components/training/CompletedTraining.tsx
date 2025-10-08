@@ -1,4 +1,3 @@
-import DMATButton from "@/components/elements/DMATButton";
 import { Status } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React, { memo, useMemo, useState, useEffect } from "react";
@@ -6,19 +5,15 @@ import { Doughnut } from "react-chartjs-2";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { TrainingResultState, testDataState } from "@/states/trainingState";
 import DisplayResult from "@/features/training/DisplayResult";
-import { cn } from "@/lib/utils";
-import { TestData } from "@/models/userModel";
+import { TestData } from "@/types/types";
 import useDoughnutChart from "@/hooks/useDoughnutChart";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MdHome,
   MdList,
   MdCelebration,
-  MdTrendingUp,
   MdCheckCircle,
   MdCancel,
-  MdStar,
-  MdTimer,
 } from "react-icons/md";
 
 const CompletedTraining = ({
@@ -98,7 +93,7 @@ const CompletedTraining = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="flex flex-col w-full h-full py-16 relative overflow-hidden"
+      className="flex flex-col gap-4 pt-6 w-full px-6 h-full relative overflow-hidden"
     >
       {/* Celebration Animation */}
       <AnimatePresence>
@@ -125,9 +120,9 @@ const CompletedTraining = ({
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="text-center px-6 mb-6"
+        className="text-center"
       >
-        <div className="flex items-center justify-center gap-3 mb-4">
+        <div className="flex items-center justify-center gap-3">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg">
             <MdCheckCircle size={28} className="text-white" />
           </div>
@@ -225,7 +220,7 @@ const CompletedTraining = ({
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
-        className="fixed bottom-0 left-0 right-0 p-6 bg-black-2/90 backdrop-blur-md border-t border-white-1/20 z-40"
+        className="p-6 z-40"
       >
         <div className="flex items-center gap-4 w-full max-w-md mx-auto">
           <motion.button

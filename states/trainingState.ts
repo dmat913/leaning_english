@@ -1,5 +1,4 @@
-import { TestData } from "@/models/userModel";
-import { EnglishData, Status } from "@/types/types";
+import { TestData, Status } from "@/types/types";
 import { atom } from "recoil";
 
 // trainingの項目

@@ -1,4 +1,4 @@
-import { TestData } from "@/models/userModel";
+import { TestData } from "@/types/types";
 import { atom, selector } from "recoil";
 
 // level600 data

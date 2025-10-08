@@ -1,5 +1,4 @@
 import { MeteorsCard } from "@/components/aceternity/MeteorsCard";
-import React from "react";
 
 const HomePage = () => {
   return (
@@ -33,6 +32,7 @@ const HomePage = () => {
         description="100 Essential Words for Part 1"
         path="part1_essentialWord100"
         meteorsNumber={5}
+        disabled
       />
       <MeteorsCard
         title="部署・職業名"
@@ -46,12 +46,14 @@ const HomePage = () => {
         description="Prepositions"
         path="prepositions"
         meteorsNumber={5}
+        disabled
       />
       <MeteorsCard
         title="接続詞"
         description="Conjunctions"
         path="conjunctions"
         meteorsNumber={5}
+        disabled
       />
       <MeteorsCard
         title="接続副詞"
@@ -64,12 +66,14 @@ const HomePage = () => {
         description="88 Words with Multiple Meanings"
         path="multipleMeanings"
         meteorsNumber={5}
+        disabled
       />
       <MeteorsCard
         title="定型表現"
         description="120 Set Phrases"
         path="phrase120"
         meteorsNumber={5}
+        disabled
       />
     </div>
   );

@@ -1,12 +1,11 @@
 import React, { memo, useState } from "react";
 import { Status } from "@/types/types";
-import { WordDetailCard } from "@/components/aceternity/WordDetailCard";
 import { handlePlayAudio } from "@/common/utils";
 import DMATButton from "@/components/elements/DMATButton";
 import { cn } from "@/lib/utils";
 import DMATCloseButton from "../elements/DMATCloseButton";
 import useAudio from "@/hooks/useAudio";
-import { TestData } from "@/models/userModel";
+import { TestData } from "@/types/types";
 import DMATProgressBar from "../elements/DMATProgressBar";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -106,7 +105,7 @@ const DisplayList = ({
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white-1/20 text-xs font-bold text-white-1">
-                      {item.word_id}
+                      {item.word_id.slice(-3)}
                     </span>
                     <span className="text-lg font-semibold text-white-1 group-hover:text-blue-300 transition-colors duration-200">
                       {item.word}
@@ -170,7 +169,7 @@ const DisplayList = ({
                   <div>
                     <h2 className="text-xl font-bold text-black-1">単語詳細</h2>
                     <p className="text-sm text-gray-600">
-                      #{displayData[selectedIndex].word_id}
+                      #{displayData[selectedIndex].word_id.slice(-3)}
                     </p>
                   </div>
                 </div>
@@ -250,6 +249,21 @@ const DisplayList = ({
                     )}
                   </div>
                 </div>
+
+                {/* Remarks */}
+                {displayData[selectedIndex].remarks &&
+                  displayData[selectedIndex].remarks !== "" && (
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-semibold text-gray-700">
+                        備考
+                      </h4>
+                      <div className="p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          {displayData[selectedIndex].remarks}
+                        </p>
+                      </div>
+                    </div>
+                  )}
               </div>
 
               {/* Modal Footer */}

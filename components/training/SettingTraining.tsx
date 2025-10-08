@@ -1,5 +1,4 @@
 import { getRandomItems } from "@/common/utils";
-import DMATButton from "@/components/elements/DMATButton";
 import {
   trainingDisplayTypeState,
   testDataState,
@@ -8,7 +7,7 @@ import { Option, Status } from "@/types/types";
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { FcStart } from "react-icons/fc";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { TestData } from "@/models/userModel";
+import { TestData } from "@/types/types";
 import DMATCloseButton from "../elements/DMATCloseButton";
 import { motion } from "framer-motion";
 import {
