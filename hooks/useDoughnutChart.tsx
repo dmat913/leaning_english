@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Chart, ChartOptions, Plugin, registerables } from "chart.js";
-import { TestData } from "@/models/userModel";
+import { TestData } from "@/types/types";
 
 Chart.register(...registerables);
 

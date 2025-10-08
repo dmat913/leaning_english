@@ -1,7 +1,7 @@
 import { playEnglish } from "@/common/audioPlayer";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
 import { cn } from "@/lib/utils";
-import { TestData } from "@/models/userModel";
+import { TestData } from "@/types/types";
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdCheck, MdClose, MdVolumeUp, MdLibraryBooks } from "react-icons/md";
@@ -40,7 +40,7 @@ const DisplayResult = ({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed top-0 left-0 h-[80svh] overflow-auto bg-black-2/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      className="fixed top-0 left-0 h-full w-full overflow-hidden bg-black-2/50 backdrop-blur-sm z-50 p-4"
       onClick={() => setIsOpen(false)}
     >
       <motion.div
@@ -49,7 +49,7 @@ const DisplayResult = ({
         exit={{ scale: 0.8, opacity: 0, y: 20 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-2xl h-[80svh] overflow-auto bg-white-1/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white-1/30 flex flex-col"
+        className="w-full max-w-2xl h-full flex flex-col bg-white-1/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white-1/30"
       >
         {/* Header */}
         <div className="relative p-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-b border-white-1/20">
@@ -102,7 +102,7 @@ const DisplayResult = ({
         </div>
 
         {/* Content List */}
-        <div className="flex-1 overflow-y-auto py-2">
+        <div className="flex-1 py-2 overflow-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={displayType}
@@ -148,7 +148,7 @@ const DisplayResult = ({
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/80 text-xs font-bold text-gray-700 border border-gray-200">
-                        {item.word_id}
+                        {item.word_id.slice(-3)}
                       </span>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
@@ -193,7 +193,7 @@ const DisplayResult = ({
         </div>
 
         {/* Footer Stats */}
-        <div className="p-4 bg-gray-50/80 border-t border-gray-200/50">
+        <div className="p-4 bg-gray-50/80 border-t rounded-3xl border-gray-200/50">
           <div className="flex items-center justify-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
