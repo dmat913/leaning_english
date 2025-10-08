@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const URI = process.env.DB_URI;
+const URI = process.env.MONGODB_URI;
 
 let cachedClient: any = null;
 
