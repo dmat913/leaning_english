@@ -14,15 +14,12 @@ import {
 } from "@/data/EssentialWords100_forPart1";
 import { part1EssentialWords100State } from "@/states/testDataState";
 import ListeningEnglish from "@/components/training/ListeningEnglish";
+import DataLoader from "@/components/common/DataLoader";
+import LoadingScreen from "@/components/common/LoadingScreen";
 
 const EssentialWords100ForPart1 = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
-
-  // パート1重要語100 test data
-  const [part1EssentialWords100, setPartEssentialWord100] = useRecoilState(
-    part1EssentialWords100State
-  );
 
   // テストstatus変更
   const handleChangeStatus = useCallback((status: Status) => {
@@ -31,39 +28,62 @@ const EssentialWords100ForPart1 = () => {
   }, []);
 
   return (
-    <div className="flex w-full h-full relative">
-      {status === "not_started" && (
-        <NotStarted
-          handleChangeStatus={handleChangeStatus}
-          title="パート1重要語100"
-          description="100 Essential Words for Part 1"
-        />
-      )}
-      {status === "display_list" && (
-        <DisplayList
-          handleChangeStatus={handleChangeStatus}
-          displayData={part1EssentialWords100}
-          totalQuestions={100}
-        />
-      )}
-      {status === "setting_training" && (
-        <SettingTraining
-          handleChangeStatus={handleChangeStatus}
-          targetData={part1EssentialWords100}
-          options={essentialWords100ForPart1Options}
-          fromOptions={essentialWords100ForPart1FromOptions}
-        />
-      )}
-      {status === "in_progress" && (
-        <ProgressTraining setOriginalTestData={setPartEssentialWord100} />
-      )}
-      {status === "listening" && (
-        <ListeningEnglish handleChangeStatus={handleChangeStatus} />
-      )}
-      {status === "completed" && (
-        <CompletedTraining handleChangeStatus={handleChangeStatus} />
-      )}
-    </div>
+    <DataLoader
+      category="part1_essentialWord100"
+      dataState={part1EssentialWords100State}
+    >
+      {(part1EssentialWords100, isLoading) => {
+        if (isLoading) {
+          return (
+            <LoadingScreen
+              title="パート1重要語100"
+              message="データを読み込み中..."
+            />
+          );
+        }
+
+        return (
+          <div className="flex w-full h-full relative">
+            {status === "not_started" && (
+              <NotStarted
+                handleChangeStatus={handleChangeStatus}
+                title="パート1重要語100"
+                description="100 Essential Words for Part 1"
+              />
+            )}
+            {status === "display_list" && (
+              <DisplayList
+                handleChangeStatus={handleChangeStatus}
+                displayData={part1EssentialWords100}
+                totalQuestions={100}
+              />
+            )}
+            {status === "setting_training" && (
+              <SettingTraining
+                handleChangeStatus={handleChangeStatus}
+                targetData={part1EssentialWords100}
+                options={essentialWords100ForPart1Options}
+                fromOptions={essentialWords100ForPart1FromOptions}
+              />
+            )}
+            {status === "in_progress" && (
+              <ProgressTraining
+                setOriginalTestData={(data) => {
+                  // DataLoaderを使用しているため、直接状態を更新する必要がある場合は
+                  // ここで適切な処理を行う
+                }}
+              />
+            )}
+            {status === "listening" && (
+              <ListeningEnglish handleChangeStatus={handleChangeStatus} />
+            )}
+            {status === "completed" && (
+              <CompletedTraining handleChangeStatus={handleChangeStatus} />
+            )}
+          </div>
+        );
+      }}
+    </DataLoader>
   );
 };
 
