@@ -45,21 +45,18 @@ const HomePage = () => {
         description="Prepositions"
         path="prepositions"
         meteorsNumber={5}
-        disabled
       />
       <MeteorsCard
         title="接続詞"
         description="Conjunctions"
         path="conjunctions"
         meteorsNumber={5}
-        disabled
       />
       <MeteorsCard
         title="接続副詞"
         description="Conjunctive Adverbs"
         path="conjunctiveAdverbs"
         meteorsNumber={5}
-        disabled
       />
       <MeteorsCard
         title="多義語"
@@ -72,7 +69,6 @@ const HomePage = () => {
         description="120 Set Phrases"
         path="phrases120"
         meteorsNumber={5}
-        // disabled
       />
     </div>
   );
