@@ -8,7 +8,7 @@ export interface Word {
   sentence: string;
   sentenceMeaning: string;
   portOfSpeech: PortOfSpeech[];
-  category: string; // level600, level730, level860, level990, part1_essentialWord100, phrase120, prepositions, conjunctions, conjunctiveAdverbs
+  category: string; // level600, level730, level860, level990, part1_essentialWord100, phrases120, prepositions, conjunctions, conjunctiveAdverbs
   remarks?: string; // 備考・メモ
 }
 
@@ -52,7 +52,7 @@ const wordSchema = new Schema<WordDocument>(
         "level860",
         "level990",
         "part1_essentialWord100",
-        "phrase120",
+        "phrases120",
         "prepositions",
         "conjunctions",
         "conjunctiveAdverbs",

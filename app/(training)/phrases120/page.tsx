@@ -6,7 +6,7 @@ import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
 import DisplayList from "@/components/training/DisplayList";
-import { phrase120State } from "@/states/testDataState";
+import { phrases120State } from "@/states/testDataState";
 import ProgressTraining from "@/components/training/ProgressTraining";
 import SettingTraining from "@/components/training/SettingTraining";
 import { phrases120FromOptions, phrases120Options } from "@/data/120SetPhrases";
@@ -27,7 +27,7 @@ const Phrases = () => {
 
   return (
     <Background>
-      <DataLoader category="phrase120" dataState={phrase120State}>
+      <DataLoader category="phrases120" dataState={phrases120State}>
         {(phrase120Data, isLoading) => {
           if (isLoading) {
             return (

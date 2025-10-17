@@ -70,9 +70,9 @@ const HomePage = () => {
       <MeteorsCard
         title="定型表現"
         description="120 Set Phrases"
-        path="phrase120"
+        path="phrases120"
         meteorsNumber={5}
-        disabled
+        // disabled
       />
     </div>
   );
