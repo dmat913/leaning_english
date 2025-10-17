@@ -12,7 +12,7 @@ export interface UserProgress {
 
 export interface UserProgressData {
   user_id: string;
-  category: string; // level600, level730, level860, level990, part1_essentialWord100, phrase120, prepositions, conjunctions, conjunctiveAdverbs
+  category: string; // level600, level730, level860, level990, part1_essentialWord100, phrases120, prepositions, conjunctions, conjunctiveAdverbs
   progress: UserProgress[];
 }
 
@@ -35,7 +35,7 @@ const userProgressSchema = new Schema<UserProgressDocument>(
         "level860",
         "level990",
         "part1_essentialWord100",
-        "phrase120",
+        "phrases120",
         "prepositions",
         "conjunctions",
         "conjunctiveAdverbs",

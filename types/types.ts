@@ -118,7 +118,7 @@ export type CategoryType =
   | "level860"
   | "level990"
   | "part1_essentialWord100"
-  | "phrase120"
+  | "phrases120"
   | "prepositions"
   | "conjunctions"
   | "conjunctiveAdverbs";

@@ -137,8 +137,8 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         return "level990";
       case "/part1_essentialWord100":
         return "part1_essentialWord100";
-      case "/phrase120":
-        return "phrase120";
+      case "/phrases120":
+        return "phrases120";
       case "/prepositions":
         return "prepositions";
       case "/conjunctions":

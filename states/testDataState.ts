@@ -31,9 +31,9 @@ export const part1EssentialWords100State = atom<TestData[]>({
   default: [],
 });
 
-// phrase120 data
-export const phrase120State = atom<TestData[]>({
-  key: "phrase120State",
+// phrases120 data
+export const phrases120State = atom<TestData[]>({
+  key: "phrases120State",
   default: [],
 });
 
@@ -68,7 +68,7 @@ export const resetState = selector({
     reset(level860State);
     reset(level990State);
     reset(part1EssentialWords100State);
-    reset(phrase120State);
+    reset(phrases120State);
     reset(prepositionsState);
   },
 });
