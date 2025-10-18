@@ -38,7 +38,6 @@ const HomePage = () => {
         description="Departments & Occupations"
         path="departmentsAndOccupations"
         meteorsNumber={5}
-        disabled
       />
       <MeteorsCard
         title="前置詞"
