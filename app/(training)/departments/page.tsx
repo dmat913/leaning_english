@@ -33,10 +33,7 @@ const DepartmentsAndOccupations = () => {
         {(departmentAndOccupationsData, isLoading) => {
           if (isLoading) {
             return (
-              <LoadingScreen
-                title="部署・職業名"
-                message="データを読み込み中..."
-              />
+              <LoadingScreen title="部署" message="データを読み込み中..." />
             );
           }
 
@@ -45,8 +42,8 @@ const DepartmentsAndOccupations = () => {
               {status === "not_started" && (
                 <NotStarted
                   handleChangeStatus={handleChangeStatus}
-                  title="部署・職業名"
-                  description="Departments & Occupations"
+                  title="部署"
+                  description="Departments"
                 />
               )}
               {status === "setting_training" && (
