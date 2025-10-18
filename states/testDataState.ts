@@ -55,6 +55,12 @@ export const conjunctiveAdverbsState = atom<TestData[]>({
   default: [],
 });
 
+// 接続副詞 data
+export const departmentAndOccupationsState = atom<TestData[]>({
+  key: "departmentAndOccupationsState",
+  default: [],
+});
+
 // Reset all states selector
 export const resetState = selector({
   key: "resetState",
