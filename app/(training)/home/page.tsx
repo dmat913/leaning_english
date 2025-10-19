@@ -46,6 +46,12 @@ const HomePage = () => {
         meteorsNumber={5}
       />
       <MeteorsCard
+        title="学問名"
+        description="Majors"
+        path="majors"
+        meteorsNumber={5}
+      />
+      <MeteorsCard
         title="前置詞"
         description="Prepositions"
         path="prepositions"
