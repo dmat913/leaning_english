@@ -149,6 +149,8 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         return "departments";
       case "/occupations":
         return "occupations";
+      case "/majors":
+        return "majors";
       default:
         return "";
     }
