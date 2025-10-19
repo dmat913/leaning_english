@@ -46,7 +46,7 @@ const HomePage = () => {
         meteorsNumber={5}
       />
       <MeteorsCard
-        title="専門名"
+        title="専攻名"
         description="Majors"
         path="majors"
         meteorsNumber={5}
