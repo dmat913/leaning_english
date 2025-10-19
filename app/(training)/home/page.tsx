@@ -34,9 +34,15 @@ const HomePage = () => {
         meteorsNumber={5}
       />
       <MeteorsCard
-        title="部署・職業名"
-        description="Departments & Occupations"
-        path="departmentsAndOccupations"
+        title="部署"
+        description="Departments"
+        path="departments"
+        meteorsNumber={5}
+      />
+      <MeteorsCard
+        title="職業"
+        description="Occupations"
+        path="occupations"
         meteorsNumber={5}
       />
       <MeteorsCard

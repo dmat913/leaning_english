@@ -147,6 +147,8 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
         return "conjunctiveAdverbs";
       case "/departments":
         return "departments";
+      case "/occupations":
+        return "occupations";
       default:
         return "";
     }
