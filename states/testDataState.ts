@@ -61,9 +61,15 @@ export const departmentsState = atom<TestData[]>({
   default: [],
 });
 
-// 部署名 data
+// 職業名 data
 export const occupationsState = atom<TestData[]>({
   key: "occupationsState",
+  default: [],
+});
+
+// 専攻名 data
+export const majorsState = atom<TestData[]>({
+  key: "majorsState",
   default: [],
 });
 
