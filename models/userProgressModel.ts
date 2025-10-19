@@ -40,6 +40,7 @@ const userProgressSchema = new Schema<UserProgressDocument>(
         "conjunctions",
         "conjunctiveAdverbs",
         "departments",
+        "occupations",
       ],
     },
     progress: [

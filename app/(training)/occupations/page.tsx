@@ -1,20 +1,24 @@
 "use client";
-
+import { Background } from "@/components/aceternity/Background";
 import NotStarted from "@/components/training/NotStarted";
 import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import SettingTraining from "@/features/supplement/SettingTraining";
+import DisplayList from "@/components/training/DisplayList";
+import { occupationsState } from "@/states/testDataState";
+import ProgressTraining from "@/components/training/ProgressTraining";
+import SettingTraining from "@/components/training/SettingTraining";
+import {
+  occupationsFromOptions,
+  occupationsOptions,
+} from "@/data/120SetPhrases";
 import CompletedTraining from "@/components/training/CompletedTraining";
-import { Background } from "@/components/aceternity/Background";
+import ListeningEnglish from "@/components/training/ListeningEnglish";
 import DataLoader from "@/components/common/DataLoader";
 import LoadingScreen from "@/components/common/LoadingScreen";
-import { departmentsState } from "@/states/testDataState";
-import DisplayList from "@/components/training/DisplayList";
-import ProgressTraining from "@/components/training/ProgressTraining";
 
-const DepartmentsAndOccupations = () => {
+const Occupations = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
 
@@ -26,11 +30,11 @@ const DepartmentsAndOccupations = () => {
 
   return (
     <Background>
-      <DataLoader category="departments" dataState={departmentsState}>
-        {(departmentsData, isLoading) => {
+      <DataLoader category="occupations" dataState={occupationsState}>
+        {(occupationsData, isLoading) => {
           if (isLoading) {
             return (
-              <LoadingScreen title="部署" message="データを読み込み中..." />
+              <LoadingScreen title="職業" message="データを読み込み中..." />
             );
           }
 
@@ -39,14 +43,16 @@ const DepartmentsAndOccupations = () => {
               {status === "not_started" && (
                 <NotStarted
                   handleChangeStatus={handleChangeStatus}
-                  title="部署"
-                  description="Departments"
+                  title="職業"
+                  description="Occupations"
                 />
               )}
               {status === "setting_training" && (
                 <SettingTraining
                   handleChangeStatus={handleChangeStatus}
-                  targetTestData={departmentsData}
+                  targetData={occupationsData}
+                  options={occupationsOptions}
+                  fromOptions={occupationsFromOptions}
                 />
               )}
               {status === "in_progress" && (
@@ -55,11 +61,14 @@ const DepartmentsAndOccupations = () => {
               {status === "completed" && (
                 <CompletedTraining handleChangeStatus={handleChangeStatus} />
               )}
+              {status === "listening" && (
+                <ListeningEnglish handleChangeStatus={handleChangeStatus} />
+              )}
               {status === "display_list" && (
                 <DisplayList
+                  totalQuestions={occupationsData.length}
+                  displayData={occupationsData}
                   handleChangeStatus={handleChangeStatus}
-                  displayData={departmentsData}
-                  totalQuestions={departmentsData.length}
                 />
               )}
             </div>
@@ -70,4 +79,4 @@ const DepartmentsAndOccupations = () => {
   );
 };
 
-export default DepartmentsAndOccupations;
+export default Occupations;
