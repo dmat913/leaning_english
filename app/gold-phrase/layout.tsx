@@ -2,6 +2,7 @@
 
 import { Background } from "@/components/aceternity/Background";
 import Header from "@/components/layouts/Header";
+import { PATHS } from "@/lib/paths";
 import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -48,7 +49,7 @@ const Layout = ({
             </h1>
             <button
               className="w-full py-2 bg-blue-500 text-white-1 font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-70"
-              onClick={() => router.push("/")}
+              onClick={() => router.push(PATHS.LOGIN)}
             >
               ログイン画面へ戻る
             </button>

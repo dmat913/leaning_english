@@ -7,13 +7,14 @@ import { useRouter } from "next/navigation";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
 import { motion } from "framer-motion";
 import { Background } from "@/components/aceternity/Background";
+import { PATHS } from "@/lib/paths";
 
 const DisplayList = () => {
   const router = useRouter();
 
   // 閉じるボタン押下時
   const handleClickCloseButton = () => {
-    router.push("/home");
+    router.push(PATHS.GOLD_PHRASE_HOME);
   };
 
   const containerVariants = {

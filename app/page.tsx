@@ -1,8 +1,9 @@
 "use client";
 import DMATGlassLoadingSpinner from "@/components/elements/DMATGlassLoadingSpinner";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PATHS } from "@/lib/paths";
 import {
   MdPerson,
   MdLogin,
@@ -25,6 +26,27 @@ const LoginPage = () => {
   // ログイン済み判定
   const [isSuccessLogin, setIsSuccessLogin] = useState<boolean>(false);
 
+  // sessionStorageをチェックして、既にログイン済みの場合は/homeに遷移
+  useEffect(() => {
+    const checkUserSession = () => {
+      try {
+        const userData = sessionStorage.getItem("user");
+        if (userData) {
+          const user = JSON.parse(userData);
+          if (user) {
+            router.push(PATHS.GOLD_PHRASE_HOME);
+          }
+        }
+      } catch (error) {
+        console.error("Session check error:", error);
+        // セッションデータが不正な場合は削除
+        sessionStorage.removeItem("user");
+      }
+    };
+
+    checkUserSession();
+  }, [router]);
+
   // ログインボタン押下時
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -44,7 +66,7 @@ const LoginPage = () => {
       // successful
       if (response.ok) {
         sessionStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/home");
+        router.push(PATHS.GOLD_PHRASE_HOME);
       } else {
         setError(data.message);
         setIsSuccessLogin(false);
