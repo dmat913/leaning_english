@@ -11,6 +11,7 @@ import {
   MdTrendingUp,
   MdAutoStories,
 } from "react-icons/md";
+import { PATHS } from "@/lib/paths";
 
 const NotStarted = ({
   handleChangeStatus,
@@ -50,7 +51,7 @@ const NotStarted = ({
         }}
         onClick={() => {
           playInterrupt();
-          router.push("/home");
+          router.push(PATHS.GOLD_PHRASE_HOME);
         }}
         className="absolute top-4 right-4 z-50 w-12 h-12 rounded-full bg-white-1/10 backdrop-blur-md border-2 border-white-1/20 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-200 group"
         aria-label="ホームに戻る"

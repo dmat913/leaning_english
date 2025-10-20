@@ -127,29 +127,29 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
   // パスからカテゴリ名を取得
   const getCategoryFromPath = (pathname: string): string => {
     switch (pathname) {
-      case "/level600":
+      case "/gold-phrase/level600":
         return "level600";
-      case "/level730":
+      case "/gold-phrase/level730":
         return "level730";
-      case "/level860":
+      case "/gold-phrase/level860":
         return "level860";
-      case "/level990":
+      case "/gold-phrase/level990":
         return "level990";
-      case "/part1_essentialWord100":
+      case "/gold-phrase/part1-essential-word100":
         return "part1_essentialWord100";
-      case "/phrases120":
+      case "/gold-phrase/phrases120":
         return "phrases120";
-      case "/prepositions":
+      case "/gold-phrase/prepositions":
         return "prepositions";
-      case "/conjunctions":
+      case "/gold-phrase/conjunctions":
         return "conjunctions";
-      case "/conjunctiveAdverbs":
+      case "/gold-phrase/conjunctive-adverbs":
         return "conjunctiveAdverbs";
-      case "/departments":
+      case "/gold-phrase/departments":
         return "departments";
-      case "/occupations":
+      case "/gold-phrase/occupations":
         return "occupations";
-      case "/majors":
+      case "/gold-phrase/majors":
         return "majors";
       default:
         return "";

@@ -9,6 +9,7 @@ import Logo from "@/public/logo.png";
 import DMATDialog from "../elements/DMATDialog";
 import { motion } from "framer-motion";
 import { MdLogout, MdPerson } from "react-icons/md";
+import { PATHS } from "@/lib/paths";
 
 const Header = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const Header = () => {
     playInterrupt();
     sessionStorage.clear();
     setReset();
-    router.push("/");
+    router.push(PATHS.LOGIN);
   };
 
   return (

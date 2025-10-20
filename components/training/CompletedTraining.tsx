@@ -15,6 +15,7 @@ import {
   MdCheckCircle,
   MdCancel,
 } from "react-icons/md";
+import { PATHS } from "@/lib/paths";
 
 const CompletedTraining = ({
   handleChangeStatus,
@@ -70,7 +71,7 @@ const CompletedTraining = ({
 
   // ホームへ戻るボタン押下
   const handleClickBackToTop = () => {
-    router.push("/home");
+    router.push(PATHS.GOLD_PHRASE_HOME);
     setTrainingResult([]);
     setTestData([]);
     setTimeout(() => {
