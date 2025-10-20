@@ -19,6 +19,16 @@ export const getRandomItems = <T>(array: T[], count: number) => {
   return shuffled.slice(0, count);
 };
 
+// 未完了（isCompleted: false）の問題のみを抽出してランダムに選択
+export const getRandomIncompleteItems = <T extends { isCompleted: boolean }>(
+  array: T[],
+  count: number
+): T[] => {
+  const incompleteItems = array.filter((item) => !item.isCompleted);
+  const shuffled = [...incompleteItems].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, Math.min(count, incompleteItems.length));
+};
+
 // 便利な統合関数
 export const playAudio = async (
   text: string,

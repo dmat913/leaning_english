@@ -1,4 +1,4 @@
-import { getRandomItems } from "@/common/utils";
+import { getRandomItems, getRandomIncompleteItems } from "@/common/utils";
 import {
   trainingDisplayTypeState,
   testDataState,
@@ -18,6 +18,7 @@ import {
   MdNumbers,
   MdLanguage,
   MdPlayArrow,
+  MdCheckCircle,
 } from "react-icons/md";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +51,15 @@ const SettingTraining = ({
   // 問題数select変更時
   const handleChangeNumber = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
-    setTestData(getRandomItems(targetData, Number(event.target.value)));
+    if (orderType === "random") {
+      if (onlyIncomplete) {
+        setTestData(
+          getRandomIncompleteItems(targetData, Number(event.target.value))
+        );
+      } else {
+        setTestData(getRandomItems(targetData, Number(event.target.value)));
+      }
+    }
   };
 
   // from select変更時
@@ -85,6 +94,9 @@ const SettingTraining = ({
   //トレーニング種類
   const [orderType, setOrderType] = useState<string>("order");
 
+  // ランダムモード時の未完了のみフィルタ
+  const [onlyIncomplete, setOnlyIncomplete] = useState<boolean>(false);
+
   // 開始ボタン押下時
   const handleClickStartButton = () => {
     if (orderType === "listening") {
@@ -96,6 +108,7 @@ const SettingTraining = ({
     setSelectedValue("10");
     setSelectedToValue("10");
     setOrderType("");
+    setOnlyIncomplete(false);
   };
 
   //閉じるボタン押下時
@@ -107,7 +120,13 @@ const SettingTraining = ({
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOrderType(event.target.value);
     if (event.target.value === "random") {
-      setTestData(getRandomItems(targetData, Number(selectedValue)));
+      if (onlyIncomplete) {
+        setTestData(
+          getRandomIncompleteItems(targetData, Number(selectedValue))
+        );
+      } else {
+        setTestData(getRandomItems(targetData, Number(selectedValue)));
+      }
     } else {
       setTestData(
         targetData.slice(
@@ -128,6 +147,22 @@ const SettingTraining = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setDisplayType(event.target.value);
+  };
+
+  // 未完了のみチェックボックス変更
+  const handleChangeOnlyIncomplete = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setOnlyIncomplete(event.target.checked);
+    if (orderType === "random") {
+      if (event.target.checked) {
+        setTestData(
+          getRandomIncompleteItems(targetData, Number(selectedValue))
+        );
+      } else {
+        setTestData(getRandomItems(targetData, Number(selectedValue)));
+      }
+    }
   };
 
   return (
@@ -172,7 +207,7 @@ const SettingTraining = ({
                 "flex flex-col items-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
                 orderType === "order"
                   ? "border-blue-400 bg-blue-400/20 text-blue-200"
-                  : "border-white-1/30 bg-white-1/5 text-white/70 hover:border-white-1/50 hover:bg-white-1/10"
+                  : "border-white-1/30 bg-white-1/5 text-white-1 hover:border-white-1/50 hover:bg-white-1/10"
               )}
             >
               <MdSort size={32} className="mb-2" />
@@ -197,7 +232,7 @@ const SettingTraining = ({
                 "flex flex-col items-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
                 orderType === "random"
                   ? "border-purple-400 bg-purple-400/20 text-purple-200"
-                  : "border-white-1/30 bg-white-1/5 text-white/70 hover:border-white-1/50 hover:bg-white-1/10"
+                  : "border-white-1/30 bg-white-1/5 text-white-1 hover:border-white-1/50 hover:bg-white-1/10"
               )}
             >
               <MdShuffle size={32} className="mb-2" />
@@ -220,7 +255,7 @@ const SettingTraining = ({
                 "flex flex-col items-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
                 orderType === "listening"
                   ? "border-orange-400 bg-orange-400/20 text-orange-200"
-                  : "border-white-1/30 bg-white-1/5 text-white/70 hover:border-white-1/50 hover:bg-white-1/10"
+                  : "border-white-1/30 bg-white-1/5 text-white-1 hover:border-white-1/50 hover:bg-white-1/10"
               )}
             >
               <MdHeadset size={32} className="mb-2" />
@@ -264,7 +299,7 @@ const SettingTraining = ({
                 <select
                   value={selectedFromValue}
                   onChange={handleChangeFromOption}
-                  className="px-4 py-2 rounded-lg bg-white-1/10 border border-white-1/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+                  className="px-4 py-2 rounded-lg bg-white-1/10 border border-white-1/30 text-white-1 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
                 >
                   {fromOptions.map((option) => (
                     <option
@@ -284,7 +319,7 @@ const SettingTraining = ({
                 <select
                   value={selectedToValue}
                   onChange={handleChangeToOption}
-                  className="px-4 py-2 rounded-lg bg-white-1/10 border border-white-1/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+                  className="px-4 py-2 rounded-lg bg-white-1/10 border border-white-1/30 text-white-1 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
                 >
                   {options.map((option) => (
                     <option
@@ -306,24 +341,57 @@ const SettingTraining = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.3 }}
-              className="flex items-center gap-4 bg-white-1/10 p-4 rounded-xl border border-white-1/20"
+              className="flex flex-col gap-4"
             >
-              <span className="text-white-1 font-medium">問題数:</span>
-              <select
-                value={selectedValue}
-                onChange={handleChangeNumber}
-                className="px-4 py-2 rounded-lg bg-white-1/10 border border-white-1/30 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent backdrop-blur-sm"
+              <div className="flex items-center gap-4 bg-white-1/10 p-4 rounded-xl border border-white-1/20">
+                <span className="text-white-1 font-medium">問題数:</span>
+                <select
+                  value={selectedValue}
+                  onChange={handleChangeNumber}
+                  className="px-4 py-2 rounded-lg bg-white-1/10 border border-white-1/30 text-white-1 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent backdrop-blur-sm"
+                >
+                  {options.map((option) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                      className="bg-gray-800 text-white-1"
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <motion.label
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={cn(
+                  "flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
+                  onlyIncomplete
+                    ? "border-emerald-400 bg-emerald-400/20 text-emerald-200"
+                    : "border-white-1/30 bg-white-1/5 text-white-1 hover:border-white-1/50 hover:bg-white-1/10"
+                )}
               >
-                {options.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                    className="bg-gray-800 text-white-1"
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                <input
+                  type="checkbox"
+                  checked={onlyIncomplete}
+                  onChange={handleChangeOnlyIncomplete}
+                  className="sr-only"
+                />
+                <MdCheckCircle
+                  size={24}
+                  className={cn(
+                    "transition-colors duration-200",
+                    onlyIncomplete ? "text-emerald-400" : "text-white/40"
+                  )}
+                />
+                <div>
+                  <div className="font-medium">未完了のみ出題</div>
+                  <div className="text-xs">
+                    まだ覚えていない単語だけを出題します
+                  </div>
+                </div>
+              </motion.label>
             </motion.div>
           )}
         </motion.div>
@@ -348,7 +416,7 @@ const SettingTraining = ({
                   "flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
                   displayType === "englishToJapanese"
                     ? "border-green-400 bg-green-400/20 text-green-200"
-                    : "border-white-1/30 bg-white-1/5 text-white/70 hover:border-white-1/50 hover:bg-white-1/10"
+                    : "border-white-1/30 bg-white-1/5 text-white-1 hover:border-white-1/50 hover:bg-white-1/10"
                 )}
               >
                 <input
@@ -373,7 +441,7 @@ const SettingTraining = ({
                   "flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
                   displayType === "japaneseToEnglish"
                     ? "border-red-400 bg-red-400/20 text-red-200"
-                    : "border-white-1/30 bg-white-1/5 text-white/70 hover:border-white-1/50 hover:bg-white-1/10"
+                    : "border-white-1/30 bg-white-1/5 text-white-1 hover:border-white-1/50 hover:bg-white-1/10"
                 )}
               >
                 <input
