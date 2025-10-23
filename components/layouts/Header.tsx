@@ -40,7 +40,7 @@ const Header = () => {
     const segments = pathname.split("/").filter(Boolean);
     const base = segments[0] ?? "";
     router.push(base ? `/${base}/home` : "/home");
-  }, []);
+  }, [playInterrupt, router]);
 
   return (
     <>
