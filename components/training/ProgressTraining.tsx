@@ -17,7 +17,6 @@ import { usePathname } from "next/navigation";
 import { userState } from "@/states/userState";
 import { TestData } from "@/types/types";
 import DMATLoading from "../elements/DMATLoading";
-import DMATDialog from "../elements/DMATDialog";
 import DMATCloseButton from "../elements/DMATCloseButton";
 import {
   MdVolumeUp,
@@ -29,6 +28,7 @@ import {
   MdQuiz,
   MdRecordVoiceOver,
 } from "react-icons/md";
+import DMATDialog from "../elements/DMATDialog";
 
 interface ProgressTrainingProps {
   setOriginalTestData: (testData: TestData[]) => void;
@@ -159,9 +159,19 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
   // Api呼び出し時ローディング判定
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // 星押下時
+  // ...existing code...
+
   const handleClickStar = async (isCompleted: boolean) => {
     setIsLoading(true);
+    // 楽観的にUI更新
+    const prevTestData = testData;
+    const updatedTestData = testData.map((data, idx) => {
+      if (idx === problemNumber) {
+        return { ...data, isCompleted };
+      }
+      return data;
+    });
+    setTestData(updatedTestData);
     try {
       const response = await fetch("/api/update-completed", {
         method: "POST",
@@ -177,37 +187,28 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
       });
       // 更新後データ
       const data = await response.json();
-      // 更新成功時
       if (response.ok) {
         // 最新データを取得してStateを更新
         const category = getCategoryFromPath(pathname);
         const userResponse = await fetch(
-          `/api/user?name=${user?.name}&category=${category}`
+          `/api/words?name=${user?.name}&category=${category}`
         );
         if (userResponse.ok) {
           const userData = await userResponse.json();
           setOriginalTestData(userData.words);
         }
-
-        // テストデータの状態を即座に更新
-        setTestData((testData) =>
-          testData.map((data) => {
-            if (data.word_id === testData[problemNumber].word_id) {
-              return { ...data, isCompleted: isCompleted };
-            } else {
-              return data;
-            }
-          })
-        );
+      } else {
+        // API失敗時はロールバック
+        setTestData(prevTestData);
+        alert("更新失敗");
       }
     } catch (error) {
+      setTestData(prevTestData);
       alert("更新失敗");
     } finally {
       setIsLoading(false);
     }
   };
-
-  console.log("testData", testData);
 
   return (
     <motion.div

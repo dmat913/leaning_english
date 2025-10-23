@@ -8,7 +8,7 @@ const NotFound = () => {
   const router = useRouter();
 
   const handleGoHome = () => {
-    router.push(PATHS.GOLD_PHRASE_HOME);
+    router.push(PATHS.HOME);
   };
 
   const handleGoBack = () => {

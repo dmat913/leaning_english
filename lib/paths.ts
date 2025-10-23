@@ -17,4 +17,8 @@ export enum PATHS {
   GOLD_PHRASE_CONJUNCTIVE_ADVERBS = "/gold-phrase/conjunctive-adverbs",
   GOLD_PHRASE_MULTIPLE_MEANINGS = "/gold-phrase/multiple-meanings",
   GOLD_PHRASE_PHRASES120 = "/gold-phrase/phrases120",
+
+  // Grammar Express
+  GRAMMAR_EXPRESS_HOME = "/grammar-express/home",
+  GRAMMAR_EXPRESS_CHAPTER1_ESSENTIAL23 = "/grammar-express/chapter1",
 }

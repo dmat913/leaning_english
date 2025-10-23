@@ -49,12 +49,6 @@ const DMATCloseButton = ({ handleClick }: { handleClick: () => void }) => {
           ease: "easeInOut",
         }}
       />
-
-      {/* Tooltip */}
-      <div className="absolute top-14 right-0 bg-black-2/90 backdrop-blur-sm border border-white-1/20 rounded-lg px-3 py-2 text-xs text-white-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-        設定を閉じる
-        <div className="absolute -top-1 right-3 w-2 h-2 bg-black-2 border-l border-t border-white-1/20 rotate-45"></div>
-      </div>
     </motion.button>
   );
 };

@@ -56,7 +56,7 @@ export function MeteorsCard({
           <Meteors disabled={disabled} number={meteorsNumber} />
         </div>
         {disabled && (
-          <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-3xl text-white-1 z-50 w-full text-center">
+          <p className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-lg text-white-1 z-50 w-full text-center">
             Coming soon
           </p>
         )}

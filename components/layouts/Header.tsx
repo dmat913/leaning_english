@@ -1,6 +1,6 @@
 import { userState } from "@/states/userState";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { resetState } from "@/states/testDataState";
 import useAudio from "@/hooks/useAudio";
@@ -29,12 +29,26 @@ const Header = () => {
     router.push(PATHS.LOGIN);
   };
 
+  const handleChangePath = useCallback(() => {
+    playInterrupt();
+    const pathname =
+      typeof window !== "undefined" ? window.location.pathname : "";
+    if (pathname.includes("/home")) {
+      router.push("/home");
+      return;
+    }
+    const segments = pathname.split("/").filter(Boolean);
+    const base = segments[0] ?? "";
+    router.push(base ? `/${base}/home` : "/home");
+  }, [playInterrupt, router]);
+
   return (
     <>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
+        onClick={handleChangePath}
         className="fixed top-0 left-0 right-0 z-50 bg-black-2/90 backdrop-blur-md border-b border-white-1/10 h-[64px] w-full flex items-center justify-between px-6 shadow-lg"
       >
         <div className="container mx-auto flex items-center justify-between">
@@ -109,7 +123,7 @@ const Header = () => {
               </motion.div>
 
               {/* Hover tooltip */}
-              <div className="absolute top-12 right-0 bg-black-2/90 backdrop-blur-sm border border-white-1/20 rounded-lg px-3 py-2 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+              <div className="absolute top-12 right-0 bg-black-2/90 backdrop-blur-sm border border-white-1/20 rounded-lg px-3 py-2 text-xs text-white-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                 <div className="flex items-center gap-2">
                   <MdLogout size={12} />
                   クリックでサインアウト

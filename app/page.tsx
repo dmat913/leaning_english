@@ -34,7 +34,7 @@ const LoginPage = () => {
         if (userData) {
           const user = JSON.parse(userData);
           if (user) {
-            router.push(PATHS.GOLD_PHRASE_HOME);
+            router.push(PATHS.HOME);
           }
         }
       } catch (error) {
@@ -66,7 +66,7 @@ const LoginPage = () => {
       // successful
       if (response.ok) {
         sessionStorage.setItem("user", JSON.stringify(data.user));
-        router.push(PATHS.GOLD_PHRASE_HOME);
+        router.push(PATHS.HOME);
       } else {
         setError(data.message);
         setIsSuccessLogin(false);

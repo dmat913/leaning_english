@@ -1,20 +1,24 @@
 "use client";
-
+import { Background } from "@/components/aceternity/Background";
 import NotStarted from "@/components/training/NotStarted";
 import { statusState } from "@/states/trainingState";
 import { Status } from "@/types/types";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import SettingTraining from "@/features/supplement/SettingTraining";
-import CompletedTraining from "@/components/training/CompletedTraining";
 import DisplayList from "@/components/training/DisplayList";
-import { prepositionsState } from "@/states/testDataState";
+import { part1EssentialWords100State } from "@/states/testDataState";
 import ProgressTraining from "@/components/training/ProgressTraining";
-import { Background } from "@/components/aceternity/Background";
+import SettingTraining from "@/components/training/SettingTraining";
+import {
+  occupationsFromOptions,
+  occupationsOptions,
+} from "@/data/120SetPhrases";
+import CompletedTraining from "@/components/training/CompletedTraining";
+import ListeningEnglish from "@/components/training/ListeningEnglish";
 import DataLoader from "@/components/common/DataLoader";
 import LoadingScreen from "@/components/common/LoadingScreen";
 
-const FunctionWords = () => {
+const Part1EssentialWord100 = () => {
   // テスト状態
   const [status, setStatus] = useRecoilState(statusState);
 
@@ -26,11 +30,17 @@ const FunctionWords = () => {
 
   return (
     <Background>
-      <DataLoader category="prepositions" dataState={prepositionsState}>
-        {(prepositionsData, isLoading) => {
+      <DataLoader
+        category="part1_essentialWord100"
+        dataState={part1EssentialWords100State}
+      >
+        {(part1EssentialWords100Data, isLoading) => {
           if (isLoading) {
             return (
-              <LoadingScreen title="前置詞" message="データを読み込み中..." />
+              <LoadingScreen
+                title="パート1重要語100"
+                message="データを読み込み中..."
+              />
             );
           }
 
@@ -39,27 +49,32 @@ const FunctionWords = () => {
               {status === "not_started" && (
                 <NotStarted
                   handleChangeStatus={handleChangeStatus}
-                  title="前置詞"
-                  description="Prepositions"
+                  title="パート1重要語100"
+                  description="100 Essential Words for Part 1"
                 />
               )}
               {status === "setting_training" && (
                 <SettingTraining
                   handleChangeStatus={handleChangeStatus}
-                  targetTestData={prepositionsData}
+                  targetData={part1EssentialWords100Data}
+                  options={occupationsOptions}
+                  fromOptions={occupationsFromOptions}
                 />
               )}
               {status === "in_progress" && (
-                <ProgressTraining setOriginalTestData={() => {}} />
+                <ProgressTraining setOriginalTestData={(data) => {}} />
               )}
               {status === "completed" && (
                 <CompletedTraining handleChangeStatus={handleChangeStatus} />
               )}
+              {status === "listening" && (
+                <ListeningEnglish handleChangeStatus={handleChangeStatus} />
+              )}
               {status === "display_list" && (
                 <DisplayList
+                  totalQuestions={part1EssentialWords100Data.length}
+                  displayData={part1EssentialWords100Data}
                   handleChangeStatus={handleChangeStatus}
-                  displayData={prepositionsData}
-                  totalQuestions={prepositionsData.length}
                 />
               )}
             </div>
@@ -70,4 +85,4 @@ const FunctionWords = () => {
   );
 };
 
-export default FunctionWords;
+export default Part1EssentialWord100;
