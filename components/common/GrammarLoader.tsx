@@ -3,54 +3,51 @@
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, RecoilState } from "recoil";
 import { userState } from "@/states/userState";
-import { TestData } from "@/types/types";
+import { GrammarExpress } from "@/models/grammarExpressModel";
 
-interface DataLoaderProps {
+interface GrammarLoaderProps {
   category: string;
-  dataState: RecoilState<TestData[]>;
-  children: (data: TestData[], isLoading: boolean) => React.ReactNode;
+  dataState: RecoilState<GrammarExpress[]>;
+  children: (data: GrammarExpress[], isLoading: boolean) => React.ReactNode;
 }
 
-const DataLoader: React.FC<DataLoaderProps> = ({
+const GrammarLoader: React.FC<GrammarLoaderProps> = ({
   category,
   dataState,
   children,
 }) => {
   const user = useRecoilValue(userState);
-  const [data, setData] = useRecoilState<TestData[]>(dataState);
+  const [data, setData] = useRecoilState<GrammarExpress[]>(dataState);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
-      // ユーザーが存在しない場合はスキップ
       if (!user) {
         return;
       }
-
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/words?name=${user.name}&category=${category}`
+          `/api/grammar-express?name=${user.name}&category=${category}`
         );
         if (response.ok) {
           const responseData = await response.json();
-          setData(responseData.words || []);
+          setData(responseData.grammars || []);
         } else {
-          console.error(`Failed to load ${category} data`);
+          console.error(`Failed to load ${category} grammar data`);
           setData([]);
         }
       } catch (error) {
-        console.error(`Error loading ${category} data:`, error);
+        console.error(`Error loading ${category} grammar data:`, error);
         setData([]);
       } finally {
         setIsLoading(false);
       }
     };
-
     loadData();
   }, [user, category, setData]);
 
   return <>{children(data, isLoading)}</>;
 };
 
-export default DataLoader;
+export default GrammarLoader;

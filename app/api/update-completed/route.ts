@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
 
     const { userId, word_id, isCompleted, category } = await request.json();
-
     if (!userId || !word_id || isCompleted === undefined || !category) {
       return NextResponse.json(
         {
@@ -18,62 +17,79 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ユーザーの進捗データを検索または作成
-    let userProgress = await UserProgressModel.findOne({
+    const now = new Date();
+    // 進捗データを検索し、該当語彙の進捗を更新または追加
+    const updateResult = await UserProgressModel.findOneAndUpdate(
+      {
+        user_id: userId,
+        category: category,
+        // progress.word_id: word_id で部分一致検索も可能だが、ここでは全体で更新
+      },
+      {
+        $setOnInsert: { user_id: userId, category: category },
+        $set: {}, // dummy, $setOnInsertだけだとエラーになる場合がある
+        $push: {
+          progress: {
+            $each: [], // 既存なら何も追加しない
+            $position: 0, // 追加位置
+          },
+        },
+      },
+      { upsert: true, new: true }
+    );
+
+    // progress配列内の該当word_idを更新（MongoDBの配列フィルタを使う）
+    const updateProgress = await UserProgressModel.updateOne(
+      {
+        user_id: userId,
+        category: category,
+        "progress.word_id": word_id,
+      },
+      {
+        $set: {
+          "progress.$.isCompleted": isCompleted,
+          "progress.$.lastAttemptAt": now,
+          ...(isCompleted
+            ? {
+                "progress.$.completedAt": now,
+                $inc: { "progress.$.correctCount": 1 },
+              }
+            : {
+                $inc: { "progress.$.incorrectCount": 1 },
+              }),
+          $inc: { "progress.$.attempts": 1 },
+        },
+      }
+    );
+
+    // 該当word_idがなければ新規追加
+    if (updateProgress.modifiedCount === 0) {
+      await UserProgressModel.updateOne(
+        {
+          user_id: userId,
+          category: category,
+        },
+        {
+          $push: {
+            progress: {
+              word_id: word_id,
+              isCompleted: isCompleted,
+              completedAt: isCompleted ? now : undefined,
+              attempts: 1,
+              correctCount: isCompleted ? 1 : 0,
+              incorrectCount: isCompleted ? 0 : 1,
+              lastAttemptAt: now,
+            },
+          },
+        }
+      );
+    }
+
+    // 統計情報をMongoDBで集計
+    const userProgress = await UserProgressModel.findOne({
       user_id: userId,
       category: category,
     });
-
-    if (!userProgress) {
-      // 進捗データが存在しない場合、新規作成
-      userProgress = new UserProgressModel({
-        user_id: userId,
-        category: category,
-        progress: [],
-      });
-    }
-
-    // 該当する語彙の進捗を検索
-    const existingProgressIndex = userProgress.progress.findIndex(
-      (p: any) => p.word_id === word_id
-    );
-
-    const now = new Date();
-
-    if (existingProgressIndex >= 0) {
-      // 既存の進捗を更新
-      userProgress.progress[existingProgressIndex].isCompleted = isCompleted;
-      userProgress.progress[existingProgressIndex].lastAttemptAt = now;
-
-      if (isCompleted) {
-        userProgress.progress[existingProgressIndex].completedAt = now;
-        userProgress.progress[existingProgressIndex].correctCount =
-          (userProgress.progress[existingProgressIndex].correctCount || 0) + 1;
-      } else {
-        userProgress.progress[existingProgressIndex].incorrectCount =
-          (userProgress.progress[existingProgressIndex].incorrectCount || 0) +
-          1;
-      }
-
-      userProgress.progress[existingProgressIndex].attempts =
-        (userProgress.progress[existingProgressIndex].attempts || 0) + 1;
-    } else {
-      // 新しい進捗を追加
-      userProgress.progress.push({
-        word_id: word_id,
-        isCompleted: isCompleted,
-        completedAt: isCompleted ? now : undefined,
-        attempts: 1,
-        correctCount: isCompleted ? 1 : 0,
-        incorrectCount: isCompleted ? 0 : 1,
-        lastAttemptAt: now,
-      });
-    }
-
-    // データベースに保存
-    await userProgress.save();
-
-    // 統計情報を計算
     const totalWords = userProgress.progress.length;
     const completedWords = userProgress.progress.filter(
       (p: any) => p.isCompleted
