@@ -1,7 +1,6 @@
 "use client";
 
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
-import { PATHS } from "@/lib/paths";
 import { selectedGrammarState } from "@/states/grammarTestDataState";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,7 +19,7 @@ const GrammarDetails = () => {
   };
 
   const handleClickClose = () => {
-    router.push(PATHS.GRAMMAR_EXPRESS_HOME);
+    router.back();
   };
 
   if (!selectedGrammar) {
@@ -104,9 +103,26 @@ const GrammarDetails = () => {
               </div>
             )}
             <div className="flex flex-col gap-1">
-              {/* <span className="block text-xs text-indigo-200 font-semibold mb-1">
-                {selectedGrammar.sentence}
-              </span> */}
+              <span className="block text-xs text-indigo-200 font-semibold mb-1">
+                {selectedGrammar.sentence.split(/[\s,\.]+/).map((word, i) => {
+                  return (
+                    <>
+                      {word === "-------" ? (
+                        <span
+                          className="font-bold text-yellow-200 mr-1"
+                          key={i}
+                        >
+                          {selectedGrammar.answer}
+                        </span>
+                      ) : (
+                        <span key={i} className="inline-block mr-1">
+                          {word}
+                        </span>
+                      )}
+                    </>
+                  );
+                })}
+              </span>
               <span className="block text-xs text-yellow-200">
                 訳: {selectedGrammar.sentence_meaning}
               </span>
