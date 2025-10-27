@@ -20,5 +20,6 @@ export enum PATHS {
 
   // Grammar Express
   GRAMMAR_EXPRESS_HOME = "/grammar-express/home",
-  GRAMMAR_EXPRESS_CHAPTER1_ESSENTIAL23 = "/grammar-express/chapter1",
+  GRAMMAR_EXPRESS_CHAPTER1 = "/grammar-express/chapter1",
+  GRAMMAR_EXPRESS_CHAPTER2 = "/grammar-express/chapter2",
 }

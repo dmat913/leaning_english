@@ -13,6 +13,7 @@ export interface GrammarExpress {
   tips: string;
   navigation: string;
   remarks: string;
+  time: string;
 }
 
 export interface GrammarExpressDocument extends GrammarExpress, Document {
@@ -67,6 +68,10 @@ const grammarExpressSchema = new Schema<GrammarExpressDocument>(
       required: true,
     },
     remarks: {
+      type: String,
+      required: true,
+    },
+    time: {
       type: String,
       required: true,
     },
