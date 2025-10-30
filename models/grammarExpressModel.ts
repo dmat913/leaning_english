@@ -69,7 +69,7 @@ const grammarExpressSchema = new Schema<GrammarExpressDocument>(
     },
     remarks: {
       type: String,
-      required: true,
+      required: false,
     },
     time: {
       type: String,
