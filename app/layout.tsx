@@ -3,6 +3,7 @@
 import { Background } from "@/components/aceternity/Background";
 import "./globals.css";
 import { RecoilRoot } from "recoil";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,9 @@ export default function RootLayout({
       </head>
       <body className="h-[100svh] w-[100vw]">
         <RecoilRoot>
-          <Background>{children}</Background>
+          <QueryProvider>
+            <Background>{children}</Background>
+          </QueryProvider>
         </RecoilRoot>
       </body>
     </html>

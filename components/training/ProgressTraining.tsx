@@ -29,10 +29,43 @@ import {
   MdRecordVoiceOver,
 } from "react-icons/md";
 import DMATDialog from "../elements/DMATDialog";
+import { useUpdateCompleted } from "@/hooks/useUpdateCompleted";
 
 interface ProgressTrainingProps {
   setOriginalTestData: (testData: TestData[]) => void;
 }
+
+// パスからカテゴリ名を取得
+const getCategoryFromPath = (pathname: string): string => {
+  switch (pathname) {
+    case "/gold-phrase/level600":
+      return "level600";
+    case "/gold-phrase/level730":
+      return "level730";
+    case "/gold-phrase/level860":
+      return "level860";
+    case "/gold-phrase/level990":
+      return "level990";
+    case "/gold-phrase/part1-essential-word100":
+      return "part1_essentialWord100";
+    case "/gold-phrase/phrases120":
+      return "phrases120";
+    case "/gold-phrase/prepositions":
+      return "prepositions";
+    case "/gold-phrase/conjunctions":
+      return "conjunctions";
+    case "/gold-phrase/conjunctive-adverbs":
+      return "conjunctiveAdverbs";
+    case "/gold-phrase/departments":
+      return "departments";
+    case "/gold-phrase/occupations":
+      return "occupations";
+    case "/gold-phrase/majors":
+      return "majors";
+    default:
+      return "";
+  }
+};
 
 function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
   const { playInterrupt } = useAudio();
@@ -40,6 +73,10 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
 
   // user info
   const user = useRecoilValue(userState);
+
+  // React Query mutation hook
+  const category = getCategoryFromPath(pathname);
+  const updateCompletedMutation = useUpdateCompleted(user?.name, category);
 
   // テスト対象
   const [testData, setTestData] = useRecoilState(testDataState);
@@ -124,45 +161,12 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
     return data.words || [];
   };
 
-  // パスからカテゴリ名を取得
-  const getCategoryFromPath = (pathname: string): string => {
-    switch (pathname) {
-      case "/gold-phrase/level600":
-        return "level600";
-      case "/gold-phrase/level730":
-        return "level730";
-      case "/gold-phrase/level860":
-        return "level860";
-      case "/gold-phrase/level990":
-        return "level990";
-      case "/gold-phrase/part1-essential-word100":
-        return "part1_essentialWord100";
-      case "/gold-phrase/phrases120":
-        return "phrases120";
-      case "/gold-phrase/prepositions":
-        return "prepositions";
-      case "/gold-phrase/conjunctions":
-        return "conjunctions";
-      case "/gold-phrase/conjunctive-adverbs":
-        return "conjunctiveAdverbs";
-      case "/gold-phrase/departments":
-        return "departments";
-      case "/gold-phrase/occupations":
-        return "occupations";
-      case "/gold-phrase/majors":
-        return "majors";
-      default:
-        return "";
-    }
-  };
-
-  // Api呼び出し時ローディング判定
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // Api呼び出し時ローディング判定（React Query mutationで管理）
+  const isLoading = updateCompletedMutation.isPending;
 
   // ...existing code...
 
   const handleClickStar = async (isCompleted: boolean) => {
-    setIsLoading(true);
     // 楽観的にUI更新
     const prevTestData = testData;
     const updatedTestData = testData.map((data, idx) => {
@@ -172,41 +176,23 @@ function ProgressTraining({ setOriginalTestData }: ProgressTrainingProps) {
       return data;
     });
     setTestData(updatedTestData);
+
     try {
-      const response = await fetch("/api/update-completed", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user?._id,
-          word_id: testData[problemNumber].word_id,
-          isCompleted: isCompleted,
-          category: getCategoryFromPath(pathname),
-        }),
+      // React Query mutationを使用してデータ更新 + キャッシュ自動無効化
+      await updateCompletedMutation.mutateAsync({
+        userId: user?._id!,
+        word_id: testData[problemNumber].word_id,
+        isCompleted: isCompleted,
+        category: category,
       });
-      // 更新後データ
-      const data = await response.json();
-      if (response.ok) {
-        // 最新データを取得してStateを更新
-        const category = getCategoryFromPath(pathname);
-        const userResponse = await fetch(
-          `/api/words?name=${user?.name}&category=${category}`
-        );
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          setOriginalTestData(userData.words);
-        }
-      } else {
-        // API失敗時はロールバック
-        setTestData(prevTestData);
-        alert("更新失敗");
-      }
+
+      // 成功時：React Queryが自動的にキャッシュを再取得するので、
+      // setOriginalTestDataは不要（DataLoaderが自動更新）
     } catch (error) {
+      // API失敗時はロールバック
       setTestData(prevTestData);
       alert("更新失敗");
-    } finally {
-      setIsLoading(false);
+      console.error("Failed to update completion status:", error);
     }
   };
 

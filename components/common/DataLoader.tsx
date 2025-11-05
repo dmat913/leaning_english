@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, RecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilValue, useSetRecoilState, RecoilState } from "recoil";
 import { userState } from "@/states/userState";
 import { TestData } from "@/types/types";
+import { useWordsData } from "@/hooks/useWordsData";
 
 interface DataLoaderProps {
   category: string;
@@ -17,40 +18,19 @@ const DataLoader: React.FC<DataLoaderProps> = ({
   children,
 }) => {
   const user = useRecoilValue(userState);
-  const [data, setData] = useRecoilState<TestData[]>(dataState);
-  const [isLoading, setIsLoading] = useState(false);
+  const setData = useSetRecoilState<TestData[]>(dataState);
 
+  // React Queryでデータを取得（キャッシュ付き）
+  const { data: fetchedData, isLoading } = useWordsData(user?.name, category);
+
+  // React Queryで取得したデータをRecoil stateに同期
   useEffect(() => {
-    const loadData = async () => {
-      // ユーザーが存在しない場合はスキップ
-      if (!user) {
-        return;
-      }
+    if (fetchedData) {
+      setData(fetchedData);
+    }
+  }, [fetchedData, setData]);
 
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `/api/words?name=${user.name}&category=${category}`
-        );
-        if (response.ok) {
-          const responseData = await response.json();
-          setData(responseData.words || []);
-        } else {
-          console.error(`Failed to load ${category} data`);
-          setData([]);
-        }
-      } catch (error) {
-        console.error(`Error loading ${category} data:`, error);
-        setData([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadData();
-  }, [user, category, setData]);
-
-  return <>{children(data, isLoading)}</>;
+  return <>{children(fetchedData || [], isLoading)}</>;
 };
 
 export default DataLoader;
