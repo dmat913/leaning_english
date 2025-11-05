@@ -45,6 +45,7 @@ const config: Config = {
         float: "float 3s ease-in-out infinite",
         scaleUp: "scaleUp 1.5s ease-in-out infinite",
         wave: "wave 1s ease-in-out infinite",
+        shimmer: "shimmer 2s infinite",
       },
       keyframes: {
         meteor: {
@@ -78,6 +79,9 @@ const config: Config = {
         wave: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        shimmer: {
+          "100%": { transform: "translateX(100%)" },
         },
       },
     },
