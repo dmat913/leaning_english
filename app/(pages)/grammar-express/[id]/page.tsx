@@ -6,17 +6,55 @@ import {
   grammarTestDataState,
 } from "@/states/grammarTestDataState";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useState, useEffect } from "react";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import { userState } from "@/states/userState";
+import { useUpdateCompleted } from "@/hooks/useUpdateCompleted";
+import { useGrammarData } from "@/hooks/useGrammarData";
+import DMATLoading from "@/components/elements/DMATLoading";
+import { MdStar, MdStarBorder } from "react-icons/md";
+import { motion } from "framer-motion";
 
 const GrammarDetails = () => {
   const router = useRouter();
 
+  // user info
+  const user = useRecoilValue(userState);
+
   const selectedGrammar = useRecoilValue(selectedGrammarState);
-  const grammarList = useRecoilValue(grammarTestDataState);
+  const [grammarList, setGrammarList] = useRecoilState(grammarTestDataState);
   const setSelectedGrammar = useSetRecoilState(selectedGrammarState);
   const [status, setStatus] = useState("unanswered");
   const [answer, setAnswer] = useState("");
+
+  // grammar_idからカテゴリを取得 (例: "chapter1_01" -> "chapter1")
+  const category = selectedGrammar?.grammar_id.split("_")[0] || "";
+
+  // React Query mutation hook
+  const updateCompletedMutation = useUpdateCompleted(user?.name, category);
+
+  // キャッシュからデータを取得（キャッシュ更新を検知するため）
+  const { data: cachedGrammars } = useGrammarData(user?.name, category);
+
+  // キャッシュが更新されたらRecoil stateも更新
+  useEffect(() => {
+    if (cachedGrammars && cachedGrammars.length > 0) {
+      setGrammarList(cachedGrammars);
+
+      // 現在選択中の文法も更新
+      if (selectedGrammar) {
+        const updatedGrammar = cachedGrammars.find(
+          (g) => g.grammar_id === selectedGrammar.grammar_id
+        );
+        if (updatedGrammar) {
+          setSelectedGrammar(updatedGrammar);
+        }
+      }
+    }
+  }, [cachedGrammars, setGrammarList, setSelectedGrammar, selectedGrammar]);
+
+  // Api呼び出し時ローディング判定
+  const isLoading = updateCompletedMutation.isPending;
 
   const handleClickAnswer = (option: string) => {
     setAnswer(option);
@@ -61,6 +99,40 @@ const GrammarDetails = () => {
     }
   };
 
+  // 星マーククリック処理
+  const handleClickStar = async (isCompleted: boolean) => {
+    if (!user?._id || !selectedGrammar) return;
+
+    // 楽観的にUI更新
+    const prevGrammarList = grammarList;
+    const updatedGrammarList = grammarList.map((grammar) => {
+      if (grammar.grammar_id === selectedGrammar.grammar_id) {
+        return { ...grammar, isCompleted };
+      }
+      return grammar;
+    });
+    setGrammarList(updatedGrammarList);
+
+    // selectedGrammarも更新
+    setSelectedGrammar({ ...selectedGrammar, isCompleted });
+
+    try {
+      // React Query mutationを使用してデータ更新
+      await updateCompletedMutation.mutateAsync({
+        userId: user._id,
+        grammar_id: selectedGrammar.grammar_id,
+        isCompleted: isCompleted,
+        category: category,
+      });
+    } catch (error) {
+      // API失敗時はロールバック
+      setGrammarList(prevGrammarList);
+      setSelectedGrammar(selectedGrammar);
+      alert("更新失敗");
+      console.error("Failed to update completion status:", error);
+    }
+  };
+
   if (!selectedGrammar) {
     return <div className="text-white-1">No grammar selected</div>;
   }
@@ -91,10 +163,30 @@ const GrammarDetails = () => {
           {/* 問題文カード */}
           <div className="flex-1 flex flex-col gap-4">
             <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-600/40 p-6">
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-4 justify-between">
                 <span className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
                   問題文
                 </span>
+                {/* 星マークボタン */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  disabled={isLoading}
+                  onClick={() => handleClickStar(!selectedGrammar.isCompleted)}
+                  className="w-10 h-10 rounded-xl bg-white-1/10 border border-white-1/30 flex items-center justify-center hover:bg-white-1/20 transition-colors duration-200"
+                >
+                  {isLoading ? (
+                    <DMATLoading otherClass="h-5 w-5" />
+                  ) : (
+                    <>
+                      {selectedGrammar.isCompleted ? (
+                        <MdStar size={20} className="text-yellow-400" />
+                      ) : (
+                        <MdStarBorder size={20} className="text-yellow-400" />
+                      )}
+                    </>
+                  )}
+                </motion.button>
               </div>
               <p className="text-lg text-white-1 leading-relaxed whitespace-pre-wrap">
                 {selectedGrammar.sentence}

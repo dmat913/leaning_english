@@ -1,13 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FaBook } from "react-icons/fa";
 
 interface CategoryData {
   category: string;
   totalWords: number;
   completedWords: number;
   completionRate: number;
-  accuracy: number;
+  accuracy?: number;
+  totalAttempts: number;
+  lastUpdated: string | null;
 }
 
 interface CategoryProgressProps {
@@ -39,9 +42,12 @@ export default function CategoryProgress({
       transition={{ delay: 0.4, duration: 0.5 }}
       className="rounded-2xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-6"
     >
-      <h2 className="text-xl font-bold text-white-1 mb-6">
-        金のフレーズ 進捗率
-      </h2>
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2 rounded-lg bg-cyan-500/10">
+          <FaBook className="text-amber-400 text-xl" />
+        </div>
+        <h2 className="text-xl font-bold text-white-1">金のフレーズ</h2>
+      </div>
 
       <div className="space-y-4">
         {categories.map((category, index) => (
@@ -60,7 +66,7 @@ export default function CategoryProgress({
                 <span className="text-slate-400">
                   {category.completedWords}/{category.totalWords}
                 </span>
-                <span className="text-cyan-400 font-bold min-w-[3rem] text-right">
+                <span className="text-amber-400 font-bold min-w-[3rem] text-right">
                   {category.completionRate}%
                 </span>
               </div>
@@ -76,8 +82,11 @@ export default function CategoryProgress({
                   duration: 0.8,
                   ease: "easeOut",
                 }}
-                className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
-              />
+                className="h-full bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full relative"
+              >
+                {/* Shine effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+              </motion.div>
             </div>
           </motion.div>
         ))}

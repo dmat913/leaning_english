@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UpdateCompletedParams {
   userId: string;
-  word_id: string;
+  word_id?: string;
+  grammar_id?: string;
   isCompleted: boolean;
   category: string;
 }
@@ -32,26 +33,25 @@ export const useUpdateCompleted = (userName?: string, category?: string) => {
       // ダッシュボードデータのキャッシュを無効化して再取得
       queryClient.invalidateQueries({
         queryKey: ["dashboard", userName],
+        refetchType: "active",
       });
 
-      // 更新されたカテゴリーの単語データを無効化して再取得
-      if (category) {
+      // 更新されたカテゴリのデータを無効化
+      const targetCategory = variables.category;
+
+      // 単語データの場合
+      queryClient.invalidateQueries({
+        queryKey: ["words", userName, targetCategory],
+        refetchType: "active",
+      });
+
+      // 文法データの場合
+      if (targetCategory.startsWith("chapter")) {
         queryClient.invalidateQueries({
-          queryKey: ["words", userName, category],
+          queryKey: ["grammar-express", userName, targetCategory],
+          refetchType: "active",
         });
       }
-
-      // または、更新リクエストのcategoryを使用
-      if (variables.category) {
-        queryClient.invalidateQueries({
-          queryKey: ["words", userName, variables.category],
-        });
-      }
-
-      // 全ての単語データを無効化（複数カテゴリーが影響を受ける場合）
-      // queryClient.invalidateQueries({
-      //   queryKey: ["words", userName],
-      // });
     },
   });
 };

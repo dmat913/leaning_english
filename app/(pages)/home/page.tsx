@@ -7,12 +7,12 @@ import {
   MdTrendingUp,
   MdCheckCircle,
   MdLocalFireDepartment,
-  MdSpeed,
 } from "react-icons/md";
 import { IoBookSharp, IoHeadset } from "react-icons/io5";
 import { FaBook } from "react-icons/fa";
 import StatsCard from "@/components/dashboard/StatsCard";
 import CategoryProgress from "@/components/dashboard/CategoryProgress";
+import GrammarProgress from "@/components/dashboard/GrammarProgress";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import QuickAccessCard from "@/components/dashboard/QuickAccessCard";
 import { PATHS } from "@/lib/paths";
@@ -212,6 +212,17 @@ const HomePage = () => {
                 <RecentActivity activities={dashboardData.recentActivity} />
               )} */}
             </div>
+
+            {/* Grammar Express Progress Section */}
+            {dashboardData && dashboardData.grammar?.chapters.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <GrammarProgress chapters={dashboardData.grammar.chapters} />
+              </motion.div>
+            )}
           </>
         )}
       </div>
