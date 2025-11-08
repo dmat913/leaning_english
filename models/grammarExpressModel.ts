@@ -14,6 +14,7 @@ export interface GrammarExpress {
   navigation: string;
   remarks: string;
   time: string;
+  isCompleted?: boolean;
 }
 
 export interface GrammarExpressDocument extends GrammarExpress, Document {

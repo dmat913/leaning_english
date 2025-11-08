@@ -8,14 +8,52 @@ interface DashboardData {
     totalAttempts: number;
     studyStreak: number;
   };
+  levels: {
+    level600: {
+      completionRate: number;
+      totalWords: number;
+      completedWords: number;
+    };
+    level730: {
+      completionRate: number;
+      totalWords: number;
+      completedWords: number;
+    };
+    level860: {
+      completionRate: number;
+      totalWords: number;
+      completedWords: number;
+    };
+    level990: {
+      completionRate: number;
+      totalWords: number;
+      completedWords: number;
+    };
+  };
   categories: Array<{
     category: string;
     totalWords: number;
     completedWords: number;
     completionRate: number;
-    accuracy: number;
-    lastUpdated: Date;
+    totalAttempts: number;
+    lastUpdated: string | null;
   }>;
+  grammar: {
+    overall: {
+      totalProblems: number;
+      completedProblems: number;
+      completionRate: number;
+      totalAttempts: number;
+    };
+    chapters: Array<{
+      category: string;
+      totalProblems: number;
+      completedProblems: number;
+      completionRate: number;
+      totalAttempts: number;
+      lastUpdated: string | null;
+    }>;
+  };
   recentActivity: Array<{
     category: string;
     wordId: string;

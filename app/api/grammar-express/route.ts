@@ -42,6 +42,8 @@ export async function GET(request: NextRequest) {
       category: category,
     });
 
+    console.log("userProgress:", userProgress);
+
     // 進捗データを語彙データとマージ
     const grammarsWithProgress = grammars.map((grammar) => {
       const progress = userProgress?.progress.find(

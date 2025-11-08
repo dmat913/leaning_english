@@ -3,6 +3,7 @@ import { connectDb } from "@/utils/database";
 import { UserProgressModel, UserProgress } from "@/models/userProgressModel";
 import { UserModel } from "@/models/userModel";
 import { WordModel } from "@/models/wordModel";
+import { GrammarExpressModel } from "@/models/grammarExpressModel";
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,10 +25,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // ユーザーのIDを使って進捗データを取得（新規データのみ：word_idにアンダースコアを含むもの）
+    // ユーザーのIDを使って進捗データを取得（新規データのみ：word_idにアンダースコアを含むもの、またはgrammar_idを持つもの）
     const allProgress = await UserProgressModel.find({
       user_id: user._id,
-      "progress.word_id": { $regex: "_" },
+      $or: [
+        { "progress.word_id": { $regex: "_" } },
+        { "progress.grammar_id": { $exists: true } },
+      ],
     });
 
     // 全カテゴリーの定義
@@ -44,6 +48,17 @@ export async function GET(request: NextRequest) {
       "departments",
       "occupations",
       "majors",
+    ];
+
+    // Grammar Expressカテゴリーの定義
+    const grammarCategories = [
+      "chapter1",
+      "chapter2",
+      "chapter3",
+      "chapter4",
+      "chapter5",
+      "chapter6",
+      "chapter7",
     ];
 
     // カテゴリー別の統計を計算
@@ -63,7 +78,7 @@ export async function GET(request: NextRequest) {
         // 新規データのみをフィルタリング（word_idにアンダースコアを含むもの）
         const newProgress = categoryProgress
           ? categoryProgress.progress.filter((p: UserProgress) =>
-              p.word_id.includes("_")
+              p.word_id?.includes("_")
             )
           : [];
 
@@ -91,6 +106,74 @@ export async function GET(request: NextRequest) {
         };
       })
     );
+
+    // Grammar Expressカテゴリー別の統計を計算
+    const grammarStats = await Promise.all(
+      grammarCategories.map(async (category) => {
+        // GrammarExpressModelから該当カテゴリーの全問題数を取得
+        const totalProblemsInCategory =
+          await GrammarExpressModel.countDocuments({
+            category: category,
+          });
+
+        // 該当カテゴリーの進捗データを取得
+        const categoryProgress = allProgress.find(
+          (cp) => cp.category === category
+        );
+
+        const grammarProgress = categoryProgress
+          ? categoryProgress.progress
+          : [];
+
+        const completedProblems = grammarProgress.filter(
+          (p: UserProgress) => p.isCompleted
+        ).length;
+
+        const totalAttempts = grammarProgress.reduce(
+          (sum: number, p: UserProgress) => sum + (p.attempts || 0),
+          0
+        );
+
+        const completionRate =
+          totalProblemsInCategory > 0
+            ? (completedProblems / totalProblemsInCategory) * 100
+            : 0;
+
+        return {
+          category: category,
+          totalProblems: totalProblemsInCategory,
+          completedProblems,
+          completionRate: Math.round(completionRate),
+          totalAttempts,
+          lastUpdated: categoryProgress?.updatedAt || null,
+        };
+      })
+    );
+
+    // Grammar Express全体統計を計算
+    const grammarTotalStats = {
+      totalProblems: grammarStats.reduce(
+        (sum: number, cat) => sum + cat.totalProblems,
+        0
+      ),
+      completedProblems: grammarStats.reduce(
+        (sum: number, cat) => sum + cat.completedProblems,
+        0
+      ),
+      totalAttempts: grammarStats.reduce(
+        (sum: number, cat) => sum + cat.totalAttempts,
+        0
+      ),
+    };
+
+    const grammarOverallCompletionRate =
+      grammarTotalStats.totalProblems > 0
+        ? Math.round(
+            (grammarTotalStats.completedProblems /
+              grammarTotalStats.totalProblems) *
+              100
+          )
+        : 0;
 
     // 全体統計を計算
     const totalStats = {
@@ -145,7 +228,7 @@ export async function GET(request: NextRequest) {
       categoryProgress.progress
         .filter(
           (p: UserProgress) =>
-            p.word_id.includes("_") && // 新規データのみ
+            p.word_id?.includes("_") && // 新規データのみ
             p.lastAttemptAt &&
             new Date(p.lastAttemptAt) > sevenDaysAgo
         )
@@ -169,7 +252,7 @@ export async function GET(request: NextRequest) {
       .flatMap((categoryProgress) =>
         categoryProgress.progress
           .filter(
-            (p: UserProgress) => p.word_id.includes("_") && p.lastAttemptAt
+            (p: UserProgress) => p.word_id?.includes("_") && p.lastAttemptAt
           )
           .map((p: UserProgress) => new Date(p.lastAttemptAt!))
       )
@@ -219,6 +302,13 @@ export async function GET(request: NextRequest) {
         },
         levels: levelStats,
         categories: categoryStats,
+        grammar: {
+          overall: {
+            ...grammarTotalStats,
+            completionRate: grammarOverallCompletionRate,
+          },
+          chapters: grammarStats,
+        },
         recentActivity: recentActivity.slice(0, 10), // 最新10件
       },
     });

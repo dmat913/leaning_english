@@ -6,24 +6,28 @@ export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    const { userId, word_id, isCompleted, category } = await request.json();
-    if (!userId || !word_id || isCompleted === undefined || !category) {
+    const { userId, word_id, grammar_id, isCompleted, category } =
+      await request.json();
+    const itemId = word_id || grammar_id;
+
+    if (!userId || !itemId || isCompleted === undefined || !category) {
       return NextResponse.json(
         {
           message:
-            "必要なデータが不足しています (userId, word_id, isCompleted, category)",
+            "必要なデータが不足しています (userId, word_id/grammar_id, isCompleted, category)",
         },
         { status: 400 }
       );
     }
 
     const now = new Date();
-    // 進捗データを検索し、該当語彙の進捗を更新または追加
-    const updateResult = await UserProgressModel.findOneAndUpdate(
+    const itemIdField = grammar_id ? "grammar_id" : "word_id";
+
+    // 進捗データを検索し、該当語彙/文法の進捗を更新または追加
+    await UserProgressModel.findOneAndUpdate(
       {
         user_id: userId,
         category: category,
-        // progress.word_id: word_id で部分一致検索も可能だが、ここでは全体で更新
       },
       {
         $setOnInsert: { user_id: userId, category: category },
@@ -38,32 +42,47 @@ export async function POST(request: NextRequest) {
       { upsert: true, new: true }
     );
 
-    // progress配列内の該当word_idを更新（MongoDBの配列フィルタを使う）
-    const updateProgress = await UserProgressModel.updateOne(
-      {
-        user_id: userId,
-        category: category,
-        "progress.word_id": word_id,
+    // progress配列内の該当item_idを更新（MongoDBの配列フィルタを使う）
+    const filterQuery = {
+      user_id: userId,
+      category: category,
+      [`progress.${itemIdField}`]: itemId,
+    };
+
+    const updateFields: any = {
+      $set: {
+        "progress.$.isCompleted": isCompleted,
+        "progress.$.lastAttemptAt": now,
       },
-      {
-        $set: {
-          "progress.$.isCompleted": isCompleted,
-          "progress.$.lastAttemptAt": now,
-          ...(isCompleted
-            ? {
-                "progress.$.completedAt": now,
-                $inc: { "progress.$.correctCount": 1 },
-              }
-            : {
-                $inc: { "progress.$.incorrectCount": 1 },
-              }),
-          $inc: { "progress.$.attempts": 1 },
-        },
-      }
+      $inc: {
+        "progress.$.attempts": 1,
+      },
+    };
+
+    if (isCompleted) {
+      updateFields.$set["progress.$.completedAt"] = now;
+      updateFields.$inc["progress.$.correctCount"] = 1;
+    } else {
+      updateFields.$inc["progress.$.incorrectCount"] = 1;
+    }
+
+    const updateProgress = await UserProgressModel.updateOne(
+      filterQuery,
+      updateFields
     );
 
-    // 該当word_idがなければ新規追加
+    // 該当item_idがなければ新規追加
     if (updateProgress.modifiedCount === 0) {
+      const newProgressItem: any = {
+        [itemIdField]: itemId,
+        isCompleted: isCompleted,
+        completedAt: isCompleted ? now : undefined,
+        attempts: 1,
+        correctCount: isCompleted ? 1 : 0,
+        incorrectCount: isCompleted ? 0 : 1,
+        lastAttemptAt: now,
+      };
+
       await UserProgressModel.updateOne(
         {
           user_id: userId,
@@ -71,15 +90,7 @@ export async function POST(request: NextRequest) {
         },
         {
           $push: {
-            progress: {
-              word_id: word_id,
-              isCompleted: isCompleted,
-              completedAt: isCompleted ? now : undefined,
-              attempts: 1,
-              correctCount: isCompleted ? 1 : 0,
-              incorrectCount: isCompleted ? 0 : 1,
-              lastAttemptAt: now,
-            },
+            progress: newProgressItem,
           },
         }
       );
@@ -100,7 +111,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       message: "進捗更新成功",
       progress: {
-        word_id: word_id,
+        [itemIdField]: itemId,
         isCompleted: isCompleted,
         category: category,
       },

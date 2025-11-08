@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface UserProgress {
-  word_id: string;
+  word_id?: string;
+  grammar_id?: string;
   isCompleted: boolean;
   completedAt?: Date;
   attempts?: number; // 挑戦回数
@@ -12,7 +13,7 @@ export interface UserProgress {
 
 export interface UserProgressData {
   user_id: string;
-  category: string; // level600, level730, level860, level990, part1_essentialWord100, phrases120, prepositions, conjunctions, conjunctiveAdverbs,departmentAndOccupations
+  category: string; // level600, level730, level860, level990, part1_essentialWord100, phrases120, prepositions, conjunctions, conjunctiveAdverbs, departments, occupations, majors, chapter1, chapter2, chapter3, chapter4
   progress: UserProgress[];
 }
 
@@ -42,13 +43,21 @@ const userProgressSchema = new Schema<UserProgressDocument>(
         "departments",
         "occupations",
         "majors",
+        "chapter1",
+        "chapter2",
+        "chapter3",
+        "chapter4",
       ],
     },
     progress: [
       {
         word_id: {
           type: String,
-          required: true,
+          required: false,
+        },
+        grammar_id: {
+          type: String,
+          required: false,
         },
         isCompleted: {
           type: Boolean,
@@ -85,6 +94,7 @@ const userProgressSchema = new Schema<UserProgressDocument>(
 userProgressSchema.index({ user_id: 1, category: 1 }, { unique: true });
 userProgressSchema.index({ user_id: 1 });
 userProgressSchema.index({ "progress.word_id": 1 });
+userProgressSchema.index({ "progress.grammar_id": 1 });
 
 export const UserProgressModel =
   mongoose.models.UserProgress ||
