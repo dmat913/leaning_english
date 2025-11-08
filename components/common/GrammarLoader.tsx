@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, RecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilValue, useSetRecoilState, RecoilState } from "recoil";
 import { userState } from "@/states/userState";
 import { GrammarExpress } from "@/models/grammarExpressModel";
+import { useGrammarData } from "@/hooks/useGrammarData";
 
 interface GrammarLoaderProps {
   category: string;
@@ -17,37 +18,19 @@ const GrammarLoader: React.FC<GrammarLoaderProps> = ({
   children,
 }) => {
   const user = useRecoilValue(userState);
-  const [data, setData] = useRecoilState<GrammarExpress[]>(dataState);
-  const [isLoading, setIsLoading] = useState(false);
+  const setData = useSetRecoilState<GrammarExpress[]>(dataState);
 
+  // React Queryでデータを取得（キャッシュ付き）
+  const { data: fetchedData, isLoading } = useGrammarData(user?.name, category);
+
+  // React Queryで取得したデータをRecoil stateに同期
   useEffect(() => {
-    const loadData = async () => {
-      if (!user) {
-        return;
-      }
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `/api/grammar-express?name=${user.name}&category=${category}`
-        );
-        if (response.ok) {
-          const responseData = await response.json();
-          setData(responseData.grammars || []);
-        } else {
-          console.error(`Failed to load ${category} grammar data`);
-          setData([]);
-        }
-      } catch (error) {
-        console.error(`Error loading ${category} grammar data:`, error);
-        setData([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadData();
-  }, [user, category, setData]);
+    if (fetchedData) {
+      setData(fetchedData);
+    }
+  }, [fetchedData, setData]);
 
-  return <>{children(data, isLoading)}</>;
+  return <>{children(fetchedData || [], isLoading)}</>;
 };
 
 export default GrammarLoader;

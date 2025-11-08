@@ -70,20 +70,27 @@ export async function GET(request: NextRequest) {
       };
     });
 
-    return NextResponse.json({
-      message: "文法特急データ取得成功",
-      grammars: grammarsWithProgress,
-      category: category,
-      statistics: {
-        total: grammars.length,
-        completed: grammarsWithProgress.filter((g) => g.isCompleted).length,
-        completionRate: Math.round(
-          (grammarsWithProgress.filter((g) => g.isCompleted).length /
-            grammars.length) *
-            100
-        ),
+    return NextResponse.json(
+      {
+        message: "文法特急データ取得成功",
+        grammars: grammarsWithProgress,
+        category: category,
+        statistics: {
+          total: grammars.length,
+          completed: grammarsWithProgress.filter((g) => g.isCompleted).length,
+          completionRate: Math.round(
+            (grammarsWithProgress.filter((g) => g.isCompleted).length /
+              grammars.length) *
+              100
+          ),
+        },
       },
-    });
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        },
+      }
+    );
   } catch (error) {
     console.error("grammarデータ取得エラー:", error);
     return NextResponse.json(
