@@ -24,7 +24,9 @@ export enum PATHS {
   GRAMMAR_EXPRESS_CHAPTER2 = "/grammar-express/chapter2",
   GRAMMAR_EXPRESS_CHAPTER3 = "/grammar-express/chapter3",
   GRAMMAR_EXPRESS_CHAPTER4 = "/grammar-express/chapter4",
-
+  GRAMMAR_EXPRESS_CHAPTER5 = "/grammar-express/chapter5",
+  GRAMMAR_EXPRESS_CHAPTER6 = "/grammar-express/chapter6",
+  GRAMMAR_EXPRESS_CHAPTER7 = "/grammar-express/chapter7",
   // Listening
   LISTENING_HOME = "/listening/home",
 }
