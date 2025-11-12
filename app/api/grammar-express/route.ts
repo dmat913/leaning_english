@@ -42,8 +42,6 @@ export async function GET(request: NextRequest) {
       category: category,
     });
 
-    console.log("userProgress:", userProgress);
-
     // 進捗データを語彙データとマージ
     const grammarsWithProgress = grammars.map((grammar) => {
       const progress = userProgress?.progress.find(
@@ -89,7 +87,9 @@ export async function GET(request: NextRequest) {
       },
       {
         headers: {
-          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+          "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+          Pragma: "no-cache",
+          Expires: "0",
         },
       }
     );

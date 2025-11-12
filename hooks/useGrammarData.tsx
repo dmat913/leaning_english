@@ -17,7 +17,13 @@ const fetchGrammar = async (
   category: string
 ): Promise<GrammarExpress[]> => {
   const response = await fetch(
-    `/api/grammar-express?name=${userName}&category=${category}`
+    `/api/grammar-express?name=${userName}&category=${category}`,
+    {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    }
   );
 
   if (!response.ok) {

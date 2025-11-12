@@ -5,18 +5,27 @@ import {
   selectedGrammarState,
   grammarTestDataState,
 } from "@/states/grammarTestDataState";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { userState } from "@/states/userState";
 import { useUpdateCompleted } from "@/hooks/useUpdateCompleted";
 import { useGrammarData } from "@/hooks/useGrammarData";
 import DMATLoading from "@/components/elements/DMATLoading";
-import { MdStar, MdStarBorder } from "react-icons/md";
+import {
+  MdStar,
+  MdStarBorder,
+  MdArrowBack,
+  MdArrowForward,
+} from "react-icons/md";
 import { motion } from "framer-motion";
 
 const GrammarDetails = () => {
   const router = useRouter();
+  const params = useParams();
+
+  // URLパラメータからchapterを取得
+  const chapter = params.chapter as string;
 
   // user info
   const user = useRecoilValue(userState);
@@ -27,8 +36,8 @@ const GrammarDetails = () => {
   const [status, setStatus] = useState("unanswered");
   const [answer, setAnswer] = useState("");
 
-  // grammar_idからカテゴリを取得 (例: "chapter1_01" -> "chapter1")
-  const category = selectedGrammar?.grammar_id.split("_")[0] || "";
+  // URLパラメータからカテゴリを取得
+  const category = chapter;
 
   // React Query mutation hook
   const updateCompletedMutation = useUpdateCompleted(user?.name, category);
@@ -75,7 +84,7 @@ const GrammarDetails = () => {
     if (currentIndex !== -1 && currentIndex < grammarList.length - 1) {
       const nextGrammar = grammarList[currentIndex + 1];
       setSelectedGrammar(nextGrammar);
-      router.push(`/grammar-express/${nextGrammar.grammar_id}`);
+      router.push(`/grammar-express/${chapter}/${nextGrammar.grammar_id}`);
       // ステートをリセット
       setStatus("unanswered");
       setAnswer("");
@@ -92,7 +101,7 @@ const GrammarDetails = () => {
     if (currentIndex > 0) {
       const prevGrammar = grammarList[currentIndex - 1];
       setSelectedGrammar(prevGrammar);
-      router.push(`/grammar-express/${prevGrammar.grammar_id}`);
+      router.push(`/grammar-express/${chapter}/${prevGrammar.grammar_id}`);
       // ステートをリセット
       setStatus("unanswered");
       setAnswer("");
@@ -163,30 +172,10 @@ const GrammarDetails = () => {
           {/* 問題文カード */}
           <div className="flex-1 flex flex-col gap-4">
             <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-600/40 p-6">
-              <div className="flex items-center gap-2 mb-4 justify-between">
+              <div className="flex items-center gap-2 mb-4">
                 <span className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
                   問題文
                 </span>
-                {/* 星マークボタン */}
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  disabled={isLoading}
-                  onClick={() => handleClickStar(!selectedGrammar.isCompleted)}
-                  className="w-10 h-10 rounded-xl bg-white-1/10 border border-white-1/30 flex items-center justify-center hover:bg-white-1/20 transition-colors duration-200"
-                >
-                  {isLoading ? (
-                    <DMATLoading otherClass="h-5 w-5" />
-                  ) : (
-                    <>
-                      {selectedGrammar.isCompleted ? (
-                        <MdStar size={20} className="text-yellow-400" />
-                      ) : (
-                        <MdStarBorder size={20} className="text-yellow-400" />
-                      )}
-                    </>
-                  )}
-                </motion.button>
               </div>
               <p className="text-lg text-white-1 leading-relaxed whitespace-pre-wrap">
                 {selectedGrammar.sentence}
@@ -236,7 +225,7 @@ const GrammarDetails = () => {
       {status === "answered" && (
         <div className="flex h-full py-4">
           <div className="flex flex-col h-full w-full gap-4 text-white-1 overflow-y-auto">
-            {/* 正解/不正解バッジ */}
+            {/* 正解/不正解バッジと星マークボタン */}
             <div className="flex items-center justify-center gap-3 pb-2">
               <span
                 className={`text-2xl font-bold px-6 py-3 rounded-2xl shadow-lg ${
@@ -247,6 +236,26 @@ const GrammarDetails = () => {
               >
                 {answer === selectedGrammar.answer ? "✓ 正解!" : "✗ 不正解!"}
               </span>
+              {/* 星マークボタン */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                disabled={isLoading}
+                onClick={() => handleClickStar(!selectedGrammar.isCompleted)}
+                className="w-12 h-12 rounded-xl bg-white-1/10 border border-white-1/30 flex items-center justify-center hover:bg-white-1/20 transition-colors duration-200"
+              >
+                {isLoading ? (
+                  <DMATLoading otherClass="h-6 w-6" />
+                ) : (
+                  <>
+                    {selectedGrammar.isCompleted ? (
+                      <MdStar size={24} className="text-yellow-400" />
+                    ) : (
+                      <MdStarBorder size={24} className="text-yellow-400" />
+                    )}
+                  </>
+                )}
+              </motion.button>
             </div>
 
             {/* 正答表示 */}
@@ -295,6 +304,26 @@ const GrammarDetails = () => {
               </div>
             </div>
 
+            {/* Remarks - 補足情報 */}
+            {selectedGrammar.remarks && (
+              <div className="bg-gradient-to-br from-cyan-900/40 to-cyan-800/40 backdrop-blur-sm rounded-2xl shadow-xl border border-cyan-500/30 p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-lg font-bold text-cyan-200">
+                    📝 補足情報
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  {selectedGrammar.remarks.split("\n").map((line, i) => (
+                    <p
+                      key={i}
+                      className="text-sm text-cyan-50 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: line }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Tips - 重要 */}
             <div className="bg-gradient-to-br from-amber-900/40 to-amber-800/40 backdrop-blur-sm rounded-2xl shadow-xl border border-amber-500/30 p-5">
               <div className="flex items-center gap-2 mb-3">
@@ -302,9 +331,15 @@ const GrammarDetails = () => {
                   💡 Tips
                 </span>
               </div>
-              <p className="text-sm text-amber-50 leading-relaxed">
-                {selectedGrammar.tips}
-              </p>
+              <div className="space-y-1">
+                {selectedGrammar.tips.split("\n").map((line, i) => (
+                  <p
+                    key={i}
+                    className="text-sm text-amber-50 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: line }}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* 例文と訳 */}
@@ -339,50 +374,57 @@ const GrammarDetails = () => {
               </div>
             </div>
 
-            {/* Remarks - 折りたたみ可能 */}
-            {selectedGrammar.remarks && (
-              <details className="bg-gradient-to-br from-gray-900/60 to-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-600/30 overflow-hidden">
-                <summary className="cursor-pointer p-4 hover:bg-gray-700/30 transition-colors">
-                  <span className="text-sm font-semibold text-gray-300">
-                    📝 補足情報を表示
-                  </span>
-                </summary>
-                <div className="px-4 pb-4 space-y-1">
-                  {selectedGrammar.remarks.split("\n").map((line, i) => (
-                    <p
-                      key={i}
-                      className="text-xs text-gray-300 leading-relaxed"
-                    >
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </details>
-            )}
-
             {/* ナビゲーションボタン */}
-            <div className="flex gap-3 mt-2">
+            <div className="flex gap-4 mt-4">
               <button
                 onClick={handlePreviousQuestion}
                 disabled={isFirstQuestion}
-                className={`flex-1 py-4 px-6 rounded-xl font-semibold text-base transition-all duration-300 ${
+                className={`group relative flex-1 py-4 px-6 rounded-2xl font-bold text-base transition-all duration-300 overflow-hidden ${
                   isFirstQuestion
-                    ? "bg-gray-800/50 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white shadow-lg hover:shadow-blue-500/50 hover:scale-[1.02] active:scale-[0.98]"
+                    ? "bg-slate-800/50 text-slate-500 cursor-not-allowed"
+                    : "bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 text-white hover:scale-[1.02] active:scale-[0.98]"
                 }`}
               >
-                ← 前の問題
+                {!isFirstQuestion && (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 border-2 border-blue-400/0 group-hover:border-blue-400/50 rounded-2xl transition-all duration-300" />
+                  </>
+                )}
+                <span className="relative flex items-center justify-center gap-2">
+                  <MdArrowBack
+                    size={20}
+                    className={`transition-transform duration-300 ${
+                      !isFirstQuestion && "group-hover:-translate-x-1"
+                    }`}
+                  />
+                  <span>前の問題</span>
+                </span>
               </button>
               <button
                 onClick={handleNextQuestion}
                 disabled={isLastQuestion}
-                className={`flex-1 py-4 px-6 rounded-xl font-semibold text-base transition-all duration-300 ${
+                className={`group relative flex-1 py-4 px-6 rounded-2xl font-bold text-base transition-all duration-300 overflow-hidden ${
                   isLastQuestion
-                    ? "bg-gray-800/50 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white shadow-lg hover:shadow-green-500/50 hover:scale-[1.02] active:scale-[0.98]"
+                    ? "bg-slate-800/50 text-slate-500 cursor-not-allowed"
+                    : "bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 text-white hover:scale-[1.02] active:scale-[0.98]"
                 }`}
               >
-                次の問題 →
+                {!isLastQuestion && (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-teal-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 border-2 border-emerald-400/0 group-hover:border-emerald-400/50 rounded-2xl transition-all duration-300" />
+                  </>
+                )}
+                <span className="relative flex items-center justify-center gap-2">
+                  <span>次の問題</span>
+                  <MdArrowForward
+                    size={20}
+                    className={`transition-transform duration-300 ${
+                      !isLastQuestion && "group-hover:translate-x-1"
+                    }`}
+                  />
+                </span>
               </button>
             </div>
           </div>
