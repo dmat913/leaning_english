@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaBook } from "react-icons/fa";
+import { IoBookSharp } from "react-icons/io5";
 
 interface CategoryData {
   category: string;
@@ -44,7 +44,7 @@ export default function CategoryProgress({
     >
       <div className="flex items-center gap-3 mb-4">
         <div className="p-2 rounded-lg bg-cyan-500/10">
-          <FaBook className="text-amber-400 text-xl" />
+          <IoBookSharp className="text-amber-400 text-xl" />
         </div>
         <h2 className="text-xl font-bold text-white-1">金のフレーズ</h2>
       </div>

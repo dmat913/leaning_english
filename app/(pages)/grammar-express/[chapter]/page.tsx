@@ -6,7 +6,7 @@ import {
   grammarTestDataState,
   selectedGrammarState,
 } from "@/states/grammarTestDataState";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useSetRecoilState } from "recoil";
 import { motion } from "framer-motion";
 import DMATCloseButton from "@/components/elements/DMATCloseButton";
@@ -15,10 +15,35 @@ import { MdList } from "react-icons/md";
 import { PATHS } from "@/lib/paths";
 import GrammarListCard from "@/components/grammar-express/GrammarListCard";
 
-// ...existing code...
+// 各章の設定
+const CHAPTER_CONFIG: Record<string, { title: string; loadingTitle: string }> =
+  {
+    chapter1: {
+      title: "絶対おさえるべき23題",
+      loadingTitle: "絶対おさえるべき23題",
+    },
+    chapter2: {
+      title: "スピードを手にいれる19題",
+      loadingTitle: "スピードを手にいれる19題",
+    },
+    chapter3: {
+      title: "苦手分野を克服する14題",
+      loadingTitle: "苦手分野を克服する14題",
+    },
+    chapter4: {
+      title: "意外な落とし穴を回避する22題",
+      loadingTitle: "意外な落とし穴を回避する22題",
+    },
+    chapter6: {
+      title: "ここで差がつく24題",
+      loadingTitle: "ここで差がつく24題",
+    },
+  };
 
-const Chapter4 = () => {
+const ChapterPage = () => {
   const router = useRouter();
+  const params = useParams();
+  const chapter = params.chapter as string;
 
   const setSelectedGrammar = useSetRecoilState(selectedGrammarState);
 
@@ -28,16 +53,22 @@ const Chapter4 = () => {
 
   const handleClickCard = (grammar: GrammarExpress) => {
     setSelectedGrammar(grammar);
-    router.push(`/grammar-express/${grammar.grammar_id}`);
+    router.push(`/grammar-express/${chapter}/${grammar.grammar_id}`);
+  };
+
+  // 章の設定を取得（存在しない場合はデフォルト値）
+  const config = CHAPTER_CONFIG[chapter] || {
+    title: "文法問題",
+    loadingTitle: "文法問題",
   };
 
   return (
-    <GrammarLoader category="chapter4" dataState={grammarTestDataState}>
+    <GrammarLoader category={chapter} dataState={grammarTestDataState}>
       {(grammars: GrammarExpress[], isLoading: boolean) => {
         if (isLoading) {
           return (
             <LoadingScreen
-              title="意外な落とし穴を回避する22題"
+              title={config.loadingTitle}
               message="データを読み込み中..."
             />
           );
@@ -70,7 +101,7 @@ const Chapter4 = () => {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-white-1">
-                    意外な落とし穴を回避する22題
+                    {config.title}
                   </h1>
                 </div>
               </div>
@@ -92,4 +123,4 @@ const Chapter4 = () => {
   );
 };
 
-export default Chapter4;
+export default ChapterPage;
