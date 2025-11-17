@@ -12,6 +12,7 @@ import {
   MdAutoStories,
 } from "react-icons/md";
 import { PATHS } from "@/lib/paths";
+import useAudio from "@/hooks/useAudio";
 
 const NotStarted = ({
   handleChangeStatus,
@@ -24,6 +25,7 @@ const NotStarted = ({
 }) => {
   const router = useRouter();
   const { playInterrupt } = useCloseAudio();
+  const { playInterrupt: playButtonSound } = useAudio();
 
   return (
     <motion.div
@@ -112,7 +114,10 @@ const NotStarted = ({
           <motion.button
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => handleChangeStatus("setting_training")}
+            onClick={() => {
+              playButtonSound();
+              handleChangeStatus("setting_training");
+            }}
             className="w-full p-6 rounded-2xl bg-white-1/10 backdrop-blur-md border border-white-1/20 shadow-lg hover:shadow-xl transition-all duration-300 group"
           >
             <div className="flex items-center gap-4">
@@ -148,7 +153,10 @@ const NotStarted = ({
           <motion.button
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => handleChangeStatus("display_list")}
+            onClick={() => {
+              playButtonSound();
+              handleChangeStatus("display_list");
+            }}
             className="w-full p-6 rounded-2xl bg-white-1/10 backdrop-blur-md border border-white-1/20 shadow-lg hover:shadow-xl transition-all duration-300 group"
           >
             <div className="flex items-center gap-4">

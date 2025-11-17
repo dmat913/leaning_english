@@ -196,6 +196,16 @@ export async function GET(request: NextRequest) {
         ? Math.round((totalStats.completedWords / totalStats.totalWords) * 100)
         : 0;
 
+    // 金のフレーズと文法特急を合わせた全体達成率を計算
+    const combinedTotalItems =
+      totalStats.totalWords + grammarTotalStats.totalProblems;
+    const combinedCompletedItems =
+      totalStats.completedWords + grammarTotalStats.completedProblems;
+    const combinedCompletionRate =
+      combinedTotalItems > 0
+        ? Math.round((combinedCompletedItems / combinedTotalItems) * 100)
+        : 0;
+
     // レベル別の達成率を計算
     const levelStats = {
       level600: categoryStats.find((cat) => cat.category === "level600") || {
@@ -297,7 +307,7 @@ export async function GET(request: NextRequest) {
       data: {
         overall: {
           ...totalStats,
-          completionRate: overallCompletionRate,
+          completionRate: combinedCompletionRate, // 金のフレーズと文法特急を合わせた達成率
           studyStreak,
         },
         levels: levelStats,

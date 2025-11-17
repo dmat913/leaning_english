@@ -21,6 +21,7 @@ import {
   MdCheckCircle,
 } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import useAudio from "@/hooks/useAudio";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -33,6 +34,8 @@ const SettingTraining = ({
   options: Option[];
   fromOptions: Option[];
 }) => {
+  const { playInterrupt } = useAudio();
+
   // testデータ
   const setTestData: (testData: TestData[]) => void =
     useSetRecoilState(testDataState);
@@ -99,6 +102,7 @@ const SettingTraining = ({
 
   // 開始ボタン押下時
   const handleClickStartButton = () => {
+    playInterrupt();
     if (orderType === "listening") {
       handleChangeStatus("listening");
     } else {
