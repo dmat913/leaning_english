@@ -28,6 +28,8 @@ const HomePage = () => {
   const completionRate = dashboardData?.overall.completionRate || 0;
   const studyStreak = dashboardData?.overall.studyStreak || 0;
   const completedWords = dashboardData?.overall.completedWords || 0;
+  const completedGrammar =
+    dashboardData?.grammar?.overall.completedProblems || 0;
   const totalAttempts = dashboardData?.overall.totalAttempts || 0;
 
   return (
@@ -198,13 +200,33 @@ const HomePage = () => {
                 bgColor="bg-green-500/10"
                 delay={0.3}
               />
+              <StatsCard
+                title="完了文法"
+                value={completedGrammar}
+                subtitle="問題"
+                icon={<MdCheckCircle size={24} />}
+                color="text-blue-400"
+                bgColor="bg-blue-500/10"
+                delay={0.4}
+              />
             </div>
 
             {/* Progress and Activity Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Category Progress */}
               {dashboardData && dashboardData.categories.length > 0 && (
                 <CategoryProgress categories={dashboardData.categories} />
+              )}
+
+              {/* Grammar Express Progress Section */}
+              {dashboardData && dashboardData.grammar?.chapters.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.5 }}
+                >
+                  <GrammarProgress chapters={dashboardData.grammar.chapters} />
+                </motion.div>
               )}
 
               {/* Recent Activity */}
@@ -212,17 +234,6 @@ const HomePage = () => {
                 <RecentActivity activities={dashboardData.recentActivity} />
               )} */}
             </div>
-
-            {/* Grammar Express Progress Section */}
-            {dashboardData && dashboardData.grammar?.chapters.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                <GrammarProgress chapters={dashboardData.grammar.chapters} />
-              </motion.div>
-            )}
           </>
         )}
       </div>

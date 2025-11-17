@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
+import useAudio from "@/hooks/useAudio";
 
 interface QuickAccessCardProps {
   href: string;
@@ -23,6 +24,12 @@ export default function QuickAccessCard({
   bgColor,
   delay,
 }: QuickAccessCardProps) {
+  const { playInterrupt } = useAudio();
+
+  const handleClick = () => {
+    playInterrupt();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -31,7 +38,7 @@ export default function QuickAccessCard({
       whileHover={{ scale: 1.05, y: -5 }}
       whileTap={{ scale: 0.98 }}
     >
-      <Link href={href} className="block">
+      <Link href={href} className="block" onClick={handleClick}>
         <div className="relative h-full rounded-2xl overflow-hidden bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 group">
           {/* Glow effect */}
           <div

@@ -106,17 +106,51 @@ const GrammarProgress = ({ chapters }: GrammarProgressProps) => {
 
         {/* Summary */}
         {chapters.length > 0 && (
-          <div className="pt-4 border-t border-slate-700/50">
+          <div className="pt-4 border-t border-slate-700/50 space-y-2">
             <div className="flex justify-between items-center text-sm">
-              <span className="text-slate-400">全体進捗</span>
-              <span className="text-cyan-400 font-bold">
-                {Math.round(
-                  (chapters.reduce((sum, ch) => sum + ch.completedProblems, 0) /
-                    chapters.reduce((sum, ch) => sum + ch.totalProblems, 0)) *
-                    100
-                )}
-                %
-              </span>
+              <span className="text-slate-300 font-semibold">全体進捗</span>
+              <div className="flex items-center gap-4">
+                <span className="text-slate-400">
+                  {chapters.reduce((sum, ch) => sum + ch.completedProblems, 0)}/
+                  {chapters.reduce((sum, ch) => sum + ch.totalProblems, 0)}
+                </span>
+                <span className="text-cyan-400 font-bold min-w-[3rem] text-right">
+                  {Math.round(
+                    (chapters.reduce(
+                      (sum, ch) => sum + ch.completedProblems,
+                      0
+                    ) /
+                      chapters.reduce((sum, ch) => sum + ch.totalProblems, 0)) *
+                      100
+                  )}
+                  %
+                </span>
+              </div>
+            </div>
+            {/* Overall Progress bar */}
+            <div className="h-3 bg-slate-700/50 rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{
+                  width: `${Math.round(
+                    (chapters.reduce(
+                      (sum, ch) => sum + ch.completedProblems,
+                      0
+                    ) /
+                      chapters.reduce((sum, ch) => sum + ch.totalProblems, 0)) *
+                      100
+                  )}%`,
+                }}
+                transition={{
+                  delay: 0.8,
+                  duration: 1,
+                  ease: "easeOut",
+                }}
+                className="h-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 rounded-full relative"
+              >
+                {/* Shine effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+              </motion.div>
             </div>
           </div>
         )}

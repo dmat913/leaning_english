@@ -19,6 +19,7 @@ import {
   MdQuiz,
 } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import useAudio from "@/hooks/useAudio";
 
 const SettingTraining = ({
   handleChangeStatus,
@@ -27,6 +28,8 @@ const SettingTraining = ({
   handleChangeStatus: (status: Status) => void;
   targetTestData: TestData[];
 }) => {
+  const { playInterrupt } = useAudio();
+
   // testData
   const [testData, setTestData] = useRecoilState(testDataState);
   // テスト状態
@@ -58,6 +61,7 @@ const SettingTraining = ({
 
   // 開始ボタン押下時
   const handleStartTest = () => {
+    playInterrupt();
     if (orderType === "random") {
       setTestData(getRandomItems(testData, testData.length));
     }

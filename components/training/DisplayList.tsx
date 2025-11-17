@@ -43,7 +43,7 @@ const DisplayList = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col gap-6 w-full h-full p-4"
+      className="flex flex-col gap-6 w-full h-full p-4 md:p-6 lg:p-8 max-w-7xl mx-auto"
     >
       <DMATCloseButton handleClick={handleClickCloseButton} />
 
@@ -54,13 +54,15 @@ const DisplayList = ({
         transition={{ delay: 0.2, duration: 0.4 }}
         className="flex flex-col gap-4"
       >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg">
-            <MdList size={24} className="text-white" />
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg">
+            <MdList size={24} className="text-white md:w-7 md:h-7" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white-1">単語一覧</h1>
-            <p className="text-sm text-gray-300">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white-1">
+              単語一覧
+            </h1>
+            <p className="text-sm md:text-base text-gray-300">
               {displayData.length}語中{" "}
               {displayData.filter((data) => data.isCompleted).length}語 完了
             </p>
@@ -81,7 +83,7 @@ const DisplayList = ({
         transition={{ delay: 0.3, duration: 0.4 }}
         className="flex-1 overflow-hidden"
       >
-        <div className="h-full overflow-y-auto space-y-2 pr-2">
+        <div className="h-full overflow-y-auto space-y-2 md:space-y-3 pr-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 auto-rows-min">
           {displayData.map((item, index) => (
             <motion.div
               key={item._id}
@@ -95,32 +97,32 @@ const DisplayList = ({
                 playInterrupt();
               }}
               className={cn(
-                "group relative p-4 rounded-xl border cursor-pointer transition-all duration-200 shadow-sm hover:shadow-lg",
+                "group relative p-4 md:p-5 rounded-xl border cursor-pointer transition-all duration-200 shadow-sm hover:shadow-lg",
                 item.isCompleted
                   ? "bg-green-400/10 border-green-400/30 hover:bg-green-400/15"
                   : "bg-white-1/10 border-white-1/20 hover:bg-white-1/15"
               )}
             >
               <div className="flex items-center justify-between">
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white-1/20 text-xs font-bold text-white-1">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white-1/20 text-xs font-bold text-white-1 flex-shrink-0">
                       {item.word_id.slice(-3)}
                     </span>
-                    <span className="text-lg font-semibold text-white-1 group-hover:text-blue-300 transition-colors duration-200">
+                    <span className="text-lg md:text-xl font-semibold text-white-1 group-hover:text-blue-300 transition-colors duration-200 truncate">
                       {item.word}
                     </span>
                     {item.isCompleted && (
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="flex items-center justify-center w-6 h-6 rounded-full bg-green-400 shadow-lg"
+                        className="flex items-center justify-center w-6 h-6 rounded-full bg-green-400 shadow-lg flex-shrink-0"
                       >
                         <MdCheck size={16} className="text-white" />
                       </motion.div>
                     )}
                   </div>
-                  <p className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-200">
+                  <p className="text-sm md:text-base text-gray-300 group-hover:text-gray-200 transition-colors duration-200 line-clamp-2">
                     {item.wordMeaning}
                   </p>
                 </div>
@@ -155,20 +157,25 @@ const DisplayList = ({
               exit={{ scale: 0.8, opacity: 0, y: 20 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md bg-white-1/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white-1/30 overflow-hidden"
+              className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-white-1/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white-1/30 overflow-hidden"
             >
               {/* Modal Header */}
-              <div className="relative p-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-b border-white-1/20">
+              <div className="relative p-6 md:p-8 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-b border-white-1/20">
                 <div className="absolute top-4 right-4">
                   <DMATCloseButton handleClick={() => setSelectedIndex(null)} />
                 </div>
                 <div className="flex items-center gap-3 pr-12">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
-                    <MdTranslate size={24} className="text-white" />
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                    <MdTranslate
+                      size={24}
+                      className="text-white md:w-7 md:h-7"
+                    />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-black-1">単語詳細</h2>
-                    <p className="text-sm text-gray-600">
+                    <h2 className="text-xl md:text-2xl font-bold text-black-1">
+                      単語詳細
+                    </h2>
+                    <p className="text-sm md:text-base text-gray-600">
                       #{displayData[selectedIndex].word_id.slice(-3)}
                     </p>
                   </div>
@@ -176,7 +183,7 @@ const DisplayList = ({
               </div>
 
               {/* Modal Content */}
-              <div className="p-6 space-y-6">
+              <div className="p-6 md:p-8 space-y-6 md:space-y-8">
                 {/* Word Section */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
@@ -186,15 +193,18 @@ const DisplayList = ({
                       onClick={() =>
                         handlePlayAudio(displayData[selectedIndex].word)
                       }
-                      className="w-10 h-10 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 flex items-center justify-center transition-colors duration-200"
+                      className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 flex items-center justify-center transition-colors duration-200"
                     >
-                      <MdPlayArrow size={20} className="text-blue-600" />
+                      <MdPlayArrow
+                        size={20}
+                        className="text-blue-600 md:w-6 md:h-6"
+                      />
                     </motion.button>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-black-1">
+                      <h3 className="text-2xl md:text-3xl font-bold text-black-1">
                         {displayData[selectedIndex].word}
                       </h3>
-                      <p className="text-gray-600">
+                      <p className="text-gray-600 md:text-lg">
                         {displayData[selectedIndex].wordMeaning}
                       </p>
                     </div>
@@ -203,7 +213,7 @@ const DisplayList = ({
 
                 {/* Sentence Section */}
                 {displayData[selectedIndex].sentence !== "" && (
-                  <div className="p-4 rounded-2xl bg-gray-50/80 border border-gray-200/50 space-y-3">
+                  <div className="p-4 md:p-5 rounded-2xl bg-gray-50/80 border border-gray-200/50 space-y-3">
                     <div className="flex items-start gap-3">
                       <motion.button
                         whileHover={{ scale: 1.1 }}
@@ -211,18 +221,18 @@ const DisplayList = ({
                         onClick={() =>
                           handlePlayAudio(displayData[selectedIndex].sentence)
                         }
-                        className="w-10 h-10 rounded-xl bg-green-500/20 hover:bg-green-500/30 flex items-center justify-center transition-colors duration-200 mt-1"
+                        className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-green-500/20 hover:bg-green-500/30 flex items-center justify-center transition-colors duration-200 mt-1"
                       >
                         <MdRecordVoiceOver
                           size={20}
-                          className="text-green-600"
+                          className="text-green-600 md:w-6 md:h-6"
                         />
                       </motion.button>
                       <div className="flex-1">
-                        <p className="text-black-1 font-medium mb-1">
+                        <p className="text-black-1 font-medium mb-1 md:text-lg">
                           {displayData[selectedIndex].sentence}
                         </p>
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-gray-600 text-sm md:text-base">
                           {displayData[selectedIndex].sentenceMeaning}
                         </p>
                       </div>
@@ -267,7 +277,7 @@ const DisplayList = ({
               </div>
 
               {/* Modal Footer */}
-              <div className="p-6 bg-gray-50/50 border-t border-gray-200/50 flex items-center gap-3">
+              <div className="p-6 md:p-8 bg-gray-50/50 border-t border-gray-200/50 flex items-center gap-3">
                 <DMATButton
                   title="前へ"
                   icon={<MdNavigateBefore size={20} />}
