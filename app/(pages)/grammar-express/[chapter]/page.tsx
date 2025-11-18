@@ -38,6 +38,10 @@ const CHAPTER_CONFIG: Record<string, { title: string; loadingTitle: string }> =
       title: "ここで差がつく24題",
       loadingTitle: "ここで差がつく24題",
     },
+    chapter7: {
+      title: "最高峰を目指す23題",
+      loadingTitle: "最高峰を目指す23題",
+    },
   };
 
 const ChapterPage = () => {
