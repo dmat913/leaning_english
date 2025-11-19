@@ -61,6 +61,7 @@ export async function GET(request: NextRequest) {
         tips: grammar.tips,
         navigation: grammar.navigation,
         remarks: grammar.remarks || "",
+        time: grammar.time,
         isCompleted: progress?.isCompleted || false,
         completedAt: progress?.completedAt,
         attempts: progress?.attempts || 0,
