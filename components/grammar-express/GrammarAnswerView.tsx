@@ -36,7 +36,7 @@ export const GrammarAnswerView = ({
   onBackToList,
 }: GrammarAnswerViewProps) => {
   const { playInterrupt } = useAudio();
-  const isCorrect = answer === selectedGrammar.answer;
+  const isCorrect = answer.includes(selectedGrammar.answer);
 
   return (
     <div className="flex h-full">
