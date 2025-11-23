@@ -53,10 +53,6 @@ const GrammarDetails = () => {
     setStatus("answered");
   };
 
-  const handleClickClose = () => {
-    router.back();
-  };
-
   const handleBackToList = () => {
     router.push(`/grammar-express/${chapter}`);
   };
