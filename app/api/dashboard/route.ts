@@ -111,10 +111,14 @@ export async function GET(request: NextRequest) {
     const grammarStats = await Promise.all(
       grammarCategories.map(async (category) => {
         // GrammarExpressModelから該当カテゴリーの全問題数を取得
-        const totalProblemsInCategory =
-          await GrammarExpressModel.countDocuments({
-            category: category,
-          });
+        let totalProblemsInCategory = await GrammarExpressModel.countDocuments({
+          category: category,
+        });
+
+        // chapter5は1つの問題に4問含まれているため4倍する
+        if (category === "chapter5") {
+          totalProblemsInCategory = totalProblemsInCategory * 4;
+        }
 
         // 該当カテゴリーの進捗データを取得
         const categoryProgress = allProgress.find(
@@ -125,9 +129,14 @@ export async function GET(request: NextRequest) {
           ? categoryProgress.progress
           : [];
 
-        const completedProblems = grammarProgress.filter(
+        let completedProblems = grammarProgress.filter(
           (p: UserProgress) => p.isCompleted
         ).length;
+
+        // chapter5は1つの問題に4問含まれているため、完了数も4倍する
+        if (category === "chapter5") {
+          completedProblems = completedProblems * 4;
+        }
 
         const totalAttempts = grammarProgress.reduce(
           (sum: number, p: UserProgress) => sum + (p.attempts || 0),
