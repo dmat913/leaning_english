@@ -25,26 +25,25 @@ const GrammarExpressHome = () => {
         />
         <MeteorsCard
           title="第4章/しっかり730点"
-          description="意外な落とし穴を回避する22題!"
+          description="意外な落とし穴を回避する22題"
           path={PATHS.GRAMMAR_EXPRESS_CHAPTER4}
           meteorsNumber={10}
         />
         <MeteorsCard
           title="第5章/しっかり730点"
-          description="一気に駆け抜けるPart6!"
-          path={PATHS.HOME}
+          description="一気に駆け抜けるPart6 28題"
+          path={PATHS.GRAMMAR_EXPRESS_CHAPTER5}
           meteorsNumber={10}
-          disabled
         />
         <MeteorsCard
           title="第6章/目指せ!900点越え"
-          description="ここで差がつく24題!"
+          description="ここで差がつく24題"
           path={PATHS.GRAMMAR_EXPRESS_CHAPTER6}
           meteorsNumber={15}
         />
         <MeteorsCard
           title="第7章/目指せ!900点越え"
-          description="最高峰を目指す23題!"
+          description="最高峰を目指す23題"
           path={PATHS.GRAMMAR_EXPRESS_CHAPTER7}
           meteorsNumber={15}
         />

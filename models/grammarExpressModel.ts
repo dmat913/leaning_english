@@ -4,7 +4,7 @@ export interface GrammarExpress {
   grammar_id: string;
   sentence: string;
   sentence_meaning: string;
-  category: string[];
+  category: string;
   options: string[][];
   answer: string[];
   strategy: string[];
@@ -14,6 +14,7 @@ export interface GrammarExpress {
   navigation: string;
   remarks: string[];
   time: string;
+  relatedWords?: string[];
   isCompleted?: boolean;
 }
 
@@ -37,7 +38,7 @@ const grammarExpressSchema = new Schema<GrammarExpressDocument>(
       required: true,
     },
     category: {
-      type: [String],
+      type: String,
       required: true,
     },
     options: {
@@ -75,6 +76,14 @@ const grammarExpressSchema = new Schema<GrammarExpressDocument>(
     time: {
       type: String,
       required: true,
+    },
+    relatedWords: {
+      type: String,
+      required: false,
+    },
+    isCompleted: {
+      type: Boolean,
+      default: false,
     },
   },
   { collection: "grammar_express" }

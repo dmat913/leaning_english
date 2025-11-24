@@ -14,7 +14,7 @@ export const GrammarQuestionView = ({
   onAnswer,
 }: GrammarQuestionViewProps) => {
   return (
-    <div className="flex flex-col h-full justify-between gap-6 overflow-auto pb-4">
+    <div className="flex flex-col h-full justify-between gap-6 overflow-y-auto pb-4">
       {/* ヘッダー部分 */}
       <div className="flex items-center justify-between gap-4">
         {/* 問題番号 */}

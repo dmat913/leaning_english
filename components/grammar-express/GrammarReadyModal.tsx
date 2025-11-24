@@ -2,7 +2,8 @@
 
 import useAudio from "@/hooks/useAudio";
 import { motion, AnimatePresence } from "framer-motion";
-import { MdTimer, MdLightbulb, MdPlayArrow } from "react-icons/md";
+import { MdTimer, MdLightbulb, MdPlayArrow, MdClose } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 interface GrammarReadyModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export const GrammarReadyModal = ({
   onStart,
 }: GrammarReadyModalProps) => {
   const { playInterrupt } = useAudio();
+  const router = useRouter();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -43,6 +45,17 @@ export const GrammarReadyModal = ({
 
             {/* コンテンツ */}
             <div className="relative p-8 space-y-6">
+              {/* 閉じるボタン */}
+              <button
+                onClick={() => {
+                  playInterrupt();
+                  router.back();
+                }}
+                className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-slate-700/50 hover:bg-slate-600/50 flex items-center justify-center transition-all duration-200 hover:scale-110 z-10"
+              >
+                <MdClose size={24} className="text-slate-300" />
+              </button>
+
               {/* ヘッダー */}
               <div className="text-center space-y-2">
                 <motion.div
