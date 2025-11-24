@@ -53,7 +53,7 @@ export const GrammarQuestionView = ({
 
       {/* 選択肢 - よりモダンなデザイン */}
       <div className="grid grid-cols-1 gap-4">
-        {selectedGrammar.options.map((option, i) => (
+        {selectedGrammar.options[0]?.map((option, i) => (
           <motion.button
             key={i}
             initial={{ x: -20, opacity: 0 }}
