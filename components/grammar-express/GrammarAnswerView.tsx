@@ -36,7 +36,7 @@ export const GrammarAnswerView = ({
   onBackToList,
 }: GrammarAnswerViewProps) => {
   const { playInterrupt } = useAudio();
-  const isCorrect = selectedGrammar.answer.includes(answer);
+  const isCorrect = selectedGrammar.answer[0]?.includes(answer);
 
   return (
     <div className="flex h-full">
@@ -108,7 +108,7 @@ export const GrammarAnswerView = ({
               </div>
               <div className="inline-block px-5 py-3 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30 rounded-xl">
                 <span className="text-2xl font-bold text-yellow-300">
-                  {selectedGrammar.answer}
+                  {selectedGrammar.answer[0]}
                 </span>
               </div>
             </div>
@@ -129,7 +129,7 @@ export const GrammarAnswerView = ({
                         key={i}
                         className="inline-block px-2 py-1 mx-1 bg-gradient-to-r from-yellow-500/30 to-amber-500/30 border border-yellow-500/50 rounded-lg font-bold text-yellow-300"
                       >
-                        {selectedGrammar.answer}
+                        {selectedGrammar.answer[0]}
                       </span>
                     );
                   }
@@ -161,7 +161,7 @@ export const GrammarAnswerView = ({
                 戦略
               </div>
               <div className="text-base font-bold text-white-1">
-                {selectedGrammar.strategy}
+                {selectedGrammar.strategy[0]}
               </div>
             </div>
           </div>
@@ -172,7 +172,7 @@ export const GrammarAnswerView = ({
                 タイプ
               </div>
               <div className="text-base font-bold text-white-1">
-                {selectedGrammar.type}
+                {selectedGrammar.type[0]}
               </div>
             </div>
           </div>
@@ -193,7 +193,7 @@ export const GrammarAnswerView = ({
               <span className="text-lg font-bold text-purple-200">解説</span>
             </div>
             <div className="space-y-3 pl-2">
-              {selectedGrammar.description.split("\n").map((line, i) => (
+              {selectedGrammar.description[0]?.split("\n").map((line, i) => (
                 <p
                   key={i}
                   className="text-sm text-slate-100 leading-relaxed"
@@ -204,7 +204,7 @@ export const GrammarAnswerView = ({
           </div>
         </motion.div>
         {/* Remarks - 補足情報 */}
-        {selectedGrammar.remarks && (
+        {selectedGrammar.remarks && selectedGrammar.remarks[0] && (
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -220,7 +220,7 @@ export const GrammarAnswerView = ({
               </span>
             </div>
             <div className="space-y-2 pl-2">
-              {selectedGrammar.remarks.split("\n").map((line, i) => (
+              {selectedGrammar.remarks[0]?.split("\n").map((line, i) => (
                 <p
                   key={i}
                   className="text-sm text-cyan-50 leading-relaxed"

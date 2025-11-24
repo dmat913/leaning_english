@@ -4,15 +4,15 @@ export interface GrammarExpress {
   grammar_id: string;
   sentence: string;
   sentence_meaning: string;
-  category: string;
-  options: string[];
-  answer: string;
-  strategy: string;
-  type: string;
-  description: string;
+  category: string[];
+  options: string[][];
+  answer: string[];
+  strategy: string[];
+  type: string[];
+  description: string[];
   tips: string;
   navigation: string;
-  remarks: string;
+  remarks: string[];
   time: string;
   isCompleted?: boolean;
 }
@@ -37,27 +37,27 @@ const grammarExpressSchema = new Schema<GrammarExpressDocument>(
       required: true,
     },
     category: {
-      type: String,
-      required: true,
-    },
-    options: {
       type: [String],
       required: true,
     },
+    options: {
+      type: [[String]],
+      required: true,
+    },
     answer: {
-      type: String,
+      type: [String],
       required: true,
     },
     strategy: {
-      type: String,
+      type: [String],
       required: true,
     },
     type: {
-      type: String,
+      type: [String],
       required: true,
     },
     description: {
-      type: String,
+      type: [String],
       required: true,
     },
     tips: {
@@ -69,7 +69,7 @@ const grammarExpressSchema = new Schema<GrammarExpressDocument>(
       required: true,
     },
     remarks: {
-      type: String,
+      type: [String],
       required: false,
     },
     time: {
