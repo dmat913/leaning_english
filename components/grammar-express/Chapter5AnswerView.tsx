@@ -232,7 +232,7 @@ export const Chapter5AnswerView = ({
               <span className="text-lg">📝</span>
               問題文
             </p>
-            <p className="text-base text-slate-200 leading-relaxed">
+            <p className="text-base text-slate-200 leading-relaxed whitespace-pre-line">
               {selectedGrammar.sentence}
             </p>
           </div>
@@ -242,7 +242,7 @@ export const Chapter5AnswerView = ({
               和訳
             </p>
             <p
-              className="text-base text-slate-300 leading-relaxed"
+              className="text-base text-slate-300 leading-relaxed whitespace-pre-line"
               dangerouslySetInnerHTML={{
                 __html: selectedGrammar.sentence_meaning,
               }}
@@ -254,10 +254,10 @@ export const Chapter5AnswerView = ({
             <div className="space-y-2 pt-2 border-t border-slate-700/50">
               <p className="text-sm text-slate-400 font-semibold flex items-center gap-2">
                 <span className="text-lg">🔗</span>
-                関連語句
+                語彙
               </p>
               <p
-                className="text-base text-slate-300 leading-relaxed"
+                className="text-base text-slate-300 leading-relaxed whitespace-pre-line"
                 dangerouslySetInnerHTML={{
                   __html: selectedGrammar.relatedWords,
                 }}
