@@ -68,6 +68,7 @@ export async function GET(request: NextRequest) {
         correctCount: progress?.correctCount || 0,
         incorrectCount: progress?.incorrectCount || 0,
         lastAttemptAt: progress?.lastAttemptAt,
+        relatedWords: grammar.relatedWords || "",
       };
     });
 
