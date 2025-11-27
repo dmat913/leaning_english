@@ -9,10 +9,18 @@ interface GrammarTimerProps {
 }
 
 export const GrammarTimer = ({ timeText, onTimeUp }: GrammarTimerProps) => {
-  // "10秒" から数字部分を抽出
-  const totalSeconds = timeText
-    ? parseInt(timeText.replace(/[^0-9]/g, "")) || 0
-    : 0;
+  // "2分15秒" や "10秒" などから秒数に変換
+  const totalSeconds = (() => {
+    if (!timeText) return 0;
+
+    const minuteMatch = timeText.match(/(\d+)分/);
+    const secondMatch = timeText.match(/(\d+)秒/);
+
+    const minutes = minuteMatch ? parseInt(minuteMatch[1]) : 0;
+    const seconds = secondMatch ? parseInt(secondMatch[1]) : 0;
+
+    return minutes * 60 + seconds;
+  })();
 
   const [remainingTime, setRemainingTime] = useState(totalSeconds);
   const [isRunning, setIsRunning] = useState(true);

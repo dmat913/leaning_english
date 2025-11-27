@@ -17,6 +17,7 @@ import useAudio from "@/hooks/useAudio";
 interface Chapter5AnswerViewProps {
   selectedGrammar: GrammarExpress;
   answers: string[];
+  elapsedTime: number;
   isLoading: boolean;
   isFirstQuestion: boolean;
   isLastQuestion: boolean;
@@ -29,6 +30,7 @@ interface Chapter5AnswerViewProps {
 export const Chapter5AnswerView = ({
   selectedGrammar,
   answers,
+  elapsedTime,
   isLoading,
   isFirstQuestion,
   isLastQuestion,
@@ -41,6 +43,13 @@ export const Chapter5AnswerView = ({
   const [selectedBlankIndex, setSelectedBlankIndex] = useState<number | null>(
     null
   );
+
+  // 経過時間を「分:秒」形式でフォーマット
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
 
   // 各空欄の正誤判定
   const results = answers.map((answer, index) => ({
@@ -119,6 +128,20 @@ export const Chapter5AnswerView = ({
               </>
             )}
           </motion.button>
+        </motion.div>
+
+        {/* 経過時間表示 */}
+        <motion.div
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="relative"
+        >
+          <div className="absolute inset-0 blur-xl opacity-50 bg-gradient-to-r from-cyan-500 to-blue-500" />
+          <div className="relative flex items-center justify-center gap-3 h-12 px-6 rounded-2xl font-bold text-lg border-2 bg-gradient-to-r from-cyan-600/80 to-blue-600/80 border-cyan-400/50 text-white-1 shadow-xl backdrop-blur-sm">
+            <span className="text-xl">⏱️</span>
+            <span>解答時間: {formatTime(elapsedTime)}</span>
+          </div>
         </motion.div>
 
         {/* 各空欄の結果カード */}

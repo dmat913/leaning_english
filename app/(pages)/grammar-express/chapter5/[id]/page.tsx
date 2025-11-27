@@ -25,6 +25,8 @@ const Chapter5Details = () => {
     "ready"
   );
   const [answers, setAnswers] = useState<string[]>([]);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
 
   const category = "chapter5";
   const updateCompletedMutation = useUpdateCompleted(user?.name, category);
@@ -48,6 +50,12 @@ const Chapter5Details = () => {
 
   // Chapter5用: 複数の回答を受け取る
   const handleClickAnswers = (selectedAnswers: string[]) => {
+    // 経過時間を計算（秒単位）
+    if (startTime) {
+      const endTime = Date.now();
+      const elapsed = Math.round((endTime - startTime) / 1000);
+      setElapsedTime(elapsed);
+    }
     setAnswers(selectedAnswers);
     setStatus("answered");
   };
@@ -67,6 +75,8 @@ const Chapter5Details = () => {
       router.push(`/grammar-express/chapter5/${nextGrammar.grammar_id}`);
       setStatus("ready");
       setAnswers([]);
+      setStartTime(null);
+      setElapsedTime(0);
     }
   };
 
@@ -81,6 +91,8 @@ const Chapter5Details = () => {
       router.push(`/grammar-express/chapter5/${prevGrammar.grammar_id}`);
       setStatus("ready");
       setAnswers([]);
+      setStartTime(null);
+      setElapsedTime(0);
     }
   };
 
@@ -127,14 +139,17 @@ const Chapter5Details = () => {
         isOpen={status === "ready"}
         grammarId={selectedGrammar.grammar_id}
         time={selectedGrammar.time || "制限なし"}
-        navigation={selectedGrammar.navigation}
-        onStart={() => setStatus("unanswered")}
+        onStart={() => {
+          setStatus("unanswered");
+          setStartTime(Date.now());
+        }}
       />
 
       {status === "unanswered" && (
         <Chapter5QuestionView
           selectedGrammar={selectedGrammar}
           onAnswer={handleClickAnswers}
+          onBackToList={handleBackToList}
         />
       )}
 
@@ -142,6 +157,7 @@ const Chapter5Details = () => {
         <Chapter5AnswerView
           selectedGrammar={selectedGrammar}
           answers={answers}
+          elapsedTime={elapsedTime}
           isLoading={isLoading}
           isFirstQuestion={isFirstQuestion}
           isLastQuestion={isLastQuestion}

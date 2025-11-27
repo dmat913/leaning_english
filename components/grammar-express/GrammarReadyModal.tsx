@@ -9,7 +9,7 @@ interface GrammarReadyModalProps {
   isOpen: boolean;
   grammarId: string;
   time: string;
-  navigation: string;
+  navigation?: string;
   onStart: () => void;
 }
 
@@ -95,24 +95,26 @@ export const GrammarReadyModal = ({
                 </motion.div>
 
                 {/* ナビゲーション */}
-                <motion.div
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-900/40 to-blue-800/40 backdrop-blur-sm rounded-2xl border border-blue-500/30"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-500/20 rounded-xl">
-                    <MdLightbulb size={24} className="text-blue-400" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs text-blue-300 font-semibold mb-1">
-                      ポイント
-                    </p>
-                    <p className="text-sm text-white-1 leading-relaxed">
-                      {navigation}
-                    </p>
-                  </div>
-                </motion.div>
+                {navigation && (
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-900/40 to-blue-800/40 backdrop-blur-sm rounded-2xl border border-blue-500/30"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-blue-500/20 rounded-xl">
+                      <MdLightbulb size={24} className="text-blue-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-blue-300 font-semibold mb-1">
+                        ポイント
+                      </p>
+                      <p className="text-sm text-white-1 leading-relaxed">
+                        {navigation}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
               </div>
 
               {/* スタートボタン */}
