@@ -9,25 +9,31 @@ import { MdClose } from "react-icons/md";
 interface Chapter5QuestionViewProps {
   selectedGrammar: GrammarExpress;
   onAnswer: (answers: string[]) => void;
+  onBackToList: () => void;
 }
 
 export const Chapter5QuestionView = ({
   selectedGrammar,
   onAnswer,
+  onBackToList,
 }: Chapter5QuestionViewProps) => {
-  // 各空欄の回答を管理（4つの空欄分）
-  const [selectedAnswers, setSelectedAnswers] = useState<(string | null)[]>([
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const totalBlanks = selectedGrammar.options.length; // 4
+
+  // 問題文から実際の問題番号を抽出
+  const questionNumbers =
+    selectedGrammar.sentence
+      .match(/\((\d+)\)-------/g)
+      ?.map((match) => parseInt(match.match(/\d+/)?.[0] || "0"))
+      .filter((num) => num > 0) || [];
+
+  // 各空欄の回答を管理（空欄の数だけ初期化）
+  const [selectedAnswers, setSelectedAnswers] = useState<(string | null)[]>(
+    Array(totalBlanks).fill(null)
+  );
 
   // モーダル表示制御
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalBlankIndex, setModalBlankIndex] = useState<number | null>(null);
-
-  const totalBlanks = selectedGrammar.options.length; // 4
 
   // 空欄ボタンをクリック
   const handleBlankClick = (blankIndex: number) => {
@@ -63,7 +69,7 @@ export const Chapter5QuestionView = ({
   };
 
   return (
-    <div className="flex flex-col h-full justify-between gap-6 overflow-auto pb-4">
+    <div className="flex flex-col h-full justify-between gap-6 overflow-y-auto overflow-x-hidden pb-4">
       {/* ヘッダー部分 */}
       <div className="flex flex-col items-center justify-between gap-4">
         {/* 問題番号と空欄進捗 */}
@@ -93,7 +99,7 @@ export const Chapter5QuestionView = ({
                     : "bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 cursor-pointer"
                 }`}
               >
-                {index + 1}
+                {questionNumbers[index] || index + 1}
               </button>
             ))}
           </div>
@@ -113,37 +119,41 @@ export const Chapter5QuestionView = ({
         className="relative"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-3xl blur-xl" />
-        <div className="relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-slate-600/50 p-8">
+        <div className="relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-slate-600/50 p-4 sm:p-8">
           <div className="mb-4 flex items-center gap-2">
             <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
-            <span className="text-sm font-bold text-blue-300 uppercase tracking-wider">
-              Part 6 長文問題
+            <span className="text-sm font-bold text-blue-300 tracking-wider">
+              {selectedGrammar.navigation}
             </span>
           </div>
 
           {/* 長文を表示（空欄をボタン化） */}
-          <div className="text-lg text-white-1 leading-relaxed whitespace-pre-wrap font-medium">
+          <div className="text-sm sm:text-lg text-white-1 leading-relaxed whitespace-pre-wrap font-medium break-words max-w-full">
             {selectedGrammar.sentence
               .split(/(\(\d+\)-------|-------)/g)
               .map((part, i) => {
                 // 空欄パターンをチェック
                 const blankMatch = part.match(/\((\d+)\)-------/);
                 if (blankMatch) {
-                  const blankNum = parseInt(blankMatch[1]) - 1;
-                  const isAnswered = selectedAnswers[blankNum] !== null;
+                  const displayNum = parseInt(blankMatch[1]); // 表示用の番号 (1-4, 5-8, など)
+                  // 配列のインデックスを計算: (1,2,3,4) → (0,1,2,3), (5,6,7,8) → (0,1,2,3)
+                  const arrayIndex = (displayNum - 1) % 4;
+                  const isAnswered = selectedAnswers[arrayIndex] !== null;
 
                   return (
                     <button
                       key={i}
-                      onClick={() => handleBlankClick(blankNum)}
-                      className={`inline-block px-3 py-1 mx-1 rounded-lg font-bold transition-all duration-300 hover:scale-105 cursor-pointer ${
+                      onClick={() => handleBlankClick(arrayIndex)}
+                      className={`inline-block px-2 py-1 mx-1 rounded-lg font-bold text-sm sm:text-base transition-all duration-300 hover:scale-105 cursor-pointer ${
                         isAnswered
                           ? "bg-gradient-to-r from-green-500/40 to-emerald-500/40 border-2 border-green-400 text-green-200 hover:border-green-300"
                           : "bg-gradient-to-r from-blue-500/30 to-purple-500/30 border-2 border-blue-400/50 text-blue-200 hover:border-blue-300 animate-pulse"
                       }`}
                     >
-                      ({blankNum + 1})
-                      {isAnswered ? ` ${selectedAnswers[blankNum]}` : "-------"}
+                      ({displayNum})
+                      {isAnswered
+                        ? ` ${selectedAnswers[arrayIndex]}`
+                        : "-------"}
                     </button>
                   );
                 }
@@ -183,6 +193,26 @@ export const Chapter5QuestionView = ({
             : `未回答の空欄があります (${
                 selectedAnswers.filter((a) => a === null).length
               }個)`}
+        </button>
+      </motion.div>
+
+      {/* 一覧に戻るボタン */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="pt-2"
+      >
+        <button
+          onClick={onBackToList}
+          className="group relative w-full py-4 px-6 rounded-2xl font-bold text-base transition-all duration-300 overflow-hidden bg-gradient-to-r from-violet-600 to-purple-600 text-white-1 hover:scale-[1.02] active:scale-[0.98] border-2 border-violet-500 shadow-lg shadow-violet-500/30"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-violet-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 border-2 border-violet-400/0 group-hover:border-violet-400/50 rounded-2xl transition-all duration-300" />
+          <span className="relative flex items-center justify-center gap-2">
+            <span className="text-lg">📋</span>
+            <span>一覧に戻る</span>
+          </span>
         </button>
       </motion.div>
 
@@ -294,7 +324,7 @@ export const Chapter5QuestionView = ({
 
                             {/* 選択肢テキスト */}
                             <span
-                              className={`flex-1 text-lg font-medium transition-colors duration-300 ${
+                              className={`flex-1 text-lg font-medium transition-colors duration-300 break-words ${
                                 isSelected
                                   ? "text-white-1"
                                   : "text-white-1/90 group-hover:text-white-1"
